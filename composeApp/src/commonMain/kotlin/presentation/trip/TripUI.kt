@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import domain.model.Trip
 
 @Composable
-fun TripScreen(
+fun TripUI(
     trip: Trip
 ) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
