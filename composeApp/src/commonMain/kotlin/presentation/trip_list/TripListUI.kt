@@ -1,4 +1,4 @@
-package presentation.`trip-list`
+package presentation.trip_list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +18,7 @@ import domain.model.Trip
 import presentation.components.TripCard
 
 @Composable
-fun TripListScreen(
+fun TripListUI(
     trips: List<Trip>,
     navigateToTrip: (Int) -> Unit,
     createNewTask: () -> Unit
