@@ -1,5 +1,7 @@
+import kotlin.Int;
+
 CREATE TABLE category (
-    id INTEGER AS kotlin.Int PRIMARY KEY NOT NULL,
+    id INTEGER AS Int PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
     description TEXT
 );
