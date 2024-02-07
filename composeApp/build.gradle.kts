@@ -16,9 +16,9 @@ kotlin {
             }
         }
     }
-    
+
     jvm("desktop")
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -29,14 +29,19 @@ kotlin {
             isStatic = false // Changed to false so fucking sqldelight can work, check back in future version to see if can be changed back
         }
     }
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+
+            // Database
             implementation(libs.sqldelight.android.driver)
+
+            // Dependency Injection
+//            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -51,12 +56,14 @@ kotlin {
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.screenModel)
 //            implementation(libs.voyager.koin)
+
+            // Dependency Injection
+//            implementation(libs.koin.core)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.sqldelight.jvm.driver)
         }
-
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
         }
