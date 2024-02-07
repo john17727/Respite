@@ -26,7 +26,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            isStatic = true
+            isStatic = false // Changed to false so fucking sqldelight can work, check back in future version to see if can be changed back
         }
     }
     
@@ -50,14 +50,14 @@ kotlin {
             //Navigation
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.screenModel)
-            implementation(libs.voyager.koin)
+//            implementation(libs.voyager.koin)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.sqldelight.jvm.driver)
         }
 
-        nativeMain.dependencies {
+        iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
         }
     }
