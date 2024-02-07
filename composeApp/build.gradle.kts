@@ -41,7 +41,7 @@ kotlin {
             implementation(libs.sqldelight.android.driver)
 
             // Dependency Injection
-//            implementation(libs.koin.android)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -55,10 +55,10 @@ kotlin {
             //Navigation
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.screenModel)
-//            implementation(libs.voyager.koin)
+//            implementation(libs.voyager.koin) // Throws error in iOS, try again on next version
 
             // Dependency Injection
-//            implementation(libs.koin.core)
+            implementation(libs.koin.core)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
