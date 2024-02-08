@@ -12,9 +12,9 @@ import dev.juanrincon.respite.presentation.categories.CategoriesScreenModel
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
     appDeclaration()
     modules(
-        sqlDelightModule,
         screenModelModule,
         repositoryModule,
+        sqlDelightModule,
         platformModule()
     )
 }
@@ -26,10 +26,9 @@ val screenModelModule = module {
 }
 
 val repositoryModule = module {
-    single<CategoryRepository> { RespiteCategoryRepository(get()) }
+    single<CategoryRepository> { RespiteCategoryRepository(get<Database>().categoryQueries) }
 }
 
 val sqlDelightModule = module {
     single { createDatabase(get()) }
-    single { (database: Database) -> database.categoryQueries }
 }
