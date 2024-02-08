@@ -1,7 +1,7 @@
 package dev.juanrincon.respite
 
 import android.app.Application
-import di.initKoin
+import dev.juanrincon.respite.di.initKoin
 import org.koin.android.ext.koin.androidContext
 
 class Respite : Application() {
