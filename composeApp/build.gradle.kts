@@ -55,10 +55,12 @@ kotlin {
             //Navigation
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.screenModel)
-//            implementation(libs.voyager.koin) // Throws error in iOS, try again on next version
+            implementation(libs.voyager.koin)
 
             // Dependency Injection
             implementation(libs.koin.core)
+
+            implementation(libs.stately.common) // Fixes exception from libs.voyager.koin current version, might not need for future voyager versions
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

@@ -8,6 +8,7 @@ import presentation.categories.CategoriesUI
 class CategoriesScreen : Screen {
     @Composable
     override fun Content() {
+//        val categoriesScreenModel =
         CategoriesUI(
             listOf(
                 Category(1, "Temporary", "Description"),
