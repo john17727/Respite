@@ -13,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import dev.juanrincon.respite.domain.model.Category
+import dev.juanrincon.respite.presentation.components.EditingCategoryItem
 import dev.juanrincon.respite.presentation.components.SystemCategoryItem
 import dev.juanrincon.respite.presentation.components.UserCategoryItem
 import dev.juanrincon.respite.presentation.components.VerticalBanner
@@ -21,7 +23,9 @@ import dev.juanrincon.respite.presentation.components.VerticalBanner
 fun CategoriesUI(
     categories: List<CategoryItem>,
     onEditItem: (Int) -> Unit,
-    onDeleteItem: (Int) -> Unit
+    onDeleteItem: (Int) -> Unit,
+    onUpdateItem: (Int, String) -> Unit,
+    onSaveItem: (Category) -> Unit
 ) {
     Row(modifier = Modifier.fillMaxSize()) {
         VerticalBanner(
@@ -50,6 +54,14 @@ fun CategoriesUI(
                         contentColor = Color(0xFF3C422F),
                         onEditClick = onEditItem,
                         onDeleteClick = onDeleteItem,
+                    )
+
+                    is CategoryItem.EditingItem -> EditingCategoryItem(
+                        category = item.category,
+                        onNameUpdate = onUpdateItem,
+                        onSave = onSaveItem,
+                        borderColor = Color(0xFFC2DB9E),
+                        contentColor = Color(0xFF3C422F)
                     )
                 }
             }

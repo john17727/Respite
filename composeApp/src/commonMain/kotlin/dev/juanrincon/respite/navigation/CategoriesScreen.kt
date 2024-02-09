@@ -16,8 +16,17 @@ class CategoriesScreen : Screen {
         val state by screenModel.state.collectAsState()
         CategoriesUI(
             state.categories,
-            {},
-            { id -> screenModel.onIntent(CategoryIntent.DeleteCategory(id)) }
+            { id -> screenModel.onIntent(CategoryIntent.EditCategory(id)) },
+            { id -> screenModel.onIntent(CategoryIntent.DeleteCategory(id)) },
+            { id, value ->
+                screenModel.onIntent(
+                    CategoryIntent.OnUpdateCategoryProperties(
+                        id,
+                        value
+                    )
+                )
+            },
+            { updatedCategory -> screenModel.onIntent(CategoryIntent.UpdateCategory(updatedCategory)) }
         )
     }
 }

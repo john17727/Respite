@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Card
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.domain.model.Trip
@@ -55,7 +57,9 @@ fun SystemCategoryItem(
             text = category.name.uppercase(),
             style = MaterialTheme.typography.titleLarge,
             color = contentColor,
-            modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f)
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(top = 6.dp, start = 4.dp)
         )
         category.description?.let {
             IconButton(
@@ -84,6 +88,8 @@ fun UserCategoryItem(
             text = category.name.uppercase(),
             style = MaterialTheme.typography.titleLarge,
             color = contentColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f)
         )
         ActionButtons(
@@ -92,6 +98,33 @@ fun UserCategoryItem(
             borderColor = borderColor,
             contentColor = contentColor
         )
+    }
+}
+
+@Composable
+fun EditingCategoryItem(
+    category: Category,
+    onNameUpdate: (Int, String) -> Unit,
+    onSave: (Category) -> Unit,
+    borderColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
+    ) {
+        RespiteTextField(
+            value = category.name,
+            onValueChange = { onNameUpdate(category.id, it) },
+            modifier = Modifier.padding(top = 6.dp, start = 4.dp),
+            textStyle = MaterialTheme.typography.titleLarge
+        )
+        IconButton(
+            onClick = { onSave(category) },
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
+        ) {
+            Icon(Icons.Rounded.Done, null)
+        }
     }
 }
 
@@ -110,7 +143,11 @@ fun ActionButtons(
         ) {
             Icon(Icons.Rounded.Edit, null)
         }
-        IconButton(onClick = onDeleteClick, modifier = Modifier.startBorder(borderColor, 2.dp), colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)) {
+        IconButton(
+            onClick = onDeleteClick,
+            modifier = Modifier.startBorder(borderColor, 2.dp),
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
+        ) {
             Icon(Icons.Rounded.Delete, null)
         }
     }
