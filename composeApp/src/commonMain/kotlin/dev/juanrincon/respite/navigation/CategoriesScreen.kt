@@ -5,9 +5,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
-import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.presentation.categories.CategoriesScreenModel
 import dev.juanrincon.respite.presentation.categories.CategoriesUI
+import dev.juanrincon.respite.presentation.categories.CategoryIntent
 
 class CategoriesScreen : Screen {
     @Composable
@@ -17,7 +17,7 @@ class CategoriesScreen : Screen {
         CategoriesUI(
             state.categories,
             {},
-            {}
+            { id -> screenModel.onIntent(CategoryIntent.DeleteCategory(id)) }
         )
     }
 }
