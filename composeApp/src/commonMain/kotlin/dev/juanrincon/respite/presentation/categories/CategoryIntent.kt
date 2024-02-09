@@ -9,7 +9,11 @@ sealed interface CategoryIntent {
 
     data class DeleteCategory(val id: Int) : CategoryIntent
 
-    data class EditCategory(val id: Int) : CategoryIntent
+    data class CreateCategory(val newCategory: Category) : CategoryIntent
 
-    data class OnUpdateCategoryProperties(val id: Int, val name: String) : CategoryIntent
+    data class EditItem(val id: Int) : CategoryIntent
+
+    data class UpdateItem(val id: Int, val name: String) : CategoryIntent
+
+    data object CreateItem : CategoryIntent
 }

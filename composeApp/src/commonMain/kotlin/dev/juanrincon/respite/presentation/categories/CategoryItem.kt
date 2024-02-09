@@ -8,6 +8,8 @@ sealed class CategoryItem(val id: Int) {
 
     data class EditingItem(val category: Category) : CategoryItem(category.id)
 
+    data class CreatingItem(val category: Category) : CategoryItem(category.id)
+
     companion object {
         fun UserItem.toEditingItem(): EditingItem = EditingItem(this.category)
     }

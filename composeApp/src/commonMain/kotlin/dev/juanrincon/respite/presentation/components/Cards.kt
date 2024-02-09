@@ -129,6 +129,33 @@ fun EditingCategoryItem(
 }
 
 @Composable
+fun CreatingCategoryItem(
+    category: Category,
+    onNameUpdate: (Int, String) -> Unit,
+    onSave: (Category) -> Unit,
+    borderColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
+    ) {
+        RespiteTextField(
+            value = category.name,
+            onValueChange = { onNameUpdate(category.id, it) },
+            modifier = Modifier.padding(top = 6.dp, start = 4.dp),
+            textStyle = MaterialTheme.typography.titleLarge
+        )
+        IconButton(
+            onClick = { onSave(category) },
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
+        ) {
+            Icon(Icons.Rounded.Done, null)
+        }
+    }
+}
+
+@Composable
 fun ActionButtons(
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
