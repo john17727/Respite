@@ -13,13 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.respite.domain.model.Category
-import dev.juanrincon.respite.presentation.components.CategoryItem
+import dev.juanrincon.respite.presentation.components.SystemCategoryItem
+import dev.juanrincon.respite.presentation.components.UserCategoryItem
 import dev.juanrincon.respite.presentation.components.VerticalBanner
 
 @Composable
 fun CategoriesUI(
-    categories: List<Category>,
+    categories: List<CategoryItem>,
     onEditItem: (Int) -> Unit,
     onDeleteItem: (Int) -> Unit
 ) {
@@ -35,15 +35,23 @@ fun CategoriesUI(
             contentPadding = PaddingValues(top = 16.dp, end = 24.dp),
             modifier = Modifier.fillMaxHeight()
         ) {
-            items(categories, { item -> item.id }) { item: Category ->
-                CategoryItem(
-                    category = item,
-                    borderColor = Color(0xFFC2DB9E),
-                    contentColor = Color(0xFF3C422F),
-                    onEditClick = onEditItem,
-                    onDeleteClick = onDeleteItem,
-                    onInfoClick = {}
-                )
+            items(categories, { item -> item.id }, { item -> item::class }) { item ->
+                when (item) {
+                    is CategoryItem.SystemItem -> SystemCategoryItem(
+                        category = item.category,
+                        borderColor = Color(0xFFC2DB9E),
+                        contentColor = Color(0xFF3C422F),
+                        onInfoClick = {}
+                    )
+
+                    is CategoryItem.UserItem -> UserCategoryItem(
+                        category = item.category,
+                        borderColor = Color(0xFFC2DB9E),
+                        contentColor = Color(0xFF3C422F),
+                        onEditClick = onEditItem,
+                        onDeleteClick = onDeleteItem,
+                    )
+                }
             }
         }
     }

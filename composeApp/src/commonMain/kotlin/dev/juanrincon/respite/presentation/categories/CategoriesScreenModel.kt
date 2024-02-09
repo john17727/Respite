@@ -28,7 +28,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
             updateState { copy(loading = true) }
             repository.read().fold(
                 onSuccess = {
-                    updateState { copy(categories = it, loading = false) }
+                    updateState { copy(categories = it.map(::toCategoryItem), loading = false) }
                 },
                 onFailure = {
                     updateState { copy(loading = false) }
@@ -64,4 +64,11 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
             )
         }
     }
+
+    private fun toCategoryItem(category: Category): CategoryItem =
+        if (category.description !== null) {
+            CategoryItem.SystemItem(category)
+        } else {
+            CategoryItem.UserItem(category)
+        }
 }

@@ -41,12 +41,10 @@ fun TripCard(trip: Trip, onClick: (Int) -> Unit) {
 }
 
 @Composable
-fun CategoryItem(
+fun SystemCategoryItem(
     category: Category,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
-    onEditClick: (Int) -> Unit,
-    onDeleteClick: (Int) -> Unit,
     onInfoClick: (String) -> Unit,
 ) {
     Row(
@@ -66,7 +64,29 @@ fun CategoryItem(
             ) {
                 Icon(Icons.Rounded.Info, null)
             }
-        } ?: ActionButtons(
+        }
+    }
+}
+
+@Composable
+fun UserCategoryItem(
+    category: Category,
+    borderColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    onEditClick: (Int) -> Unit,
+    onDeleteClick: (Int) -> Unit,
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
+    ) {
+        Text(
+            text = category.name.uppercase(),
+            style = MaterialTheme.typography.titleLarge,
+            color = contentColor,
+            modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f)
+        )
+        ActionButtons(
             onEditClick = { onEditClick(category.id) },
             onDeleteClick = { onDeleteClick(category.id) },
             borderColor = borderColor,
@@ -83,7 +103,11 @@ fun ActionButtons(
     contentColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-        IconButton(onClick = onEditClick, modifier = Modifier.startBorder(borderColor, 2.dp), colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)) {
+        IconButton(
+            onClick = onEditClick,
+            modifier = Modifier.startBorder(borderColor, 2.dp),
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
+        ) {
             Icon(Icons.Rounded.Edit, null)
         }
         IconButton(onClick = onDeleteClick, modifier = Modifier.startBorder(borderColor, 2.dp), colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)) {
