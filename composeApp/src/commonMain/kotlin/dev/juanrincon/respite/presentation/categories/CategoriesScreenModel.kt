@@ -6,6 +6,8 @@ import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.domain.repository.CategoryRepository
 import dev.juanrincon.respite.mvi.MVI
 import dev.juanrincon.respite.mvi.MVIDelegate
+import dev.juanrincon.respite.presentation.categories.CategoryItem.Companion.toEditingItem
+import dev.juanrincon.respite.presentation.categories.CategoryItem.Companion.toUserItem
 import kotlinx.coroutines.launch
 
 class CategoriesScreenModel(private val repository: CategoryRepository) : ScreenModel,
@@ -26,7 +28,6 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
             intent.id,
             intent.name
         )
-
         CategoryIntent.CreateItem -> addCreateItem()
         is CategoryIntent.CreateCategory -> createCategory(intent.newCategory)
         CategoryIntent.CancelCreateItem -> cancelCreateItem()
@@ -34,7 +35,12 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
     }
 
     private fun cancelEditItem(id: Int) {
-        updateState { copy(categories = setEditableItemToUserItem(categories, id)) }
+        updateState {
+            copy(
+                categories = setEditableItemToUserItem(categories, id),
+                inEditMode = false
+            )
+        }
     }
 
     private fun setEditableItemToUserItem(
@@ -44,8 +50,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
         categories.find { it.id == id }?.let { item ->
             val mutableList = categories.toMutableList()
             val indexOfEditable = categories.indexOf(item)
-            mutableList[indexOfEditable] =
-                CategoryItem.UserItem((item as CategoryItem.EditingItem).category)
+            mutableList[indexOfEditable] = (item as CategoryItem.EditingItem).toUserItem()
             mutableList
         } ?: categories
 
@@ -150,8 +155,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
         categories.find { it.id == id }?.let { item ->
             val mutableList = categories.toMutableList()
             val indexOfEditable = categories.indexOf(item)
-            mutableList[indexOfEditable] =
-                CategoryItem.EditingItem((item as CategoryItem.UserItem).category)
+            mutableList[indexOfEditable] = (item as CategoryItem.UserItem).toEditingItem()
             mutableList
         } ?: categories
 
@@ -162,8 +166,12 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
     ): List<CategoryItem> = categories.find { it.id == id }?.let { item ->
         val mutableList = categories.toMutableList()
         val indexOfEditable = categories.indexOf(item)
-        mutableList[indexOfEditable] = when (mutableList[indexOfEditable]) {
-            is CategoryItem.EditingItem -> CategoryItem.EditingItem(Category(id, name, null))
+        mutableList[indexOfEditable] = when (val current = mutableList[indexOfEditable]) {
+            is CategoryItem.EditingItem -> CategoryItem.EditingItem(
+                Category(id, name, null),
+                current.originalName
+            )
+
             else -> CategoryItem.CreatingItem(Category(id, name, null))
         }
         mutableList

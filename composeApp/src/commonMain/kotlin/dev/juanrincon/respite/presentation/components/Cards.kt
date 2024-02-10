@@ -126,7 +126,7 @@ fun EditingCategoryItem(
     ) {
         RespiteTextField(
             value = category.name,
-            onValueChange = { onNameUpdate(category.id, it) },
+            onValueChange = { if (category.name.length <= 16) onNameUpdate(category.id, it) },
             modifier = Modifier.padding(top = 6.dp, start = 4.dp),
             focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
@@ -136,6 +136,7 @@ fun EditingCategoryItem(
             onRightButtonClick = { onSave(category) },
             leftButtonIcon = Icons.Rounded.Close,
             rightButtonIcon = Icons.Rounded.Done,
+            rightButtonEnabled = category.name.isNotEmpty(),
             contentColor = contentColor,
             borderColor = borderColor,
         )
@@ -162,7 +163,7 @@ fun CreatingCategoryItem(
     ) {
         RespiteTextField(
             value = category.name,
-            onValueChange = { onNameUpdate(category.id, it) },
+            onValueChange = { if (category.name.length <= 16) onNameUpdate(category.id, it) },
             modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f),
             focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
@@ -172,6 +173,7 @@ fun CreatingCategoryItem(
             onRightButtonClick = { onSave(category) },
             leftButtonIcon = Icons.Rounded.Close,
             rightButtonIcon = Icons.Rounded.Done,
+            rightButtonEnabled = category.name.isNotEmpty(),
             contentColor = contentColor,
             borderColor = borderColor,
         )
@@ -184,6 +186,7 @@ fun ActionButtons(
     onRightButtonClick: () -> Unit,
     leftButtonIcon: ImageVector,
     rightButtonIcon: ImageVector,
+    rightButtonEnabled: Boolean = true,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
@@ -198,7 +201,8 @@ fun ActionButtons(
         IconButton(
             onClick = onRightButtonClick,
             modifier = Modifier.startBorder(borderColor, 2.dp),
-            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
+            enabled = rightButtonEnabled
         ) {
             Icon(rightButtonIcon, null)
         }

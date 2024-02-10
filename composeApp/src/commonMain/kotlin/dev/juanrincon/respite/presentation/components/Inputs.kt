@@ -22,7 +22,13 @@ fun RespiteTextField(
             text = value,
             selection = TextRange(value.length)
         ),
-        onValueChange = { textFieldValue -> onValueChange(textFieldValue.text) },
+        onValueChange = { textFieldValue ->
+            // Need check here because onValueChange: (TextFieldValue) -> Unit gets triggered on
+            // focus starting an endless loop.
+            if (textFieldValue.text != value) onValueChange(
+                textFieldValue.text
+            )
+        },
         modifier = modifier.focusRequester(focusRequester),
         textStyle = textStyle,
     )
