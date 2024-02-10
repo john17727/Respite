@@ -4,6 +4,7 @@ import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import dev.juanrincon.respite.Category
 import dev.juanrincon.respite.Database
+import dev.juanrincon.respite.Item
 
 expect class DriverFactory {
     fun createDriver(): SqlDriver
@@ -11,7 +12,11 @@ expect class DriverFactory {
 
 fun createDatabase(driverFactory: DriverFactory): Database {
     val driver = driverFactory.createDriver()
-    return Database(driver, Category.Adapter(idAdapter = longIntAdapter))
+    return Database(
+        driver = driver,
+        categoryAdapter = Category.Adapter(idAdapter = longIntAdapter),
+        itemAdapter = Item.Adapter(idAdapter = longIntAdapter, category_idAdapter = longIntAdapter)
+    )
 }
 
 private val longIntAdapter = object : ColumnAdapter<Int, Long> {

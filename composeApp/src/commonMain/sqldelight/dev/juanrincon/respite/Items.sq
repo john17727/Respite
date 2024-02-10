@@ -1,0 +1,34 @@
+import kotlin.Int;
+
+CREATE TABLE item (
+    id INTEGER AS Int PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    category_id INTEGER AS Int NOT NULL
+);
+
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (1, "Toothbrush", 2);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (2, "Toothpaste", 2);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (3, "Body Wash", 2);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (4, "Shampoo", 2);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (5, "Conditioner", 2);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (6, "Phone", 4);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (7, "Phone Charger", 4);
+
+get:
+SELECT
+    item.id AS id,
+    item.name AS name,
+    category_id,
+    category.name AS category_name
+FROM item
+JOIN category ON category.id = category_id
+ORDER BY category_id ASC;
+
+insert:
+INSERT INTO item VALUES (?, ?, ?);
+
+update:
+UPDATE item SET name=?, category_id=? WHERE id=?;
+
+delete:
+DELETE FROM item WHERE id=?;
