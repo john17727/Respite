@@ -1,5 +1,7 @@
 package dev.juanrincon.respite.presentation.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.domain.model.Trip
+import dev.juanrincon.respite.presentation.animations.fadeInFadeOut
 import dev.juanrincon.respite.presentation.extensions.startBorder
 import dev.juanrincon.respite.presentation.extensions.topBorder
 
@@ -58,9 +61,10 @@ fun SystemCategoryItem(
     category: Category,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    modifier: Modifier = Modifier
 ) {
     var showDescription by remember { mutableStateOf(false) }
-    Column {
+    Column(modifier = modifier) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
@@ -78,17 +82,19 @@ fun SystemCategoryItem(
                     onClick = { showDescription = showDescription.not() },
                     colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
                 ) {
-                    val icon = if (showDescription) {
-                        Icons.Rounded.Close
-                    } else {
-                        Icons.Rounded.Info
+                    AnimatedContent(showDescription, transitionSpec = ::fadeInFadeOut) {
+                        val icon = if (showDescription) {
+                            Icons.Rounded.Close
+                        } else {
+                            Icons.Rounded.Info
+                        }
+                        Icon(icon, null)
                     }
-                    Icon(icon, null)
                 }
             }
         }
         category.description?.let {
-            if (showDescription) {
+            AnimatedVisibility(showDescription) {
                 Text(
                     text = it,
                     color = contentColor,
@@ -107,10 +113,11 @@ fun UserCategoryItem(
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
     onEditClick: (Int) -> Unit,
     onDeleteClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
+        modifier = modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
     ) {
         Text(
             text = category.name.uppercase(),
@@ -182,6 +189,7 @@ fun CreatingCategoryItem(
     focusRequester: FocusRequester = FocusRequester(),
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    modifier: Modifier = Modifier
 ) {
     var textFieldValue by remember {
         mutableStateOf(
@@ -197,7 +205,7 @@ fun CreatingCategoryItem(
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
+        modifier = modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
     ) {
         RespiteTextField(
             textFieldValue = textFieldValue,
