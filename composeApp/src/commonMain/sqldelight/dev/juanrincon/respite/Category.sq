@@ -1,0 +1,30 @@
+import kotlin.Int;
+
+CREATE TABLE category (
+    id INTEGER AS Int PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT
+);
+
+INSERT OR REPLACE INTO category (id, name, description) VALUES (1, "Temporary", "Items marked with this category will persist accross trips but will be deleted upon trip/s completion.");
+
+INSERT OR REPLACE INTO category (id, name) VALUES (2, "Clothing");
+INSERT OR REPLACE INTO category (id, name) VALUES (3, "Toiletries");
+INSERT OR REPLACE INTO category (id, name) VALUES (4, "Accesories");
+INSERT OR REPLACE INTO category (id, name) VALUES (5, "Devices");
+INSERT OR REPLACE INTO category (id, name) VALUES (6, "Miscellaneous");
+
+get:
+SELECT * FROM category ORDER BY (CASE WHEN [description] IS NULL THEN 0 ELSE 1 END) DESC, name ASC;
+
+
+insert:
+INSERT INTO category VALUES (?, ?, ?);
+
+update:
+UPDATE category SET name=? WHERE id=?;
+
+delete:
+DELETE FROM category WHERE id=?;
+
+

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -15,9 +16,9 @@ kotlin {
             }
         }
     }
-    
+
     jvm("desktop")
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -25,21 +26,28 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            isStatic = true
+            isStatic = false // Changed to false so fucking sqldelight can work, check back in future version to see if can be changed back
         }
     }
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+
+            // Database
+            implementation(libs.sqldelight.android.driver)
+
+            // Dependency Injection
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
@@ -48,9 +56,18 @@ kotlin {
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.screenModel)
             implementation(libs.voyager.koin)
+
+            // Dependency Injection
+            implementation(libs.koin.core)
+
+            implementation(libs.stately.common) // Fixes exception from libs.voyager.koin current version, might not need for future voyager versions
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.sqldelight.jvm.driver)
+        }
+        iosMain.dependencies {
+            implementation(libs.sqldelight.native.driver)
         }
     }
 }
@@ -97,6 +114,14 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "dev.juanrincon.respite"
             packageVersion = "1.0.0"
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("dev.juanrincon.respite")
         }
     }
 }
