@@ -14,6 +14,9 @@ sealed interface CategoryIntent {
     data class EditItem(val id: Int) : CategoryIntent
 
     data class UpdateItem(val id: Int, val name: String) : CategoryIntent
+    data class CancelEditItem(val id: Int) : CategoryIntent
 
     data object CreateItem : CategoryIntent
+
+    data object CancelCreateItem : CategoryIntent
 }

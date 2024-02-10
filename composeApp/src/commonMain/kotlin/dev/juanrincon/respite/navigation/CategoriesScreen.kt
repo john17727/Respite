@@ -15,11 +15,11 @@ class CategoriesScreen : Screen {
         val screenModel = getScreenModel<CategoriesScreenModel>()
         val state by screenModel.state.collectAsState()
         CategoriesUI(
-            state.categories,
-            state.inEditMode,
-            { id -> screenModel.onIntent(CategoryIntent.EditItem(id)) },
-            { id -> screenModel.onIntent(CategoryIntent.DeleteCategory(id)) },
-            { id, value ->
+            categories = state.categories,
+            inEditMode = state.inEditMode,
+            onEditClick = { id -> screenModel.onIntent(CategoryIntent.EditItem(id)) },
+            onDeleteClick = { id -> screenModel.onIntent(CategoryIntent.DeleteCategory(id)) },
+            onUpdateItem = { id, value ->
                 screenModel.onIntent(
                     CategoryIntent.UpdateItem(
                         id,
@@ -27,9 +27,23 @@ class CategoriesScreen : Screen {
                     )
                 )
             },
-            { updatedCategory -> screenModel.onIntent(CategoryIntent.UpdateCategory(updatedCategory)) },
-            { screenModel.onIntent(CategoryIntent.CreateItem) },
-            { newCategory -> screenModel.onIntent(CategoryIntent.CreateCategory(newCategory)) }
+            onEditSave = { updatedCategory ->
+                screenModel.onIntent(
+                    CategoryIntent.UpdateCategory(
+                        updatedCategory
+                    )
+                )
+            },
+            onCreateClick = { screenModel.onIntent(CategoryIntent.CreateItem) },
+            onCreateSave = { newCategory ->
+                screenModel.onIntent(
+                    CategoryIntent.CreateCategory(
+                        newCategory
+                    )
+                )
+            },
+            onCreateCancel = { screenModel.onIntent(CategoryIntent.CancelCreateItem) },
+            onEditCancel = { id -> screenModel.onIntent(CategoryIntent.CancelEditItem(id)) }
         )
     }
 }

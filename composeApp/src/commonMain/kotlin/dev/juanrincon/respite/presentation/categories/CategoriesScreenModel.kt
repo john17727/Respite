@@ -21,15 +21,45 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
         CategoryIntent.GetAllCategories -> getCategories()
         is CategoryIntent.DeleteCategory -> deleteCategory(intent.id)
         is CategoryIntent.UpdateCategory -> updateCategory(intent.newCategory)
-        is CategoryIntent.EditItem -> setCategoryEditable(intent.id)
-        is CategoryIntent.UpdateItem -> updateCategoryProperty(
+        is CategoryIntent.EditItem -> setEditItem(intent.id)
+        is CategoryIntent.UpdateItem -> updateItemName(
             intent.id,
             intent.name
         )
 
         CategoryIntent.CreateItem -> addCreateItem()
         is CategoryIntent.CreateCategory -> createCategory(intent.newCategory)
+        CategoryIntent.CancelCreateItem -> cancelCreateItem()
+        is CategoryIntent.CancelEditItem -> cancelEditItem(intent.id)
     }
+
+    private fun cancelEditItem(id: Int) {
+        updateState { copy(categories = setEditableItemToUserItem(categories, id)) }
+    }
+
+    private fun setEditableItemToUserItem(
+        categories: List<CategoryItem>,
+        id: Int
+    ): List<CategoryItem> =
+        categories.find { it.id == id }?.let { item ->
+            val mutableList = categories.toMutableList()
+            val indexOfEditable = categories.indexOf(item)
+            mutableList[indexOfEditable] =
+                CategoryItem.UserItem((item as CategoryItem.EditingItem).category)
+            mutableList
+        } ?: categories
+
+
+    private fun cancelCreateItem() {
+        updateState { copy(categories = removeEditableInList(this.categories), inEditMode = false) }
+    }
+
+    private fun removeEditableInList(categories: List<CategoryItem>): List<CategoryItem> =
+        categories.find { it.id == 0 }?.let { item ->
+            val mutableList = categories.toMutableList()
+            mutableList.remove(item)
+            mutableList
+        } ?: categories
 
     private fun createCategory(newCategory: Category) {
         screenModelScope.launch {
@@ -48,11 +78,11 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
         updateState { copy(categories = addItemEditableInList(this.categories), inEditMode = true) }
     }
 
-    private fun updateCategoryProperty(id: Int, name: String) {
+    private fun updateItemName(id: Int, name: String) {
         updateState { copy(categories = setUpdatedProperty(this.categories, id, name)) }
     }
 
-    private fun setCategoryEditable(id: Int) {
+    private fun setEditItem(id: Int) {
         updateState {
             copy(
                 categories = setItemEditableInList(this.categories, id),

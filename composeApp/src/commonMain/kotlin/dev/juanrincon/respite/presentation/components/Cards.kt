@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Edit
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.respite.domain.model.Category
@@ -95,8 +97,10 @@ fun UserCategoryItem(
             modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f)
         )
         ActionButtons(
-            onEditClick = { onEditClick(category.id) },
-            onDeleteClick = { onDeleteClick(category.id) },
+            onLeftButtonClick = { onEditClick(category.id) },
+            onRightButtonClick = { onDeleteClick(category.id) },
+            leftButtonIcon = Icons.Rounded.Edit,
+            rightButtonIcon = Icons.Rounded.Delete,
             borderColor = borderColor,
             contentColor = contentColor
         )
@@ -108,6 +112,7 @@ fun EditingCategoryItem(
     category: Category,
     onNameUpdate: (Int, String) -> Unit,
     onSave: (Category) -> Unit,
+    onCancel: (Int) -> Unit,
     focusRequester: FocusRequester = FocusRequester(),
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -126,12 +131,14 @@ fun EditingCategoryItem(
             focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
         )
-        IconButton(
-            onClick = { onSave(category) },
-            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
-        ) {
-            Icon(Icons.Rounded.Done, null)
-        }
+        ActionButtons(
+            onLeftButtonClick = { onCancel(category.id) },
+            onRightButtonClick = { onSave(category) },
+            leftButtonIcon = Icons.Rounded.Close,
+            rightButtonIcon = Icons.Rounded.Done,
+            contentColor = contentColor,
+            borderColor = borderColor,
+        )
     }
 }
 
@@ -140,6 +147,7 @@ fun CreatingCategoryItem(
     category: Category,
     onNameUpdate: (Int, String) -> Unit,
     onSave: (Category) -> Unit,
+    onCancel: () -> Unit,
     focusRequester: FocusRequester = FocusRequester(),
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -155,40 +163,44 @@ fun CreatingCategoryItem(
         RespiteTextField(
             value = category.name,
             onValueChange = { onNameUpdate(category.id, it) },
-            modifier = Modifier.padding(top = 6.dp, start = 4.dp),
+            modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f),
             focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
         )
-        IconButton(
-            onClick = { onSave(category) },
-            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
-        ) {
-            Icon(Icons.Rounded.Done, null)
-        }
+        ActionButtons(
+            onLeftButtonClick = onCancel,
+            onRightButtonClick = { onSave(category) },
+            leftButtonIcon = Icons.Rounded.Close,
+            rightButtonIcon = Icons.Rounded.Done,
+            contentColor = contentColor,
+            borderColor = borderColor,
+        )
     }
 }
 
 @Composable
 fun ActionButtons(
-    onEditClick: () -> Unit,
-    onDeleteClick: () -> Unit,
+    onLeftButtonClick: () -> Unit,
+    onRightButtonClick: () -> Unit,
+    leftButtonIcon: ImageVector,
+    rightButtonIcon: ImageVector,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
         IconButton(
-            onClick = onEditClick,
+            onClick = onLeftButtonClick,
             modifier = Modifier.startBorder(borderColor, 2.dp),
             colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
         ) {
-            Icon(Icons.Rounded.Edit, null)
+            Icon(leftButtonIcon, null)
         }
         IconButton(
-            onClick = onDeleteClick,
+            onClick = onRightButtonClick,
             modifier = Modifier.startBorder(borderColor, 2.dp),
             colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
         ) {
-            Icon(Icons.Rounded.Delete, null)
+            Icon(rightButtonIcon, null)
         }
     }
 }

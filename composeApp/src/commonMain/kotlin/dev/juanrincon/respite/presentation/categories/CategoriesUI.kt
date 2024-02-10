@@ -36,7 +36,9 @@ fun CategoriesUI(
     onUpdateItem: (Int, String) -> Unit,
     onEditSave: (Category) -> Unit,
     onCreateClick: () -> Unit,
-    onCreateSave: (Category) -> Unit
+    onCreateSave: (Category) -> Unit,
+    onCreateCancel: () -> Unit,
+    onEditCancel: (Int) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
     Scaffold(
@@ -82,6 +84,7 @@ fun CategoriesUI(
                             category = item.category,
                             onNameUpdate = onUpdateItem,
                             onSave = onEditSave,
+                            onCancel = onEditCancel,
                             focusRequester = focusRequester,
                             borderColor = Color(0xFFC2DB9E),
                             contentColor = Color(0xFF3C422F)
@@ -91,6 +94,7 @@ fun CategoriesUI(
                             category = item.category,
                             onNameUpdate = onUpdateItem,
                             onSave = onCreateSave,
+                            onCancel = onCreateCancel,
                             focusRequester = focusRequester,
                             borderColor = Color(0xFFC2DB9E),
                             contentColor = Color(0xFF3C422F)
