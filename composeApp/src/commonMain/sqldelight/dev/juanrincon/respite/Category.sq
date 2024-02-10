@@ -6,7 +6,7 @@ CREATE TABLE category (
     description TEXT
 );
 
-INSERT OR REPLACE INTO category (id, name, description) VALUES (1, "Temporary", "Items marked with this category will persist accross trips but will be deleted upon trip/s completion.");
+INSERT OR REPLACE INTO category (id, name, description) VALUES (1, "Temporary", "Items marked with this category will persist across trips but will be deleted upon the completion of a trip.");
 
 INSERT OR REPLACE INTO category (id, name) VALUES (2, "Clothing");
 INSERT OR REPLACE INTO category (id, name) VALUES (3, "Toiletries");
