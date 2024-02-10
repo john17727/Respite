@@ -126,7 +126,7 @@ fun EditingCategoryItem(
     ) {
         RespiteTextField(
             value = category.name,
-            onValueChange = { if (category.name.length <= 16) onNameUpdate(category.id, it) },
+            onValueChange = { if (it.length <= 16) onNameUpdate(category.id, it) },
             modifier = Modifier.padding(top = 6.dp, start = 4.dp),
             focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
@@ -163,7 +163,7 @@ fun CreatingCategoryItem(
     ) {
         RespiteTextField(
             value = category.name,
-            onValueChange = { if (category.name.length <= 16) onNameUpdate(category.id, it) },
+            onValueChange = { if (it.length <= 16) onNameUpdate(category.id, it) },
             modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f),
             focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
