@@ -19,11 +19,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.respite.domain.model.Category
@@ -110,13 +116,20 @@ fun UserCategoryItem(
 @Composable
 fun EditingCategoryItem(
     category: Category,
-    onNameUpdate: (Int, String) -> Unit,
-    onSave: (Category) -> Unit,
+    onSave: (Int, String) -> Unit,
     onCancel: (Int) -> Unit,
     focusRequester: FocusRequester = FocusRequester(),
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
+    var textFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = category.name,
+                selection = TextRange(category.name.length)
+            )
+        )
+    }
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
@@ -125,18 +138,18 @@ fun EditingCategoryItem(
         modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
     ) {
         RespiteTextField(
-            value = category.name,
-            onValueChange = { if (it.length <= 16) onNameUpdate(category.id, it) },
+            textFieldValue = textFieldValue,
+            onValueChange = { if (it.text.length <= 16) textFieldValue = it },
             modifier = Modifier.padding(top = 6.dp, start = 4.dp),
             focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
         )
         ActionButtons(
             onLeftButtonClick = { onCancel(category.id) },
-            onRightButtonClick = { onSave(category) },
+            onRightButtonClick = { onSave(category.id, textFieldValue.text) },
             leftButtonIcon = Icons.Rounded.Close,
             rightButtonIcon = Icons.Rounded.Done,
-            rightButtonEnabled = category.name.isNotEmpty(),
+            rightButtonEnabled = textFieldValue.text.isNotEmpty(),
             contentColor = contentColor,
             borderColor = borderColor,
         )
@@ -146,13 +159,20 @@ fun EditingCategoryItem(
 @Composable
 fun CreatingCategoryItem(
     category: Category,
-    onNameUpdate: (Int, String) -> Unit,
-    onSave: (Category) -> Unit,
+    onSave: (String) -> Unit,
     onCancel: () -> Unit,
     focusRequester: FocusRequester = FocusRequester(),
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
+    var textFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = category.name,
+                selection = TextRange(category.name.length)
+            )
+        )
+    }
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
@@ -162,18 +182,18 @@ fun CreatingCategoryItem(
         modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
     ) {
         RespiteTextField(
-            value = category.name,
-            onValueChange = { if (it.length <= 16) onNameUpdate(category.id, it) },
+            textFieldValue = textFieldValue,
+            onValueChange = { if (it.text.length <= 16) textFieldValue = it },
             modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f),
             focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
         )
         ActionButtons(
             onLeftButtonClick = onCancel,
-            onRightButtonClick = { onSave(category) },
+            onRightButtonClick = { onSave(textFieldValue.text) },
             leftButtonIcon = Icons.Rounded.Close,
             rightButtonIcon = Icons.Rounded.Done,
-            rightButtonEnabled = category.name.isNotEmpty(),
+            rightButtonEnabled = textFieldValue.text.isNotEmpty(),
             contentColor = contentColor,
             borderColor = borderColor,
         )

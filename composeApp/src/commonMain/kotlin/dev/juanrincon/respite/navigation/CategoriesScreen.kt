@@ -19,26 +19,19 @@ class CategoriesScreen : Screen {
             inEditMode = state.inEditMode,
             onEditClick = { id -> screenModel.onIntent(CategoryIntent.EditItem(id)) },
             onDeleteClick = { id -> screenModel.onIntent(CategoryIntent.DeleteCategory(id)) },
-            onUpdateItem = { id, value ->
-                screenModel.onIntent(
-                    CategoryIntent.UpdateItem(
-                        id,
-                        value
-                    )
-                )
-            },
-            onEditSave = { updatedCategory ->
+            onEditSave = { id, newName ->
                 screenModel.onIntent(
                     CategoryIntent.UpdateCategory(
-                        updatedCategory
+                        id,
+                        newName
                     )
                 )
             },
             onCreateClick = { screenModel.onIntent(CategoryIntent.CreateItem) },
-            onCreateSave = { newCategory ->
+            onCreateSave = { categoryName ->
                 screenModel.onIntent(
                     CategoryIntent.CreateCategory(
-                        newCategory
+                        categoryName
                     )
                 )
             },

@@ -22,14 +22,10 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
     override fun onIntent(intent: CategoryIntent) = when (intent) {
         CategoryIntent.GetAllCategories -> getCategories()
         is CategoryIntent.DeleteCategory -> deleteCategory(intent.id)
-        is CategoryIntent.UpdateCategory -> updateCategory(intent.newCategory)
+        is CategoryIntent.UpdateCategory -> updateCategory(intent.id, intent.newName)
         is CategoryIntent.EditItem -> setEditItem(intent.id)
-        is CategoryIntent.UpdateItem -> updateItemName(
-            intent.id,
-            intent.name
-        )
         CategoryIntent.CreateItem -> addCreateItem()
-        is CategoryIntent.CreateCategory -> createCategory(intent.newCategory)
+        is CategoryIntent.CreateCategory -> createCategory(intent.name)
         CategoryIntent.CancelCreateItem -> cancelCreateItem()
         is CategoryIntent.CancelEditItem -> cancelEditItem(intent.id)
     }
@@ -66,9 +62,9 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
             mutableList
         } ?: categories
 
-    private fun createCategory(newCategory: Category) {
+    private fun createCategory(name: String) {
         screenModelScope.launch {
-            repository.create(newCategory).fold(
+            repository.create(Category(0, name, null)).fold(
                 onSuccess = {
                     getCategories()
                 },
@@ -81,10 +77,6 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
 
     private fun addCreateItem() {
         updateState { copy(categories = addItemEditableInList(this.categories), inEditMode = true) }
-    }
-
-    private fun updateItemName(id: Int, name: String) {
-        updateState { copy(categories = setUpdatedProperty(this.categories, id, name)) }
     }
 
     private fun setEditItem(id: Int) {
@@ -116,10 +108,10 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
         }
     }
 
-    private fun updateCategory(category: Category) {
+    private fun updateCategory(id: Int, name: String) {
         screenModelScope.launch {
             updateState { copy(loading = true) }
-            repository.update(category).fold(
+            repository.update(Category(id, name, null)).fold(
                 onSuccess = {
                     getCategories()
                 },
@@ -158,24 +150,6 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
             mutableList[indexOfEditable] = (item as CategoryItem.UserItem).toEditingItem()
             mutableList
         } ?: categories
-
-    private fun setUpdatedProperty(
-        categories: List<CategoryItem>,
-        id: Int,
-        name: String
-    ): List<CategoryItem> = categories.find { it.id == id }?.let { item ->
-        val mutableList = categories.toMutableList()
-        val indexOfEditable = categories.indexOf(item)
-        mutableList[indexOfEditable] = when (val current = mutableList[indexOfEditable]) {
-            is CategoryItem.EditingItem -> CategoryItem.EditingItem(
-                Category(id, name, null),
-                current.originalName
-            )
-
-            else -> CategoryItem.CreatingItem(Category(id, name, null))
-        }
-        mutableList
-    } ?: categories
 
     private fun addItemEditableInList(categories: List<CategoryItem>): List<CategoryItem> {
         val mutableList = categories.toMutableList()

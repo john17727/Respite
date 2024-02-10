@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.presentation.components.CreatingCategoryItem
 import dev.juanrincon.respite.presentation.components.EditingCategoryItem
 import dev.juanrincon.respite.presentation.components.SystemCategoryItem
@@ -33,10 +32,9 @@ fun CategoriesUI(
     inEditMode: Boolean,
     onEditClick: (Int) -> Unit,
     onDeleteClick: (Int) -> Unit,
-    onUpdateItem: (Int, String) -> Unit,
-    onEditSave: (Category) -> Unit,
+    onEditSave: (Int, String) -> Unit,
     onCreateClick: () -> Unit,
-    onCreateSave: (Category) -> Unit,
+    onCreateSave: (String) -> Unit,
     onCreateCancel: () -> Unit,
     onEditCancel: (Int) -> Unit
 ) {
@@ -82,7 +80,6 @@ fun CategoriesUI(
 
                         is CategoryItem.EditingItem -> EditingCategoryItem(
                             category = item.category,
-                            onNameUpdate = onUpdateItem,
                             onSave = onEditSave,
                             onCancel = onEditCancel,
                             focusRequester = focusRequester,
@@ -92,7 +89,6 @@ fun CategoriesUI(
 
                         is CategoryItem.CreatingItem -> CreatingCategoryItem(
                             category = item.category,
-                            onNameUpdate = onUpdateItem,
                             onSave = onCreateSave,
                             onCancel = onCreateCancel,
                             focusRequester = focusRequester,
