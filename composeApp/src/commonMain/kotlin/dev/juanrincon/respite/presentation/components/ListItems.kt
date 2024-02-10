@@ -1,6 +1,7 @@
 package dev.juanrincon.respite.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -57,26 +58,43 @@ fun SystemCategoryItem(
     category: Category,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
-    onInfoClick: (String) -> Unit,
 ) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
-    ) {
-        Text(
-            text = category.name.uppercase(),
-            style = MaterialTheme.typography.titleLarge,
-            color = contentColor,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(top = 6.dp, start = 4.dp)
-        )
+    var showDescription by remember { mutableStateOf(false) }
+    Column {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
+        ) {
+            Text(
+                text = category.name.uppercase(),
+                style = MaterialTheme.typography.titleLarge,
+                color = contentColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 6.dp, start = 4.dp)
+            )
+            category.description?.let {
+                IconButton(
+                    onClick = { showDescription = showDescription.not() },
+                    colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
+                ) {
+                    val icon = if (showDescription) {
+                        Icons.Rounded.Close
+                    } else {
+                        Icons.Rounded.Info
+                    }
+                    Icon(icon, null)
+                }
+            }
+        }
         category.description?.let {
-            IconButton(
-                onClick = { onInfoClick(category.description) },
-                colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
-            ) {
-                Icon(Icons.Rounded.Info, null)
+            if (showDescription) {
+                Text(
+                    text = it,
+                    color = contentColor,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(start = 4.dp)
+                )
             }
         }
     }

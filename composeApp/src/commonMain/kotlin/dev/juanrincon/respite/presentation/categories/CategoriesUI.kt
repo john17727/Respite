@@ -67,7 +67,6 @@ fun CategoriesUI(
                             category = item.category,
                             borderColor = Color(0xFFC2DB9E),
                             contentColor = Color(0xFF3C422F),
-                            onInfoClick = {}
                         )
 
                         is CategoryItem.UserItem -> UserCategoryItem(
