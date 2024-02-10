@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.respite.domain.model.Category
+import dev.juanrincon.respite.domain.model.Item
 import dev.juanrincon.respite.domain.model.Trip
 import dev.juanrincon.respite.presentation.animations.fadeInFadeOut
 import dev.juanrincon.respite.presentation.extensions.startBorder
@@ -52,6 +53,51 @@ fun TripCard(trip: Trip, onClick: (Int) -> Unit) {
         ) {
             Text(text = trip.name)
             Text(text = trip.totalItems.toString())
+        }
+    }
+}
+
+@Composable
+fun UserLuggageItem(
+    item: Item,
+    onEditClick: (Int) -> Unit,
+    onDeleteClick: (Int) -> Unit,
+    borderColor: Color = MaterialTheme.colorScheme.secondary,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            text = item.name.uppercase(),
+            style = MaterialTheme.typography.titleLarge,
+            color = contentColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(top = 6.dp, start = 4.dp)
+        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
+        ) {
+            Text(
+                text = item.category.name.uppercase(),
+                style = MaterialTheme.typography.titleLarge,
+                color = contentColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f)
+            )
+            ActionButtons(
+                onLeftButtonClick = { onEditClick(item.id) },
+                onRightButtonClick = { onDeleteClick(item.id) },
+                leftButtonIcon = Icons.Rounded.Edit,
+                rightButtonIcon = Icons.Rounded.Delete,
+                borderColor = borderColor,
+                contentColor = contentColor
+            )
         }
     }
 }
