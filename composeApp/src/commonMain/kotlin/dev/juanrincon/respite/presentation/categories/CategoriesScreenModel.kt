@@ -33,7 +33,6 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
 
     private fun createCategory(newCategory: Category) {
         screenModelScope.launch {
-            updateState { copy(loading = true) }
             repository.create(newCategory).fold(
                 onSuccess = {
                     getCategories()
@@ -119,8 +118,8 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
 
     private fun setItemEditableInList(categories: List<CategoryItem>, id: Int): List<CategoryItem> =
         categories.find { it.id == id }?.let { item ->
-            val indexOfEditable = categories.indexOf(item)
             val mutableList = categories.toMutableList()
+            val indexOfEditable = categories.indexOf(item)
             mutableList[indexOfEditable] =
                 CategoryItem.EditingItem((item as CategoryItem.UserItem).category)
             mutableList
@@ -131,8 +130,8 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
         id: Int,
         name: String
     ): List<CategoryItem> = categories.find { it.id == id }?.let { item ->
-        val indexOfEditable = categories.indexOf(item)
         val mutableList = categories.toMutableList()
+        val indexOfEditable = categories.indexOf(item)
         mutableList[indexOfEditable] = when (mutableList[indexOfEditable]) {
             is CategoryItem.EditingItem -> CategoryItem.EditingItem(Category(id, name, null))
             else -> CategoryItem.CreatingItem(Category(id, name, null))
@@ -142,7 +141,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
 
     private fun addItemEditableInList(categories: List<CategoryItem>): List<CategoryItem> {
         val mutableList = categories.toMutableList()
-        mutableList.add(CategoryItem.CreatingItem(Category(categories.size + 1, "", null)))
+        mutableList.add(CategoryItem.CreatingItem(Category(0, "", null)))
         return mutableList
     }
 }

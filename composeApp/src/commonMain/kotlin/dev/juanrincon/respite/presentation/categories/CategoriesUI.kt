@@ -15,7 +15,9 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.respite.domain.model.Category
@@ -36,6 +38,7 @@ fun CategoriesUI(
     onCreateClick: () -> Unit,
     onCreateSave: (Category) -> Unit
 ) {
+    val focusRequester = remember { FocusRequester() }
     Scaffold(
         floatingActionButton = {
             if (!inEditMode) {
@@ -79,6 +82,7 @@ fun CategoriesUI(
                             category = item.category,
                             onNameUpdate = onUpdateItem,
                             onSave = onEditSave,
+                            focusRequester = focusRequester,
                             borderColor = Color(0xFFC2DB9E),
                             contentColor = Color(0xFF3C422F)
                         )
@@ -87,6 +91,7 @@ fun CategoriesUI(
                             category = item.category,
                             onNameUpdate = onUpdateItem,
                             onSave = onCreateSave,
+                            focusRequester = focusRequester,
                             borderColor = Color(0xFFC2DB9E),
                             contentColor = Color(0xFF3C422F)
                         )

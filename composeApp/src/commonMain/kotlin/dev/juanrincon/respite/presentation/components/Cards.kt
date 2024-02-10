@@ -17,8 +17,10 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -106,9 +108,13 @@ fun EditingCategoryItem(
     category: Category,
     onNameUpdate: (Int, String) -> Unit,
     onSave: (Category) -> Unit,
+    focusRequester: FocusRequester = FocusRequester(),
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
@@ -117,6 +123,7 @@ fun EditingCategoryItem(
             value = category.name,
             onValueChange = { onNameUpdate(category.id, it) },
             modifier = Modifier.padding(top = 6.dp, start = 4.dp),
+            focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
         )
         IconButton(
@@ -133,9 +140,14 @@ fun CreatingCategoryItem(
     category: Category,
     onNameUpdate: (Int, String) -> Unit,
     onSave: (Category) -> Unit,
+    focusRequester: FocusRequester = FocusRequester(),
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
@@ -144,6 +156,7 @@ fun CreatingCategoryItem(
             value = category.name,
             onValueChange = { onNameUpdate(category.id, it) },
             modifier = Modifier.padding(top = 6.dp, start = 4.dp),
+            focusRequester = focusRequester,
             textStyle = MaterialTheme.typography.titleLarge
         )
         IconButton(
