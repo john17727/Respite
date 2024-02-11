@@ -17,6 +17,31 @@ class LuggageScreenModel(private val repository: ItemRepository) : ScreenModel,
         getLuggage()
     }
 
+    override fun onIntent(intent: LuggageIntent) = when (intent) {
+        LuggageIntent.CancelCreateItem -> TODO()
+        is LuggageIntent.CancelEditItem -> TODO()
+        LuggageIntent.CreateItem -> TODO()
+        is LuggageIntent.CreateLuggage -> TODO()
+        is LuggageIntent.DeleteLuggage -> deleteLuggage(intent.id)
+        is LuggageIntent.EditItem -> TODO()
+        LuggageIntent.GetLuggage -> TODO()
+        is LuggageIntent.UpdateLuggage -> TODO()
+    }
+
+    private fun deleteLuggage(id: Int) {
+        screenModelScope.launch {
+            updateState { copy(loading = true) }
+            repository.delete(id).fold(
+                onSuccess = {
+                    getLuggage()
+                },
+                onFailure = {
+                    updateState { copy(loading = false) }
+                }
+            )
+        }
+    }
+
     private fun getLuggage() {
         screenModelScope.launch {
             updateState { copy(loading = true) }

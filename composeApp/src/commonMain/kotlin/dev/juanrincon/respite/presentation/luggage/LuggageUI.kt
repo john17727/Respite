@@ -21,7 +21,8 @@ import dev.juanrincon.respite.presentation.components.VerticalBanner
 
 @Composable
 fun LuggageUI(
-    luggage: List<LuggageItem>
+    luggage: List<LuggageItem>,
+    onDeleteClick: (Int) -> Unit
 ) {
     Scaffold(
         floatingActionButton = {
@@ -43,7 +44,7 @@ fun LuggageUI(
                             borderColor = Color(0xFFFFD55F),
                             contentColor = Color(0xFF684633),
                             onEditClick = {},
-                            onDeleteClick = {}
+                            onDeleteClick = onDeleteClick
                         )
                     }
                 }

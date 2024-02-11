@@ -5,6 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import dev.juanrincon.respite.presentation.luggage.LuggageIntent
 import dev.juanrincon.respite.presentation.luggage.LuggageScreenModel
 import dev.juanrincon.respite.presentation.luggage.LuggageUI
 
@@ -15,7 +16,8 @@ class LuggageScreen : Screen {
         val screenModel = getScreenModel<LuggageScreenModel>()
         val state by screenModel.state.collectAsState()
         LuggageUI(
-            state.luggage
+            luggage = state.luggage,
+            onDeleteClick = { id -> screenModel.onIntent(LuggageIntent.DeleteLuggage(id)) }
         )
     }
 }
