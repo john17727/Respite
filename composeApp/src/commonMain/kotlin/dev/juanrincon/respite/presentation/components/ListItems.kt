@@ -134,7 +134,7 @@ fun EditingLuggageItem(
             )
             ActionButtons(
                 onLeftButtonClick = { onCancel(item.id) },
-                onRightButtonClick = {},
+                onRightButtonClick = { onSave(item.id, textFieldValue.text, selectedCategory.id) },
                 leftButtonIcon = Icons.Rounded.Close,
                 rightButtonIcon = Icons.Rounded.Done,
                 borderColor = borderColor,

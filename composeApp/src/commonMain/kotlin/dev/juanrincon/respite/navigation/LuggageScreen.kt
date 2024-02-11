@@ -19,7 +19,17 @@ class LuggageScreen : Screen {
             luggage = state.luggage,
             categories = state.categories,
             onDeleteClick = { id -> screenModel.onIntent(LuggageIntent.DeleteLuggage(id)) },
-            onEditClick = { id -> screenModel.onIntent(LuggageIntent.EditItem(id)) }
+            onEditClick = { id -> screenModel.onIntent(LuggageIntent.EditItem(id)) },
+            onEditSave = { id, name, categoryId ->
+                screenModel.onIntent(
+                    LuggageIntent.UpdateLuggage(
+                        id,
+                        name,
+                        categoryId
+                    )
+                )
+            },
+            onEditCancel = { id -> screenModel.onIntent(LuggageIntent.CancelEditItem(id)) }
         )
     }
 }

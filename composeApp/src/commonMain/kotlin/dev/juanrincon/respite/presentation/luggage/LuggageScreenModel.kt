@@ -8,6 +8,7 @@ import dev.juanrincon.respite.domain.repository.ItemRepository
 import dev.juanrincon.respite.mvi.MVI
 import dev.juanrincon.respite.mvi.MVIDelegate
 import dev.juanrincon.respite.presentation.luggage.LuggageItem.Companion.toEditingItem
+import dev.juanrincon.respite.presentation.luggage.LuggageItem.Companion.toUserItem
 import kotlinx.coroutines.launch
 
 class LuggageScreenModel(
@@ -25,13 +26,13 @@ class LuggageScreenModel(
 
     override fun onIntent(intent: LuggageIntent) = when (intent) {
         LuggageIntent.CancelCreateItem -> TODO()
-        is LuggageIntent.CancelEditItem -> TODO()
+        is LuggageIntent.CancelEditItem -> cancelEditItem(intent.id)
         LuggageIntent.CreateItem -> TODO()
         is LuggageIntent.CreateLuggage -> TODO()
         is LuggageIntent.DeleteLuggage -> deleteLuggage(intent.id)
         is LuggageIntent.EditItem -> setEditItem(intent.id)
-        LuggageIntent.GetLuggage -> TODO()
-        is LuggageIntent.UpdateLuggage -> TODO()
+        LuggageIntent.GetLuggage -> getLuggage()
+        is LuggageIntent.UpdateLuggage -> updateLuggage(intent.id, intent.name, intent.categoryId)
     }
 
     private fun setEditItem(id: Int) {
@@ -85,6 +86,18 @@ class LuggageScreenModel(
         }
     }
 
+    private fun updateLuggage(id: Int, name: String, categoryId: Int) {
+        screenModelScope.launch {
+            updateState { copy(loading = true) }
+            repository.update(id, name, categoryId).fold(
+                onSuccess = { getLuggage() },
+                onFailure = {
+                    updateState { copy(loading = false, inEditMode = false) }
+                }
+            )
+        }
+    }
+
     private fun getCategories() {
         screenModelScope.launch {
             updateState { copy(loading = true) }
@@ -98,6 +111,23 @@ class LuggageScreenModel(
             )
         }
     }
+
+    private fun cancelEditItem(id: Int) {
+        updateState {
+            copy(
+                luggage = setEditableItemToUserItem(luggage, id),
+                inEditMode = false
+            )
+        }
+    }
+
+    private fun setEditableItemToUserItem(luggage: List<LuggageItem>, id: Int): List<LuggageItem> =
+        luggage.find { it.id == id }?.let { item ->
+            val mutableList = luggage.toMutableList()
+            val indexOfEditable = luggage.indexOf(item)
+            mutableList[indexOfEditable] = (item as LuggageItem.EditingItem).toUserItem()
+            mutableList
+        } ?: luggage
 
     private fun toLuggageItem(item: Item): LuggageItem = LuggageItem.UserItem(item)
 }

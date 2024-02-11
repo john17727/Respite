@@ -28,7 +28,9 @@ fun LuggageUI(
     luggage: List<LuggageItem>,
     categories: List<Category>,
     onDeleteClick: (Int) -> Unit,
-    onEditClick: (Int) -> Unit
+    onEditClick: (Int) -> Unit,
+    onEditSave: (Int, String, Int) -> Unit,
+    onEditCancel: (Int) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
     Scaffold(
@@ -48,10 +50,8 @@ fun LuggageUI(
                         is LuggageItem.EditingItem -> EditingLuggageItem(
                             item = item.item,
                             categories = categories,
-                            onCancel = {},
-                            onSave = { id, name, categoryId ->
-
-                            },
+                            onCancel = onEditCancel,
+                            onSave = onEditSave,
                             focusRequester = focusRequester,
                             borderColor = Color(0xFFFFD55F),
                             contentColor = Color(0xFF684633),

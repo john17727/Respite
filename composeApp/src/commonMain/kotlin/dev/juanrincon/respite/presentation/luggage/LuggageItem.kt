@@ -9,5 +9,6 @@ sealed class LuggageItem(val id: Int) {
 
     companion object {
         fun UserItem.toEditingItem(): EditingItem = EditingItem(this.item)
+        fun EditingItem.toUserItem(): UserItem = UserItem(this.item)
     }
 }
