@@ -3,9 +3,9 @@ package dev.juanrincon.respite.data.repository
 import dev.juanrincon.respite.ItemsQueries
 import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.domain.model.Item
-import dev.juanrincon.respite.domain.repository.ItemRespository
+import dev.juanrincon.respite.domain.repository.ItemRepository
 
-class RespiteLuggageRepository(private val itemsQueries: ItemsQueries) : ItemRespository {
+class RespiteLuggageRepository(private val itemsQueries: ItemsQueries) : ItemRepository {
     override suspend fun create(name: String, categoryId: Int): Result<Unit> = try {
         Result.success(itemsQueries.insert(null, name, categoryId))
     } catch (t: Throwable) {

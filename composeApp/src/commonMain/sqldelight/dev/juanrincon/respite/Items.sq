@@ -18,7 +18,7 @@ get:
 SELECT
     item.id AS id,
     item.name AS name,
-    category_id,
+    item.category_id,
     category.name AS category_name
 FROM item
 JOIN category ON category.id = category_id
