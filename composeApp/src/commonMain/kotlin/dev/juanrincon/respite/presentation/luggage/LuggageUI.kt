@@ -9,13 +9,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Luggage
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -47,90 +50,91 @@ fun LuggageUI(
     onEditCancel: (Int) -> Unit,
     onCreateClick: () -> Unit,
     onCreateSave: (String, Int) -> Unit,
-    onCreateCancel: () -> Unit
+    onCreateCancel: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberLazyListState()
-    Scaffold(
-        floatingActionButton = {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                state = scrollState,
+                verticalArrangement = Arrangement.spacedBy(28.dp),
+                contentPadding = PaddingValues(top = 16.dp, start = 24.dp, bottom = 70.dp),
+                modifier = Modifier.fillMaxHeight().weight(1f)
+            ) {
+                itemsIndexed(
+                    luggage,
+                    { i, item -> item.id },
+                    { i, item -> item::class }) { index, luggageItem ->
+                    AnimatedContent(
+                        luggageItem,
+                        transitionSpec = ::fadeInFadeOut,
+                        modifier = Modifier.animateItemPlacement()
+                    ) { item ->
+                        when (item) {
+                            is LuggageItem.CreatingItem -> CreatingLuggageItem(
+                                categories = categories,
+                                onCancel = onCreateCancel,
+                                onSave = onCreateSave,
+                                focusRequester = focusRequester,
+                                borderColor = Color(0xFFFFD55F),
+                                contentColor = Color(0xFF684633),
+                            )
 
-        }
-    ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Row(modifier = Modifier.fillMaxSize()) {
-                LazyColumn(
-                    state = scrollState,
-                    verticalArrangement = Arrangement.spacedBy(28.dp),
-                    contentPadding = PaddingValues(top = 16.dp, start = 24.dp, bottom = 70.dp),
-                    modifier = Modifier.fillMaxHeight().weight(1f)
-                ) {
-                    itemsIndexed(
-                        luggage,
-                        { i, item -> item.id },
-                        { i, item -> item::class }) { index, luggageItem ->
-                        AnimatedContent(
-                            luggageItem,
-                            transitionSpec = ::fadeInFadeOut,
-                            modifier = Modifier.animateItemPlacement()
-                        ) { item ->
-                            when (item) {
-                                is LuggageItem.CreatingItem -> CreatingLuggageItem(
-                                    categories = categories,
-                                    onCancel = onCreateCancel,
-                                    onSave = onCreateSave,
-                                    focusRequester = focusRequester,
-                                    borderColor = Color(0xFFFFD55F),
-                                    contentColor = Color(0xFF684633),
-                                )
+                            is LuggageItem.EditingItem -> EditingLuggageItem(
+                                item = item.item,
+                                categories = categories,
+                                onCancel = onEditCancel,
+                                onSave = onEditSave,
+                                onExpanded = {
+                                    coroutineScope.launch {
+                                        delay(200)
+                                        scrollState.animateScrollToItem(index)
+                                    }
+                                },
+                                focusRequester = focusRequester,
+                                borderColor = Color(0xFFFFD55F),
+                                contentColor = Color(0xFF684633),
+                            )
 
-                                is LuggageItem.EditingItem -> EditingLuggageItem(
-                                    item = item.item,
-                                    categories = categories,
-                                    onCancel = onEditCancel,
-                                    onSave = onEditSave,
-                                    onExpanded = {
-                                        coroutineScope.launch {
-                                            delay(200)
-                                            scrollState.animateScrollToItem(index)
-                                        }
-                                    },
-                                    focusRequester = focusRequester,
-                                    borderColor = Color(0xFFFFD55F),
-                                    contentColor = Color(0xFF684633),
-                                )
-
-                                is LuggageItem.UserItem -> UserLuggageItem(
-                                    item = item.item,
-                                    inEditMode = inEditMode,
-                                    borderColor = Color(0xFFFFD55F),
-                                    contentColor = Color(0xFF684633),
-                                    onEditClick = onEditClick,
-                                    onDeleteClick = onDeleteClick
-                                )
-                            }
+                            is LuggageItem.UserItem -> UserLuggageItem(
+                                item = item.item,
+                                inEditMode = inEditMode,
+                                borderColor = Color(0xFFFFD55F),
+                                contentColor = Color(0xFF684633),
+                                onEditClick = onEditClick,
+                                onDeleteClick = onDeleteClick
+                            )
                         }
                     }
                 }
-                VerticalBanner(
-                    text = "Luggage",
-                    icon = Icons.Rounded.Luggage,
-                    backgroundColor = Color(0xFFEDD379),
-                    contentColor = Color(0xFF684633),
-                    alignment = BannerAlignment.End
-                )
             }
-            AnimatedVisibility(
-                inEditMode.not(),
-                modifier = Modifier.align(Alignment.BottomStart)
-            ) {
-                LeftActionButton(
-                    onClick = onCreateClick,
-                    containerColor = Color(0xFFA6C994),
-                    contentColor = Color(0xFF3C422F),
-                    icon = Icons.Rounded.Add
-                )
-            }
+            VerticalBanner(
+                text = "Luggage",
+                icon = Icons.Rounded.Luggage,
+                backgroundColor = Color(0xFFEDD379),
+                contentColor = Color(0xFF684633),
+                alignment = BannerAlignment.End
+            )
+        }
+        AnimatedVisibility(
+            inEditMode.not(),
+            modifier = Modifier.align(Alignment.BottomStart)
+        ) {
+            LeftActionButton(
+                onClick = onCreateClick,
+                containerColor = Color(0xFFA6C994),
+                contentColor = Color(0xFF3C422F),
+                icon = Icons.Rounded.Add
+            )
+        }
+        IconButton(
+            onClick = onBackClick,
+            modifier = Modifier.align(Alignment.TopEnd).padding(8.dp),
+        ) {
+            Icon(Icons.Rounded.ArrowBack, null)
         }
     }
 }

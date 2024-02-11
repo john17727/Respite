@@ -5,6 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.juanrincon.respite.presentation.luggage.LuggageIntent
 import dev.juanrincon.respite.presentation.luggage.LuggageScreenModel
 import dev.juanrincon.respite.presentation.luggage.LuggageUI
@@ -13,6 +15,7 @@ class LuggageScreen : Screen {
 
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
         val screenModel = getScreenModel<LuggageScreenModel>()
         val state by screenModel.state.collectAsState()
         LuggageUI(
@@ -40,7 +43,10 @@ class LuggageScreen : Screen {
                     )
                 )
             },
-            onCreateCancel = { screenModel.onIntent(LuggageIntent.CancelCreateItem) }
+            onCreateCancel = { screenModel.onIntent(LuggageIntent.CancelCreateItem) },
+            onBackClick = {
+                navigator.pop()
+            }
         )
     }
 }
