@@ -335,6 +335,7 @@ fun SystemCategoryItem(
 @Composable
 fun UserCategoryItem(
     category: Category,
+    inEditMode: Boolean,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
     onEditClick: (Int) -> Unit,
@@ -358,6 +359,8 @@ fun UserCategoryItem(
             onRightButtonClick = { onDeleteClick(category.id) },
             leftButtonIcon = Icons.Rounded.Edit,
             rightButtonIcon = Icons.Rounded.Delete,
+            rightButtonEnabled = inEditMode.not(),
+            leftButtonEnabled = inEditMode.not(),
             borderColor = borderColor,
             contentColor = contentColor
         )

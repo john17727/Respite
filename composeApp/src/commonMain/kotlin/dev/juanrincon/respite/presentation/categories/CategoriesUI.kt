@@ -78,6 +78,7 @@ fun CategoriesUI(
 
                             is CategoryItem.UserItem -> UserCategoryItem(
                                 category = item.category,
+                                inEditMode = inEditMode,
                                 borderColor = Color(0xFFC2DB9E),
                                 contentColor = Color(0xFF3C422F),
                                 onEditClick = onEditClick,
