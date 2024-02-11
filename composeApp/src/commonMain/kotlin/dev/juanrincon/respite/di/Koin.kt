@@ -26,7 +26,7 @@ fun initKoin() = initKoin {}
 
 val screenModelModule = module {
     factory { CategoriesScreenModel(get()) }
-    factory { LuggageScreenModel(get()) }
+    factory { LuggageScreenModel(get(), get()) }
 }
 
 val repositoryModule = module {

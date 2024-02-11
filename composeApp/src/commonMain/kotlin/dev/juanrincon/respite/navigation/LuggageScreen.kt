@@ -17,7 +17,9 @@ class LuggageScreen : Screen {
         val state by screenModel.state.collectAsState()
         LuggageUI(
             luggage = state.luggage,
-            onDeleteClick = { id -> screenModel.onIntent(LuggageIntent.DeleteLuggage(id)) }
+            categories = state.categories,
+            onDeleteClick = { id -> screenModel.onIntent(LuggageIntent.DeleteLuggage(id)) },
+            onEditClick = { id -> screenModel.onIntent(LuggageIntent.EditItem(id)) }
         )
     }
 }

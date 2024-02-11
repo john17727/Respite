@@ -12,18 +12,25 @@ import androidx.compose.material.icons.rounded.Luggage
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.presentation.components.BannerAlignment
+import dev.juanrincon.respite.presentation.components.EditingLuggageItem
 import dev.juanrincon.respite.presentation.components.UserLuggageItem
 import dev.juanrincon.respite.presentation.components.VerticalBanner
 
 @Composable
 fun LuggageUI(
     luggage: List<LuggageItem>,
-    onDeleteClick: (Int) -> Unit
+    categories: List<Category>,
+    onDeleteClick: (Int) -> Unit,
+    onEditClick: (Int) -> Unit
 ) {
+    val focusRequester = remember { FocusRequester() }
     Scaffold(
         floatingActionButton = {
 
@@ -38,12 +45,23 @@ fun LuggageUI(
                 items(luggage, { item -> item.id }, { item -> item::class }) { item ->
                     when (item) {
                         is LuggageItem.CreatingItem -> Text(item.item.name)
-                        is LuggageItem.EditingItem -> Text(item.item.name)
+                        is LuggageItem.EditingItem -> EditingLuggageItem(
+                            item = item.item,
+                            categories = categories,
+                            onCancel = {},
+                            onSave = { id, name, categoryId ->
+
+                            },
+                            focusRequester = focusRequester,
+                            borderColor = Color(0xFFFFD55F),
+                            contentColor = Color(0xFF684633),
+                        )
+
                         is LuggageItem.UserItem -> UserLuggageItem(
                             item = item.item,
                             borderColor = Color(0xFFFFD55F),
                             contentColor = Color(0xFF684633),
-                            onEditClick = {},
+                            onEditClick = onEditClick,
                             onDeleteClick = onDeleteClick
                         )
                     }
