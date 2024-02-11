@@ -12,13 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Luggage
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -33,6 +29,7 @@ import dev.juanrincon.respite.presentation.animations.fadeInFadeOut
 import dev.juanrincon.respite.presentation.components.BannerAlignment
 import dev.juanrincon.respite.presentation.components.CreatingLuggageItem
 import dev.juanrincon.respite.presentation.components.EditingLuggageItem
+import dev.juanrincon.respite.presentation.components.LeftActionButton
 import dev.juanrincon.respite.presentation.components.UserLuggageItem
 import dev.juanrincon.respite.presentation.components.VerticalBanner
 import kotlinx.coroutines.delay
@@ -127,17 +124,12 @@ fun LuggageUI(
                 inEditMode.not(),
                 modifier = Modifier.align(Alignment.BottomStart)
             ) {
-                Button(
+                LeftActionButton(
                     onClick = onCreateClick,
-                    shape = CutCornerShape(topEnd = 16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFA6C994),
-                        contentColor = Color(0xFF3C422F)
-                    ),
-                    contentPadding = PaddingValues(vertical = 16.dp),
-                ) {
-                    Icon(Icons.Rounded.Add, null)
-                }
+                    containerColor = Color(0xFFA6C994),
+                    contentColor = Color(0xFF3C422F),
+                    icon = Icons.Rounded.Add
+                )
             }
         }
     }
