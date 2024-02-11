@@ -13,17 +13,20 @@ import dev.juanrincon.respite.presentation.components.LeftActionButton
 import dev.juanrincon.respite.presentation.components.RightActionButton
 
 @Composable
-fun TripsUI() {
+fun TripsUI(
+    onCategoriesClick: () -> Unit,
+    onLuggageClick: () -> Unit
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         LeftActionButton(
-            onClick = {},
+            onClick = onCategoriesClick,
             containerColor = Color(0xFFA6C994),
             contentColor = Color(0xFF3C422F),
             icon = Icons.Rounded.Sell,
             modifier = Modifier.align(Alignment.BottomStart)
         )
         RightActionButton(
-            onClick = {},
+            onClick = onLuggageClick,
             containerColor = Color(0xFFEDD379),
             contentColor = Color(0xFF684633),
             icon = Icons.Rounded.Luggage,
