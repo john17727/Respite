@@ -48,23 +48,15 @@ fun UserLuggageItem(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().topBorder(borderColor, 2.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        Text(
-            text = item.name.uppercase(),
-            style = MaterialTheme.typography.titleLarge,
-            color = contentColor,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(top = 6.dp, start = 4.dp)
-        )
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
         ) {
             Text(
-                text = item.category.name.uppercase(),
+                text = item.name.uppercase(),
                 style = MaterialTheme.typography.titleLarge,
                 color = contentColor,
                 maxLines = 1,
@@ -80,6 +72,15 @@ fun UserLuggageItem(
                 contentColor = contentColor
             )
         }
+        Text(
+            text = item.category.name.uppercase(),
+            style = MaterialTheme.typography.titleMedium,
+            color = contentColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.topBorder(borderColor, 2.dp).padding(top = 6.dp, start = 4.dp)
+                .fillMaxWidth()
+        )
     }
 }
 
