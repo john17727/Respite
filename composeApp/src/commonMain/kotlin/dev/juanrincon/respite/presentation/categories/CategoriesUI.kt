@@ -63,7 +63,7 @@ fun CategoriesUI(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(28.dp),
                 contentPadding = PaddingValues(top = 16.dp, end = 24.dp),
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.fillMaxHeight().weight(1f)
             ) {
                 items(categories, { item -> item.id }, { item -> item::class }) { categoryItem ->
                     AnimatedContent(

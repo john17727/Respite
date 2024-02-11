@@ -13,6 +13,7 @@ sealed class CategoryItem(val id: Int) {
     companion object {
         fun UserItem.toEditingItem(): EditingItem = EditingItem(this.category)
         fun EditingItem.toUserItem(): UserItem =
+            // TODO: Change this to just pass the item
             UserItem(Category(this.id, this.category.name, this.category.description))
     }
 }

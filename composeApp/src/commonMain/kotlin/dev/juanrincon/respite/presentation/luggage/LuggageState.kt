@@ -1,0 +1,10 @@
+package dev.juanrincon.respite.presentation.luggage
+
+import dev.juanrincon.respite.domain.model.Category
+
+data class LuggageState(
+    val luggage: List<LuggageItem> = listOf(),
+    val categories: List<Category> = listOf(),
+    val inEditMode: Boolean = false,
+    val loading: Boolean = false
+)
