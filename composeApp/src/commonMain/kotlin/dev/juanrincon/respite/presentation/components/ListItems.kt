@@ -184,6 +184,94 @@ fun EditingLuggageItem(
 }
 
 @Composable
+fun CreatingLuggageItem(
+    categories: List<Category>,
+    onCancel: () -> Unit,
+    onSave: (String, Int) -> Unit,
+    focusRequester: FocusRequester = FocusRequester(),
+    borderColor: Color = MaterialTheme.colorScheme.secondary,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    modifier: Modifier = Modifier
+) {
+    var textFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = ""
+            )
+        )
+    }
+    var selectedCategory by remember { mutableStateOf(categories.first()) }
+    var showCategoryMenu by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
+        ) {
+            RespiteTextField(
+                textFieldValue = textFieldValue,
+                onValueChange = { if (it.text.length <= 16) textFieldValue = it },
+                modifier = Modifier.padding(top = 6.dp, start = 4.dp),
+                focusRequester = focusRequester,
+                textStyle = MaterialTheme.typography.titleLarge
+            )
+            ActionButtons(
+                onLeftButtonClick = onCancel,
+                onRightButtonClick = { onSave(textFieldValue.text, selectedCategory.id) },
+                leftButtonIcon = Icons.Rounded.Close,
+                rightButtonIcon = Icons.Rounded.Done,
+                borderColor = borderColor,
+                contentColor = contentColor
+            )
+        }
+        Row(
+            modifier = Modifier.topBorder(borderColor, 2.dp)
+                .padding(top = 6.dp, start = 4.dp)
+                .fillMaxWidth().clickable(onClick = { showCategoryMenu = showCategoryMenu.not() })
+        ) {
+            Text(
+                text = AnnotatedString(selectedCategory.name.uppercase()),
+                style = MaterialTheme.typography.titleMedium,
+                color = contentColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            AnimatedContent(showCategoryMenu) {
+                if (it) {
+                    Icon(Icons.Rounded.ExpandLess, null, tint = contentColor)
+                } else {
+                    Icon(Icons.Rounded.ExpandMore, null, tint = contentColor)
+                }
+            }
+        }
+        AnimatedVisibility(showCategoryMenu) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                contentPadding = PaddingValues(top = 6.dp, start = 4.dp),
+                modifier = Modifier.heightIn(max = 200.dp)
+            ) {
+                items(categories, { item -> item.id }) { category ->
+                    ClickableText(
+                        text = AnnotatedString(category.name.uppercase()),
+                        style = MaterialTheme.typography.titleMedium,
+                        onClick = {
+                            selectedCategory = category
+                            showCategoryMenu = showCategoryMenu.not()
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun SystemCategoryItem(
     category: Category,
     borderColor: Color = MaterialTheme.colorScheme.primary,

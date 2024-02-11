@@ -18,6 +18,7 @@ class LuggageScreen : Screen {
         LuggageUI(
             luggage = state.luggage,
             categories = state.categories,
+            inEditMode = state.inEditMode,
             onDeleteClick = { id -> screenModel.onIntent(LuggageIntent.DeleteLuggage(id)) },
             onEditClick = { id -> screenModel.onIntent(LuggageIntent.EditItem(id)) },
             onEditSave = { id, name, categoryId ->
@@ -29,7 +30,17 @@ class LuggageScreen : Screen {
                     )
                 )
             },
-            onEditCancel = { id -> screenModel.onIntent(LuggageIntent.CancelEditItem(id)) }
+            onEditCancel = { id -> screenModel.onIntent(LuggageIntent.CancelEditItem(id)) },
+            onCreateClick = { screenModel.onIntent(LuggageIntent.CreateItem) },
+            onCreateSave = { name, categoryId ->
+                screenModel.onIntent(
+                    LuggageIntent.CreateLuggage(
+                        name,
+                        categoryId
+                    )
+                )
+            },
+            onCreateCancel = { screenModel.onIntent(LuggageIntent.CancelCreateItem) }
         )
     }
 }

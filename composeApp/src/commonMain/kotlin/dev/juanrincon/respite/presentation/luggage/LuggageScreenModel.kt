@@ -2,6 +2,7 @@ package dev.juanrincon.respite.presentation.luggage
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.domain.model.Item
 import dev.juanrincon.respite.domain.repository.CategoryRepository
 import dev.juanrincon.respite.domain.repository.ItemRepository
@@ -25,10 +26,10 @@ class LuggageScreenModel(
     }
 
     override fun onIntent(intent: LuggageIntent) = when (intent) {
-        LuggageIntent.CancelCreateItem -> TODO()
+        LuggageIntent.CancelCreateItem -> cancelCreateItem()
         is LuggageIntent.CancelEditItem -> cancelEditItem(intent.id)
-        LuggageIntent.CreateItem -> TODO()
-        is LuggageIntent.CreateLuggage -> TODO()
+        LuggageIntent.CreateItem -> addCreateItem()
+        is LuggageIntent.CreateLuggage -> createLuggage(intent.name, intent.categoryId)
         is LuggageIntent.DeleteLuggage -> deleteLuggage(intent.id)
         is LuggageIntent.EditItem -> setEditItem(intent.id)
         LuggageIntent.GetLuggage -> getLuggage()
@@ -42,6 +43,27 @@ class LuggageScreenModel(
                 inEditMode = true
             )
         }
+    }
+
+    private fun addCreateItem() {
+        updateState { copy(luggage = addItemEditable(this.luggage), inEditMode = true) }
+    }
+
+    private fun cancelCreateItem() {
+        updateState { copy(luggage = removeEditable(luggage), inEditMode = false) }
+    }
+
+    private fun removeEditable(luggage: List<LuggageItem>): List<LuggageItem> =
+        luggage.find { it.id == 0 }?.let { item ->
+            val mutableList = luggage.toMutableList()
+            mutableList.remove(item)
+            mutableList
+        } ?: luggage
+
+    private fun addItemEditable(luggage: List<LuggageItem>): List<LuggageItem> {
+        val mutableList = luggage.toMutableList()
+        mutableList.add(LuggageItem.CreatingItem(Item(0, "", Category(0, "", null))))
+        return mutableList
     }
 
     private fun setItemEditable(luggage: List<LuggageItem>, id: Int): List<LuggageItem> =
@@ -93,6 +115,20 @@ class LuggageScreenModel(
                 onSuccess = { getLuggage() },
                 onFailure = {
                     updateState { copy(loading = false, inEditMode = false) }
+                }
+            )
+        }
+    }
+
+    private fun createLuggage(name: String, categoryId: Int) {
+        updateState { copy(loading = true) }
+        screenModelScope.launch {
+            repository.create(name, categoryId).fold(
+                onSuccess = {
+                    getLuggage()
+                },
+                onFailure = {
+                    updateState { copy(loading = false) }
                 }
             )
         }
