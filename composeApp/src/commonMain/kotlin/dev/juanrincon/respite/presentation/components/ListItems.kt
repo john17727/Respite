@@ -50,6 +50,7 @@ import dev.juanrincon.respite.presentation.extensions.topBorder
 @Composable
 fun UserLuggageItem(
     item: Item,
+    inEditMode: Boolean,
     onEditClick: (Int) -> Unit,
     onDeleteClick: (Int) -> Unit,
     borderColor: Color = MaterialTheme.colorScheme.secondary,
@@ -77,6 +78,8 @@ fun UserLuggageItem(
                 onRightButtonClick = { onDeleteClick(item.id) },
                 leftButtonIcon = Icons.Rounded.Edit,
                 rightButtonIcon = Icons.Rounded.Delete,
+                rightButtonEnabled = inEditMode.not(),
+                leftButtonEnabled = inEditMode.not(),
                 borderColor = borderColor,
                 contentColor = contentColor
             )
@@ -99,6 +102,7 @@ fun EditingLuggageItem(
     categories: List<Category>,
     onCancel: (Int) -> Unit,
     onSave: (Int, String, Int) -> Unit,
+    onExpanded: (Int) -> Unit,
     focusRequester: FocusRequester = FocusRequester(),
     borderColor: Color = MaterialTheme.colorScheme.secondary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -137,6 +141,7 @@ fun EditingLuggageItem(
                 onRightButtonClick = { onSave(item.id, textFieldValue.text, selectedCategory.id) },
                 leftButtonIcon = Icons.Rounded.Close,
                 rightButtonIcon = Icons.Rounded.Done,
+                rightButtonEnabled = textFieldValue.text.isNotEmpty(),
                 borderColor = borderColor,
                 contentColor = contentColor
             )
@@ -144,7 +149,12 @@ fun EditingLuggageItem(
         Row(
             modifier = Modifier.topBorder(borderColor, 2.dp)
                 .padding(top = 6.dp, start = 4.dp)
-                .fillMaxWidth().clickable(onClick = { showCategoryMenu = showCategoryMenu.not() })
+                .fillMaxWidth().clickable(onClick = {
+                    showCategoryMenu = showCategoryMenu.not()
+                    if (showCategoryMenu) {
+                        onExpanded(200)
+                    }
+                })
         ) {
             Text(
                 text = AnnotatedString(selectedCategory.name.uppercase()),
@@ -225,6 +235,7 @@ fun CreatingLuggageItem(
                 onRightButtonClick = { onSave(textFieldValue.text, selectedCategory.id) },
                 leftButtonIcon = Icons.Rounded.Close,
                 rightButtonIcon = Icons.Rounded.Done,
+                rightButtonEnabled = textFieldValue.text.isNotEmpty(),
                 borderColor = borderColor,
                 contentColor = contentColor
             )
@@ -448,6 +459,7 @@ fun ActionButtons(
     leftButtonIcon: ImageVector,
     rightButtonIcon: ImageVector,
     rightButtonEnabled: Boolean = true,
+    leftButtonEnabled: Boolean = true,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
@@ -455,7 +467,8 @@ fun ActionButtons(
         IconButton(
             onClick = onLeftButtonClick,
             modifier = Modifier.startBorder(borderColor, 2.dp),
-            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
+            enabled = leftButtonEnabled
         ) {
             Icon(leftButtonIcon, null)
         }
