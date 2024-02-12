@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.presentation.extensions
+package dev.juanrincon.respite.presentation.utils
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.Density

@@ -39,7 +39,7 @@ import dev.juanrincon.respite.presentation.components.EditingLuggageItem
 import dev.juanrincon.respite.presentation.components.LeftActionButton
 import dev.juanrincon.respite.presentation.components.UserLuggageItem
 import dev.juanrincon.respite.presentation.components.VerticalBanner
-import dev.juanrincon.respite.presentation.extensions.Reverse
+import dev.juanrincon.respite.presentation.utils.Reverse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
