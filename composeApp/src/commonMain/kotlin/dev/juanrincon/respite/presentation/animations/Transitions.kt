@@ -24,3 +24,7 @@ fun slideUp(initialOffset: (fullHeight: Int) -> Int): EnterTransition = slideIn 
 fun slideDown(initialOffset: (fullHeight: Int) -> Int): ExitTransition = slideOut { fullSize ->
     IntOffset(0, fullSize.height - initialOffset(fullSize.height))
 }
+
+fun slideLeft(initialOffset: (fullWidth: Int) -> Int): EnterTransition = slideIn { fullSize ->
+    IntOffset(fullSize.width - initialOffset(fullSize.width), 0)
+}

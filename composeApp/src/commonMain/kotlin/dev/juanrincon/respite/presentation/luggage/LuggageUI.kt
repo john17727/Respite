@@ -2,6 +2,7 @@ package dev.juanrincon.respite.presentation.luggage
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,12 +30,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.presentation.animations.fadeInFadeOut
+import dev.juanrincon.respite.presentation.animations.slideDown
+import dev.juanrincon.respite.presentation.animations.slideLeft
+import dev.juanrincon.respite.presentation.animations.slideUp
 import dev.juanrincon.respite.presentation.components.BannerAlignment
 import dev.juanrincon.respite.presentation.components.CreatingLuggageItem
 import dev.juanrincon.respite.presentation.components.EditingLuggageItem
 import dev.juanrincon.respite.presentation.components.LeftActionButton
 import dev.juanrincon.respite.presentation.components.UserLuggageItem
 import dev.juanrincon.respite.presentation.components.VerticalBanner
+import dev.juanrincon.respite.presentation.extensions.Reverse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -51,23 +56,41 @@ fun LuggageUI(
     onCreateClick: () -> Unit,
     onCreateSave: (String, Int) -> Unit,
     onCreateCancel: () -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    showContent: Boolean = false
 ) {
     val focusRequester = remember { FocusRequester() }
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberLazyListState()
     Box(modifier = Modifier.fillMaxSize()) {
-        Row(modifier = Modifier.fillMaxSize()) {
-            LazyColumn(
-                state = scrollState,
-                verticalArrangement = Arrangement.spacedBy(28.dp),
-                contentPadding = PaddingValues(top = 16.dp, start = 24.dp, bottom = 70.dp),
-                modifier = Modifier.fillMaxHeight().weight(1f)
+        Row(horizontalArrangement = Arrangement.Reverse, modifier = Modifier.fillMaxSize()) {
+            AnimatedVisibility(
+                visible = showContent,
+                enter = slideUp { fullHeight -> fullHeight / 12 },
+                exit = slideDown { fullHeight -> fullHeight / 12 }
             ) {
-                itemsIndexed(
-                    luggage,
-                    { i, item -> item.id },
-                    { i, item -> item::class }) { index, luggageItem ->
+                VerticalBanner(
+                    text = "Luggage",
+                    icon = Icons.Rounded.Luggage,
+                    backgroundColor = Color(0xFFEDD379),
+                    contentColor = Color(0xFF684633),
+                    alignment = BannerAlignment.End
+                )
+            }
+            AnimatedVisibility(
+                visible = showContent,
+                enter = fadeIn() + slideLeft { fullWidth -> fullWidth / 12 }
+            ) {
+                LazyColumn(
+                    state = scrollState,
+                    verticalArrangement = Arrangement.spacedBy(28.dp),
+                    contentPadding = PaddingValues(top = 16.dp, start = 24.dp, bottom = 70.dp),
+                    modifier = Modifier.weight(1f).fillMaxHeight()
+                ) {
+                    itemsIndexed(
+                        luggage,
+                        { i, item -> item.id },
+                        { i, item -> item::class }) { index, luggageItem ->
                     AnimatedContent(
                         luggageItem,
                         transitionSpec = ::fadeInFadeOut,
@@ -111,13 +134,7 @@ fun LuggageUI(
                     }
                 }
             }
-            VerticalBanner(
-                text = "Luggage",
-                icon = Icons.Rounded.Luggage,
-                backgroundColor = Color(0xFFEDD379),
-                contentColor = Color(0xFF684633),
-                alignment = BannerAlignment.End
-            )
+            }
         }
         AnimatedVisibility(
             inEditMode.not(),
