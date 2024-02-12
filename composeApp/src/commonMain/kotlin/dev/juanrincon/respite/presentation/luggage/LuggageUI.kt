@@ -125,7 +125,7 @@ fun LuggageUI(
         ) {
             LeftActionButton(
                 onClick = onCreateClick,
-                containerColor = Color(0xFFA6C994),
+                backgroundColor = Color(0xFFA6C994),
                 contentColor = Color(0xFF3C422F),
                 icon = Icons.Rounded.Add
             )

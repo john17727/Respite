@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 fun LeftActionButton(
     onClick: () -> Unit,
     icon: ImageVector,
-    containerColor: Color = MaterialTheme.colorScheme.secondary,
+    backgroundColor: Color = MaterialTheme.colorScheme.secondary,
     contentColor: Color = MaterialTheme.colorScheme.onSecondary,
     modifier: Modifier = Modifier
 ) {
@@ -24,10 +24,10 @@ fun LeftActionButton(
         onClick = onClick,
         shape = CutCornerShape(topEnd = 16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor,
+            containerColor = backgroundColor,
             contentColor = contentColor
         ),
-        contentPadding = PaddingValues(vertical = 16.dp),
+        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 24.dp),
         modifier = modifier
     ) {
         Icon(icon, null)
@@ -38,7 +38,7 @@ fun LeftActionButton(
 fun RightActionButton(
     onClick: () -> Unit,
     icon: ImageVector,
-    containerColor: Color = MaterialTheme.colorScheme.tertiary,
+    backgroundColor: Color = MaterialTheme.colorScheme.tertiary,
     contentColor: Color = MaterialTheme.colorScheme.onTertiary,
     modifier: Modifier = Modifier
 ) {
@@ -46,10 +46,10 @@ fun RightActionButton(
         onClick = onClick,
         shape = CutCornerShape(topStart = 16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor,
+            containerColor = backgroundColor,
             contentColor = contentColor
         ),
-        contentPadding = PaddingValues(vertical = 16.dp),
+        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 24.dp),
         modifier = modifier
     ) {
         Icon(icon, null)

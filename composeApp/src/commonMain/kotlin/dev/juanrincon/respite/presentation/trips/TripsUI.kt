@@ -20,14 +20,14 @@ fun TripsUI(
     Box(modifier = Modifier.fillMaxSize()) {
         LeftActionButton(
             onClick = onCategoriesClick,
-            containerColor = Color(0xFFA6C994),
+            backgroundColor = Color(0xFFA6C994),
             contentColor = Color(0xFF3C422F),
             icon = Icons.Rounded.Sell,
             modifier = Modifier.align(Alignment.BottomStart)
         )
         RightActionButton(
             onClick = onLuggageClick,
-            containerColor = Color(0xFFEDD379),
+            backgroundColor = Color(0xFFEDD379),
             contentColor = Color(0xFF684633),
             icon = Icons.Rounded.Luggage,
             modifier = Modifier.align(Alignment.BottomEnd)

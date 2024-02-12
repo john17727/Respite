@@ -114,7 +114,7 @@ fun CategoriesUI(
         ) {
             RightActionButton(
                 onClick = onCreateClick,
-                containerColor = Color(0xFFEDD379),
+                backgroundColor = Color(0xFFEDD379),
                 contentColor = Color(0xFF684633),
                 icon = Icons.Rounded.Add,
             )
