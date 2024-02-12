@@ -7,9 +7,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -25,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import dev.juanrincon.respite.navigation.BackHandler
 import dev.juanrincon.respite.presentation.animations.fadeInFadeOut
 import dev.juanrincon.respite.presentation.animations.slideDown
 import dev.juanrincon.respite.presentation.animations.slideUp
@@ -52,7 +58,7 @@ fun CategoriesUI(
 ) {
     val focusRequester = remember { FocusRequester() }
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
             AnimatedVisibility(
@@ -72,7 +78,12 @@ fun CategoriesUI(
             ) {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(28.dp),
-                    contentPadding = PaddingValues(top = 16.dp, end = 24.dp),
+                    contentPadding = PaddingValues(
+                        top = 16.dp,
+                        end = 24.dp,
+                        bottom = 70.dp + WindowInsets.navigationBars.asPaddingValues()
+                            .calculateBottomPadding()
+                    ),
                     modifier = Modifier.fillMaxHeight().weight(1f)
                 ) {
                     items(
@@ -142,5 +153,8 @@ fun CategoriesUI(
         ) {
             Icon(Icons.Rounded.ArrowBack, null)
         }
+    }
+    BackHandler(true) {
+        onBackClick()
     }
 }

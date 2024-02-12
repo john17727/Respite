@@ -4,8 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Icon
@@ -15,12 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun VerticalBanner(
     text: String,
     icon: ImageVector,
+    navBarPadding: Dp = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding(),
     iconDescription: String? = null,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -36,7 +41,7 @@ fun VerticalBanner(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxHeight()
             .background(backgroundColor, shape)
-            .padding(vertical = 16.dp, horizontal = 10.dp),
+            .padding(start = 10.dp, top = 16.dp, end = 10.dp, bottom = 16.dp + navBarPadding),
     ) {
         VerticalText(
             text = text.uppercase(),

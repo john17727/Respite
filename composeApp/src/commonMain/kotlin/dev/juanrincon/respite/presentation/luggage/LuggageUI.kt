@@ -8,9 +8,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -29,6 +34,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.respite.domain.model.Category
+import dev.juanrincon.respite.navigation.BackHandler
 import dev.juanrincon.respite.presentation.animations.fadeInFadeOut
 import dev.juanrincon.respite.presentation.animations.slideDown
 import dev.juanrincon.respite.presentation.animations.slideLeft
@@ -62,7 +68,7 @@ fun LuggageUI(
     val focusRequester = remember { FocusRequester() }
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberLazyListState()
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()) {
         Row(horizontalArrangement = Arrangement.Reverse, modifier = Modifier.fillMaxSize()) {
             AnimatedVisibility(
                 visible = showContent,
@@ -84,56 +90,61 @@ fun LuggageUI(
                 LazyColumn(
                     state = scrollState,
                     verticalArrangement = Arrangement.spacedBy(28.dp),
-                    contentPadding = PaddingValues(top = 16.dp, start = 24.dp, bottom = 70.dp),
+                    contentPadding = PaddingValues(
+                        top = 16.dp,
+                        start = 24.dp,
+                        bottom = 70.dp + WindowInsets.navigationBars.asPaddingValues()
+                            .calculateBottomPadding()
+                    ),
                     modifier = Modifier.weight(1f).fillMaxHeight()
                 ) {
                     itemsIndexed(
                         luggage,
                         { i, item -> item.id },
                         { i, item -> item::class }) { index, luggageItem ->
-                    AnimatedContent(
-                        luggageItem,
-                        transitionSpec = ::fadeInFadeOut,
-                        modifier = Modifier.animateItemPlacement()
-                    ) { item ->
-                        when (item) {
-                            is LuggageItem.CreatingItem -> CreatingLuggageItem(
-                                categories = categories,
-                                onCancel = onCreateCancel,
-                                onSave = onCreateSave,
-                                focusRequester = focusRequester,
-                                borderColor = Color(0xFFFFD55F),
-                                contentColor = Color(0xFF684633),
-                            )
+                        AnimatedContent(
+                            luggageItem,
+                            transitionSpec = ::fadeInFadeOut,
+                            modifier = Modifier.animateItemPlacement()
+                        ) { item ->
+                            when (item) {
+                                is LuggageItem.CreatingItem -> CreatingLuggageItem(
+                                    categories = categories,
+                                    onCancel = onCreateCancel,
+                                    onSave = onCreateSave,
+                                    focusRequester = focusRequester,
+                                    borderColor = Color(0xFFFFD55F),
+                                    contentColor = Color(0xFF684633),
+                                )
 
-                            is LuggageItem.EditingItem -> EditingLuggageItem(
-                                item = item.item,
-                                categories = categories,
-                                onCancel = onEditCancel,
-                                onSave = onEditSave,
-                                onExpanded = {
-                                    coroutineScope.launch {
-                                        delay(200)
-                                        scrollState.animateScrollToItem(index)
-                                    }
-                                },
-                                focusRequester = focusRequester,
-                                borderColor = Color(0xFFFFD55F),
-                                contentColor = Color(0xFF684633),
-                            )
+                                is LuggageItem.EditingItem -> EditingLuggageItem(
+                                    item = item.item,
+                                    categories = categories,
+                                    onCancel = onEditCancel,
+                                    onSave = onEditSave,
+                                    onExpanded = {
+                                        coroutineScope.launch {
+                                            delay(200)
+                                            scrollState.animateScrollToItem(index)
+                                        }
+                                    },
+                                    focusRequester = focusRequester,
+                                    borderColor = Color(0xFFFFD55F),
+                                    contentColor = Color(0xFF684633),
+                                )
 
-                            is LuggageItem.UserItem -> UserLuggageItem(
-                                item = item.item,
-                                inEditMode = inEditMode,
-                                borderColor = Color(0xFFFFD55F),
-                                contentColor = Color(0xFF684633),
-                                onEditClick = onEditClick,
-                                onDeleteClick = onDeleteClick
-                            )
+                                is LuggageItem.UserItem -> UserLuggageItem(
+                                    item = item.item,
+                                    inEditMode = inEditMode,
+                                    borderColor = Color(0xFFFFD55F),
+                                    contentColor = Color(0xFF684633),
+                                    onEditClick = onEditClick,
+                                    onDeleteClick = onDeleteClick
+                                )
+                            }
                         }
                     }
                 }
-            }
             }
         }
         AnimatedVisibility(
@@ -153,5 +164,8 @@ fun LuggageUI(
         ) {
             Icon(Icons.Rounded.ArrowBack, null)
         }
+    }
+    BackHandler(true) {
+        onBackClick()
     }
 }
