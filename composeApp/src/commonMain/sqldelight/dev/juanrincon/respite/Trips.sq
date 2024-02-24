@@ -5,12 +5,12 @@ import kotlin.Int;
 CREATE TABLE trip (
     id INTEGER AS Int PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
-    status TEXT AS TripStatus,
+    status TEXT AS TripStatus NOT NULL,
     current INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
 CREATE TABLE trip_item (
-    id INTEGER AS Int PRIMARY KEY NOT NULL,
+    id TEXT PRIMARY KEY NOT NULL,
     trip_id INTEGER AS Int NOT NULL,
     item_id INTEGER AS Int NOT NULL,
     amount INTEGER AS Int NOT NULL DEFAULT 0,
@@ -32,21 +32,40 @@ UPDATE trip SET name=?, status=?, current=? WHERE id=?;
 deleteTrip:
 DELETE FROM trip WHERE id=?;
 
-getTripItems:
+getAllTripItems:
 SELECT
-    trip_item.id AS id,
+    item.id AS id,
+    item.name AS name,
+    category.name AS category,
+    trip_item.amount AS amount,
+    trip_item.accounted AS accounted
+FROM item
+JOIN category ON item.category_id = category.id
+LEFT JOIN trip_item ON item.id = trip_item.item_id
+WHERE trip_item.trip_id = ?
+ORDER BY category.name ASC;
+
+getCurrentTripItems:
+SELECT
+    item.id AS id,
     item.name AS name,
     category.name AS category,
     trip_item.amount AS amount,
     trip_item.accounted AS accounted
 FROM trip_item
-JOIN item ON item.id = item_id
+JOIN item ON trip_item.item_id = item.id
 JOIN category ON item.category_id = category.id
-WHERE trip_id = ?
-ORDER BY category.name ASC;
+WHERE trip_item.trip_id = ?;
 
-insertTripItem:
-INSERT INTO trip_item VALUES(?, ?, ?, ?, ?);
+upsertTripItem:
+INSERT OR REPLACE INTO trip_item VALUES(?, ?, ?, ?, ?);
 
 updateTripItem:
 UPDATE trip_item SET amount=?, accounted=? WHERE id=?;
+
+updateTripItems:
+UPDATE trip_item SET trip_id=? WHERE trip_id=?;
+
+deleteTripItems:
+DELETE FROM trip_item WHERE trip_id=?;
+
