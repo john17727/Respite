@@ -17,7 +17,7 @@ CREATE TABLE trip_item (
     accounted INTEGER AS Int NOT NULL DEFAULT 0
 );
 
-getTrip:
+getCurrentTrip:
 SELECT
     *
 FROM trip

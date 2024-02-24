@@ -17,15 +17,15 @@ class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripReposi
         Result.failure(e)
     }
 
-    override suspend fun read(): Result<List<Trip>> = try {
-        Result.success(tripsQueries.getTrip { id, name, status, current ->
+    override suspend fun readCurrentTrip(): Result<Trip?> = try {
+        Result.success(tripsQueries.getCurrentTrip() { id, name, status, current ->
             Trip(
                 id,
                 name,
                 status,
                 current
             )
-        }.executeAsList())
+        }.executeAsOneOrNull())
     } catch (e: Exception) {
         Result.failure(e)
     }
