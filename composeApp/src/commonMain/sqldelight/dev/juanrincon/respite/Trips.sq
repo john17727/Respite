@@ -1,0 +1,52 @@
+import dev.juanrincon.respite.domain.model.TripStatus;
+import kotlin.Boolean;
+import kotlin.Int;
+
+CREATE TABLE trip (
+    id INTEGER AS Int PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    status TEXT AS TripStatus,
+    current INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+CREATE TABLE trip_item (
+    id INTEGER AS Int PRIMARY KEY NOT NULL,
+    trip_id INTEGER AS Int NOT NULL,
+    item_id INTEGER AS Int NOT NULL,
+    amount INTEGER AS Int NOT NULL DEFAULT 0,
+    accounted INTEGER AS Int NOT NULL DEFAULT 0
+);
+
+getTrip:
+SELECT
+    *
+FROM trip
+WHERE current = 1;
+
+insertTrip:
+INSERT INTO trip VALUES(?, ?, ?, ?);
+
+updateTrip:
+UPDATE trip SET name=?, status=?, current=? WHERE id=?;
+
+deleteTrip:
+DELETE FROM trip WHERE id=?;
+
+getTripItems:
+SELECT
+    trip_item.id AS id,
+    item.name AS name,
+    category.name AS category,
+    trip_item.amount AS amount,
+    trip_item.accounted AS accounted
+FROM trip_item
+JOIN item ON item.id = item_id
+JOIN category ON item.category_id = category.id
+WHERE trip_id = ?
+ORDER BY category.name ASC;
+
+insertTripItem:
+INSERT INTO trip_item VALUES(?, ?, ?, ?, ?);
+
+updateTripItem:
+UPDATE trip_item SET amount=?, accounted=? WHERE id=?;
