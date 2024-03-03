@@ -7,6 +7,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.juanrincon.respite.presentation.trips.TripIntent
 import dev.juanrincon.respite.presentation.trips.TripScreenModel
 import dev.juanrincon.respite.presentation.trips.TripsUI
 
@@ -19,6 +20,10 @@ class TripScreen : Screen {
         val state by screenModel.state.collectAsState()
         TripsUI(
             trip = state.trip,
+            createNewTrip = state.createNewTrip,
+            onCreateNewTripClick = {
+                screenModel.onIntent(TripIntent.StartCreateTrip)
+            },
             onCategoriesClick = {
                 navigator.push(CategoriesScreen())
             },

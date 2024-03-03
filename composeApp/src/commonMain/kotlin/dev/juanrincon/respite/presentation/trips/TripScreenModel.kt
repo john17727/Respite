@@ -15,6 +15,11 @@ class TripScreenModel(
         getTripAndItems()
     }
 
+    override fun onIntent(intent: TripIntent) = when (intent) {
+        TripIntent.StartCreateTrip -> updateState { copy(createNewTrip = true) }
+        is TripIntent.CreateTrip -> TODO()
+    }
+
     private fun getTripAndItems() {
         updateState { copy(loading = true) }
         screenModelScope.launch {
