@@ -27,7 +27,6 @@ fun createDatabase(driverFactory: DriverFactory): Database {
             statusAdapter = tripStatusStringAdapter,
         ),
         trip_itemAdapter = Trip_item.Adapter(
-            idAdapter = longIntAdapter,
             trip_idAdapter = longIntAdapter,
             item_idAdapter = longIntAdapter,
             amountAdapter = longIntAdapter,

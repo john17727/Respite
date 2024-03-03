@@ -4,10 +4,13 @@ import dev.juanrincon.respite.Database
 import dev.juanrincon.respite.data.createDatabase
 import dev.juanrincon.respite.data.repository.RespiteCategoryRepository
 import dev.juanrincon.respite.data.repository.RespiteLuggageRepository
+import dev.juanrincon.respite.data.repository.RespiteTripRepository
 import dev.juanrincon.respite.domain.repository.CategoryRepository
 import dev.juanrincon.respite.domain.repository.ItemRepository
+import dev.juanrincon.respite.domain.repository.TripRepository
 import dev.juanrincon.respite.presentation.categories.CategoriesScreenModel
 import dev.juanrincon.respite.presentation.luggage.LuggageScreenModel
+import dev.juanrincon.respite.presentation.trips.TripScreenModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -27,11 +30,13 @@ fun initKoin() = initKoin {}
 val screenModelModule = module {
     factory { CategoriesScreenModel(get()) }
     factory { LuggageScreenModel(get(), get()) }
+    factory { TripScreenModel(get()) }
 }
 
 val repositoryModule = module {
     single<CategoryRepository> { RespiteCategoryRepository(get<Database>().categoryQueries) }
     single<ItemRepository> { RespiteLuggageRepository(get<Database>().itemsQueries) }
+    single<TripRepository> { RespiteTripRepository(get<Database>().tripsQueries) }
 }
 
 val sqlDelightModule = module {
