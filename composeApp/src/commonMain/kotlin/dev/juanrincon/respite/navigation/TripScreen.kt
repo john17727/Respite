@@ -19,8 +19,7 @@ class TripScreen : Screen {
         val screenModel = getScreenModel<TripScreenModel>()
         val state by screenModel.state.collectAsState()
         TripsUI(
-            trip = state.trip,
-            createNewTrip = state.createNewTrip,
+            state = state,
             onToggleCreateNewTrip = {
                 screenModel.onIntent(TripIntent.StartCreateTrip)
             },

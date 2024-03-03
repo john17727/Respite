@@ -42,7 +42,7 @@ SELECT
 FROM item
 JOIN category ON item.category_id = category.id
 LEFT JOIN trip_item ON item.id = trip_item.item_id
-WHERE trip_item.trip_id = ?
+AND trip_item.trip_id = ?
 ORDER BY category.name ASC;
 
 getCurrentTripItems:

@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.domain.model.Item
+import dev.juanrincon.respite.domain.model.TripItem
 import dev.juanrincon.respite.presentation.animations.fadeInFadeOut
 import dev.juanrincon.respite.presentation.extensions.startBorder
 import dev.juanrincon.respite.presentation.extensions.topBorder
@@ -453,6 +454,13 @@ fun CreatingCategoryItem(
             borderColor = borderColor,
         )
     }
+}
+
+@Composable
+fun EditingTripItem(
+    item: TripItem
+) {
+    Text(text = item.name)
 }
 
 @Composable

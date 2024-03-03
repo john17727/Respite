@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Luggage
 import androidx.compose.material.icons.rounded.Sell
@@ -21,28 +23,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.respite.domain.model.Trip
 import dev.juanrincon.respite.domain.model.TripItem
+import dev.juanrincon.respite.domain.model.TripStatus
 import dev.juanrincon.respite.presentation.components.CallToActionTag
+import dev.juanrincon.respite.presentation.components.EditingTripItem
 import dev.juanrincon.respite.presentation.components.InputTag
 import dev.juanrincon.respite.presentation.components.LeftActionButton
 import dev.juanrincon.respite.presentation.components.RightActionButton
 
 @Composable
 fun TripsUI(
-    trip: Trip?,
-    createNewTrip: Boolean,
+    state: TripState,
     onToggleCreateNewTrip: () -> Unit,
     onCreateNewTrip: (String) -> Unit,
     onCategoriesClick: () -> Unit,
     onLuggageClick: () -> Unit
 ) {
     Box(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()) {
-        if (trip != null) {
-            TripItemList(items = trip.items, modifier = Modifier.align(Alignment.Center))
+        if (state.trip != null) {
+            TripItemList(
+                items = state.trip.items,
+                status = state.trip.status,
+                modifier = Modifier.align(Alignment.Center)
+            )
         } else {
             AnimatedContent(
-                targetState = createNewTrip,
+                targetState = state.createNewTrip,
                 modifier = Modifier.align(Alignment.Center).fillMaxWidth().fillMaxHeight(.6f)
                     .padding(horizontal = 36.dp)
             ) { newTripView ->
@@ -67,9 +73,9 @@ fun TripsUI(
             icon = Icons.Rounded.Sell,
             modifier = Modifier.align(Alignment.BottomStart)
         )
-        trip?.let {
+        state.trip?.let {
             Text(
-                text = trip.name.uppercase(),
+                text = state.trip.name.uppercase(),
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.align(Alignment.BottomCenter).padding(
                     bottom = 8.dp + WindowInsets.navigationBars.asPaddingValues()
@@ -90,7 +96,16 @@ fun TripsUI(
 @Composable
 private fun TripItemList(
     items: List<TripItem>,
+    status: TripStatus,
     modifier: Modifier = Modifier
 ) {
-
+    LazyColumn(modifier = modifier) {
+        items(items, key = { it.id }, contentType = { status::class }) { item ->
+            when (status) {
+                is TripStatus.PackingDestination -> EditingTripItem(item = item)
+                TripStatus.Destination -> TODO()
+                TripStatus.PackingNextDestination -> TODO()
+            }
+        }
+    }
 }
