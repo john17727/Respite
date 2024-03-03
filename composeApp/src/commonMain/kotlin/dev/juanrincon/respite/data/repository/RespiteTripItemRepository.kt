@@ -4,6 +4,7 @@ import dev.juanrincon.respite.TripsQueries
 import dev.juanrincon.respite.domain.model.TripItem
 import dev.juanrincon.respite.domain.repository.TripItemRepository
 
+@Deprecated("This class is deprecated, use RespiteTripRepository instead")
 class RespiteTripItemRepository(private val tripsQueries: TripsQueries) : TripItemRepository {
     override suspend fun readAll(tripId: Int): Result<List<TripItem>> = try {
         Result.success(tripsQueries.getAllTripItems(tripId) { id, name, category, amount, accounted ->

@@ -2,6 +2,7 @@ package dev.juanrincon.respite.domain.repository
 
 import dev.juanrincon.respite.domain.model.TripItem
 
+@Deprecated("This class is deprecated, use TripRepository instead")
 interface TripItemRepository {
 
     suspend fun readAll(tripId: Int): Result<List<TripItem>>
