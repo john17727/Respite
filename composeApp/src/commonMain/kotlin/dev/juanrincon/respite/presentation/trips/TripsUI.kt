@@ -1,12 +1,16 @@
 package dev.juanrincon.respite.presentation.trips
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
@@ -39,57 +43,61 @@ fun TripsUI(
     onCategoriesClick: () -> Unit,
     onLuggageClick: () -> Unit
 ) {
-    Box(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()) {
+    Column(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()) {
         if (state.trip != null) {
             TripItemList(
                 items = state.trip.items,
                 status = state.trip.status,
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.fillMaxWidth().weight(1f).padding(16.dp)
             )
         } else {
-            AnimatedContent(
-                targetState = state.createNewTrip,
-                modifier = Modifier.align(Alignment.Center).fillMaxWidth().fillMaxHeight(.6f)
-                    .padding(horizontal = 36.dp)
-            ) { newTripView ->
-                if (newTripView) {
-                    InputTag(
-                        onSaveInputClick = onCreateNewTrip,
-                        backgroundColor = Color(0xFF2E6C82),
-                    )
-                } else {
-                    CallToActionTag(
-                        callToActionText = "Adventure Awaits!",
-                        onCallToActionClick = onToggleCreateNewTrip,
-                        backgroundColor = Color(0xFF2E6C82),
-                    )
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth().weight(1f).padding(horizontal = 36.dp)
+            ) {
+                AnimatedContent(
+                    targetState = state.createNewTrip,
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 400.dp, max = 600.dp),
+                ) { newTripView ->
+                    if (newTripView) {
+                        InputTag(
+                            onSaveInputClick = onCreateNewTrip,
+                            backgroundColor = Color(0xFF2E6C82),
+                        )
+                    } else {
+                        CallToActionTag(
+                            callToActionText = "Adventure Awaits!",
+                            onCallToActionClick = onToggleCreateNewTrip,
+                            backgroundColor = Color(0xFF2E6C82),
+                        )
+                    }
                 }
             }
         }
-        LeftActionButton(
-            onClick = onCategoriesClick,
-            backgroundColor = Color(0xFFA6C994),
-            contentColor = Color(0xFF3C422F),
-            icon = Icons.Rounded.Sell,
-            modifier = Modifier.align(Alignment.BottomStart)
-        )
-        state.trip?.let {
-            Text(
-                text = state.trip.name.uppercase(),
-                style = MaterialTheme.typography.displaySmall,
-                modifier = Modifier.align(Alignment.BottomCenter).padding(
-                    bottom = 8.dp + WindowInsets.navigationBars.asPaddingValues()
-                        .calculateBottomPadding()
+        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+            LeftActionButton(
+                onClick = onCategoriesClick,
+                backgroundColor = Color(0xFFA6C994),
+                contentColor = Color(0xFF3C422F),
+                icon = Icons.Rounded.Sell,
+            )
+            AnimatedVisibility(visible = state.trip != null) {
+                Text(
+                    text = state.trip!!.name.uppercase(),
+                    style = MaterialTheme.typography.displaySmall,
+                    modifier = Modifier.padding(
+                        bottom = 8.dp + WindowInsets.navigationBars.asPaddingValues()
+                            .calculateBottomPadding()
+                    )
                 )
+            }
+            RightActionButton(
+                onClick = onLuggageClick,
+                backgroundColor = Color(0xFFEDD379),
+                contentColor = Color(0xFF684633),
+                icon = Icons.Rounded.Luggage,
             )
         }
-        RightActionButton(
-            onClick = onLuggageClick,
-            backgroundColor = Color(0xFFEDD379),
-            contentColor = Color(0xFF684633),
-            icon = Icons.Rounded.Luggage,
-            modifier = Modifier.align(Alignment.BottomEnd)
-        )
     }
 }
 
