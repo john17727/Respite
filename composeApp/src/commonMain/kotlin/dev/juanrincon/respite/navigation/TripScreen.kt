@@ -21,8 +21,11 @@ class TripScreen : Screen {
         TripsUI(
             trip = state.trip,
             createNewTrip = state.createNewTrip,
-            onCreateNewTripClick = {
+            onToggleCreateNewTrip = {
                 screenModel.onIntent(TripIntent.StartCreateTrip)
+            },
+            onCreateNewTrip = {
+                screenModel.onIntent(TripIntent.CreateTrip(it))
             },
             onCategoriesClick = {
                 navigator.push(CategoriesScreen())

@@ -70,7 +70,7 @@ fun CallToActionTag(
 
 @Composable
 fun InputTag(
-    onSaveInputClick: () -> Unit,
+    onSaveInputClick: (String) -> Unit,
     backgroundColor: Color = MaterialTheme.colorScheme.primary,
     backgroundColorVariant: Color = Color(0xFF1D4451),
     onBackgroundColor: Color = Color(0xFFfAEBC1),
@@ -98,12 +98,13 @@ fun InputTag(
                 onValueChange = { inputValue = it },
                 color = onBackgroundColor,
                 textStyle = MaterialTheme.typography.displayMedium,
+                textAlign = TextAlign.Center,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 focusRequester = focusRequester,
             )
             TagButton(
                 text = "Create Trip",
-                onClick = onSaveInputClick,
+                onClick = { onSaveInputClick(inputValue) },
                 backgroundColor = backgroundColorVariant,
                 textColor = Color(0xFFFF6D3D),
                 modifier = Modifier.fillMaxWidth().height(64.dp)

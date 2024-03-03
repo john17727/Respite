@@ -7,12 +7,12 @@ import dev.juanrincon.respite.domain.model.TripStatus
 import dev.juanrincon.respite.domain.repository.TripRepository
 
 class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripRepository {
-    override suspend fun createTrip(trip: Trip): Result<Unit> = try {
+    override suspend fun createTrip(name: String, status: TripStatus): Result<Unit> = try {
         tripsQueries.insertTrip(
             id = null,
-            name = trip.name,
-            status = trip.status,
-            current = trip.current
+            name = name,
+            status = status,
+            current = true
         )
         Result.success(Unit)
     } catch (e: Exception) {

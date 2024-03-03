@@ -14,6 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun RespiteTextField(
@@ -22,6 +23,7 @@ fun RespiteTextField(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onSurface,
     textStyle: TextStyle = TextStyle.Default,
+    textAlign: TextAlign = TextAlign.Start,
     focusRequester: FocusRequester = FocusRequester(),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
@@ -29,7 +31,7 @@ fun RespiteTextField(
         value = textFieldValue,
         onValueChange = onValueChange,
         modifier = modifier.focusRequester(focusRequester),
-        textStyle = textStyle.copy(color = color),
+        textStyle = textStyle.copy(color = color, textAlign = textAlign),
         keyboardOptions = keyboardOptions,
         visualTransformation = {
             TransformedText(AnnotatedString(it.text.uppercase()), OffsetMapping.Identity)
@@ -44,6 +46,7 @@ fun RespiteTextField(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onSurface,
     textStyle: TextStyle = TextStyle.Default,
+    textAlign: TextAlign = TextAlign.Start,
     focusRequester: FocusRequester = FocusRequester(),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
@@ -51,7 +54,7 @@ fun RespiteTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier.focusRequester(focusRequester),
-        textStyle = textStyle.copy(color = color),
+        textStyle = textStyle.copy(color = color, textAlign = textAlign),
         cursorBrush = SolidColor(color),
         keyboardOptions = keyboardOptions,
         visualTransformation = {
