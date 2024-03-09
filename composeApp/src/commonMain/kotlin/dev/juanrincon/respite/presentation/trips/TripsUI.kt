@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -48,7 +49,7 @@ fun TripsUI(
             TripItemList(
                 items = state.trip.items,
                 status = state.trip.status,
-                modifier = Modifier.fillMaxWidth().weight(1f).padding(16.dp)
+                modifier = Modifier.fillMaxWidth().weight(1f)
             )
         } else {
             Box(
@@ -107,7 +108,11 @@ private fun TripItemList(
     status: TripStatus,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(16.dp),
+        modifier = modifier
+    ) {
         items(items, key = { it.id }, contentType = { status::class }) { item ->
             when (status) {
                 is TripStatus.PackingDestination -> EditingTripItem(item = item)
