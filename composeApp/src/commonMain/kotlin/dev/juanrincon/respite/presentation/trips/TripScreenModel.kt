@@ -44,6 +44,8 @@ class TripScreenModel(
                 }.onFailure {
                     updateState { copy(loading = false) }
                 }
+            } else if (newItem.amount < 0) {
+                updateState { copy(loading = false) }
             } else {
                 tripRepository.upsertItem(tripId, newItem).onSuccess {
                     getTripAndItems()
