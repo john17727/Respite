@@ -42,13 +42,17 @@ fun TripsUI(
     onToggleCreateNewTrip: () -> Unit,
     onCreateNewTrip: (String) -> Unit,
     onCategoriesClick: () -> Unit,
-    onLuggageClick: () -> Unit
+    onLuggageClick: () -> Unit,
+    onAddItemCountClick: (tripId: Int, item: TripItem) -> Unit,
+    onRemoveItemCountClick: (tripId: Int, item: TripItem) -> Unit,
 ) {
     Column(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()) {
         if (state.trip != null) {
             TripItemList(
                 items = state.trip.items,
                 status = state.trip.status,
+                onAddClick = { item -> onAddItemCountClick(state.trip.id, item) },
+                onRemoveClick = { item -> onRemoveItemCountClick(state.trip.id, item) },
                 modifier = Modifier.fillMaxWidth().weight(1f)
             )
         } else {
@@ -106,6 +110,8 @@ fun TripsUI(
 private fun TripItemList(
     items: List<TripItem>,
     status: TripStatus,
+    onAddClick: (TripItem) -> Unit,
+    onRemoveClick: (TripItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -115,7 +121,12 @@ private fun TripItemList(
     ) {
         items(items, key = { it.id }, contentType = { status::class }) { item ->
             when (status) {
-                is TripStatus.PackingDestination -> EditingTripItem(item = item)
+                is TripStatus.PackingDestination -> EditingTripItem(
+                    item = item,
+                    onAddClick = onAddClick,
+                    onRemoveClick = onRemoveClick
+                )
+
                 TripStatus.Destination -> TODO()
                 TripStatus.PackingNextDestination -> TODO()
             }

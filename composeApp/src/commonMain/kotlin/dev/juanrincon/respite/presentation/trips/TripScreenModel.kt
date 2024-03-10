@@ -2,6 +2,7 @@ package dev.juanrincon.respite.presentation.trips
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import dev.juanrincon.respite.domain.model.TripItem
 import dev.juanrincon.respite.domain.repository.TripRepository
 import dev.juanrincon.respite.mvi.MVI
 import dev.juanrincon.respite.mvi.MVIDelegate
@@ -18,6 +19,39 @@ class TripScreenModel(
     override fun onIntent(intent: TripIntent) = when (intent) {
         TripIntent.StartCreateTrip -> updateState { copy(createNewTrip = true) }
         is TripIntent.CreateTrip -> createTrip(intent.name)
+        is TripIntent.AddItem -> incrementItemCount(intent.tripId, intent.item)
+        is TripIntent.RemoveItem -> decrementItemCount(intent.tripId, intent.item)
+    }
+
+    private fun incrementItemCount(tripId: Int, item: TripItem) {
+        updateState { copy(loading = true) }
+        screenModelScope.launch {
+            tripRepository.upsertItem(tripId, item.increment()).onSuccess {
+                getTripAndItems()
+            }.onFailure {
+                updateState { copy(loading = false) }
+            }
+        }
+    }
+
+    private fun decrementItemCount(tripId: Int, item: TripItem) {
+        updateState { copy(loading = true) }
+        val newItem = item.decrement()
+        screenModelScope.launch {
+            if (newItem.amount == 0) {
+                tripRepository.deleteTripItem(tripId, newItem.id).onSuccess {
+                    getTripAndItems()
+                }.onFailure {
+                    updateState { copy(loading = false) }
+                }
+            } else {
+                tripRepository.upsertItem(tripId, newItem).onSuccess {
+                    getTripAndItems()
+                }.onFailure {
+                    updateState { copy(loading = false) }
+                }
+            }
+        }
     }
 
     private fun createTrip(name: String) {

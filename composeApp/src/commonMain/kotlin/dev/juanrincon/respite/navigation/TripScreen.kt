@@ -31,6 +31,12 @@ class TripScreen : Screen {
             },
             onLuggageClick = {
                 navigator.push(LuggageScreen())
+            },
+            onAddItemCountClick = { tripId, item ->
+                screenModel.onIntent(TripIntent.AddItem(tripId, item))
+            },
+            onRemoveItemCountClick = { tripId, item ->
+                screenModel.onIntent(TripIntent.RemoveItem(tripId, item))
             }
         )
     }

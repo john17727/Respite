@@ -470,6 +470,8 @@ fun CreatingCategoryItem(
 @Composable
 fun EditingTripItem(
     item: TripItem,
+    onAddClick: (TripItem) -> Unit,
+    onRemoveClick: (TripItem) -> Unit,
     backgroundColor: Color = Color(0xFFE2DFD7),
     contentColor: Color = Color(0xFF38506B),
     modifier: Modifier = Modifier
@@ -500,12 +502,21 @@ fun EditingTripItem(
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        CountButtons(backgroundColor = contentColor, contentColor = backgroundColor)
+        CountButtons(
+            count = item.amount,
+            onAddClick = { onAddClick(item) },
+            onRemoveClick = { onRemoveClick(item) },
+            backgroundColor = contentColor,
+            contentColor = backgroundColor
+        )
     }
 }
 
 @Composable
 fun CountButtons(
+    count: Int,
+    onAddClick: () -> Unit,
+    onRemoveClick: () -> Unit,
     backgroundColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
     modifier: Modifier = Modifier
@@ -520,13 +531,19 @@ fun CountButtons(
     ) {
         IconButton(
             colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
-            onClick = { /*TODO*/ }) {
+            onClick = onAddClick
+        ) {
             Icon(Icons.Rounded.Add, null)
         }
-        Text(text = "0", color = contentColor, style = MaterialTheme.typography.titleMedium)
+        Text(
+            text = count.toString(),
+            color = contentColor,
+            style = MaterialTheme.typography.titleMedium
+        )
         IconButton(
             colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
-            onClick = { /*TODO*/ }) {
+            onClick = onRemoveClick
+        ) {
             Icon(Icons.Rounded.Remove, null)
         }
     }

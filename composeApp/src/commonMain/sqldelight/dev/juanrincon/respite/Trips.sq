@@ -66,6 +66,9 @@ UPDATE trip_item SET amount=?, accounted=? WHERE id=?;
 updateTripItems:
 UPDATE trip_item SET trip_id=? WHERE trip_id=?;
 
+deleteTripItem:
+DELETE FROM trip_item WHERE id=?;
+
 deleteTripItems:
 DELETE FROM trip_item WHERE trip_id=?;
 

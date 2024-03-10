@@ -21,8 +21,8 @@ class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripReposi
 
     override suspend fun getCurrentTrip(): Result<Trip?> = try {
         val trip = tripsQueries.getCurrentTrip().executeAsOneOrNull()?.let {
-            val items = if (it.status is TripStatus.PackingDestination) {
-                tripsQueries.getAllTripItems(it.id) { id, name, category, amount, accounted ->
+            val items: List<TripItem> = if (it.status is TripStatus.PackingDestination) {
+                tripsQueries.getAllTripItems<TripItem>(it.id) { id, name, category, amount, accounted ->
                     TripItem(
                         id,
                         name,
@@ -32,7 +32,7 @@ class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripReposi
                     )
                 }.executeAsList()
             } else {
-                tripsQueries.getCurrentTripItems(it.id) { id, name, category, amount, accounted ->
+                tripsQueries.getCurrentTripItems<TripItem>(it.id) { id, name, category, amount, accounted ->
                     TripItem(
                         id,
                         name,
@@ -100,6 +100,12 @@ class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripReposi
 
     override suspend fun deleteTripOnly(id: Int): Result<Unit> = try {
         Result.success(tripsQueries.deleteTrip(id))
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+
+    override suspend fun deleteTripItem(tripId: Int, itemId: Int): Result<Unit> = try {
+        Result.success(tripsQueries.deleteTripItem(getTripItemKey(tripId, itemId)))
     } catch (e: Exception) {
         Result.failure(e)
     }

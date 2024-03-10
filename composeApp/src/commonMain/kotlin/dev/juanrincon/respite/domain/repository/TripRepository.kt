@@ -23,5 +23,7 @@ interface TripRepository {
 
     suspend fun deleteTripOnly(id: Int): Result<Unit>
 
+    suspend fun deleteTripItem(tripId: Int, itemId: Int): Result<Unit>
+
     suspend fun deleteTripAndItems(id: Int): Result<Unit>
 }

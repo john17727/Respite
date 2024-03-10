@@ -6,4 +6,7 @@ data class TripItem(
     val category: String,
     val amount: Int,
     val accounted: Int
-)
+) {
+    fun increment() = copy(amount = amount + 1)
+    fun decrement() = copy(amount = amount - 1)
+}
