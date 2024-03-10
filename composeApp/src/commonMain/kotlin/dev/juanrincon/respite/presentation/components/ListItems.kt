@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -54,6 +55,7 @@ import dev.juanrincon.respite.domain.model.Category
 import dev.juanrincon.respite.domain.model.Item
 import dev.juanrincon.respite.domain.model.TripItem
 import dev.juanrincon.respite.presentation.animations.fadeInFadeOut
+import dev.juanrincon.respite.presentation.extensions.bottomBorder
 import dev.juanrincon.respite.presentation.extensions.startBorder
 import dev.juanrincon.respite.presentation.extensions.topBorder
 
@@ -468,47 +470,62 @@ fun CreatingCategoryItem(
 @Composable
 fun EditingTripItem(
     item: TripItem,
+    backgroundColor: Color = Color(0xFFE2DFD7),
+    contentColor: Color = Color(0xFF38506B),
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.fillMaxWidth().height(IntrinsicSize.Min).background(
-            color = Color(0xFFF4E6C5),
+            color = backgroundColor,
             shape = MaterialTheme.shapes.medium
         )
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxHeight().padding(16.dp).weight(1f)
+            modifier = Modifier.fillMaxHeight().padding(start = 32.dp, top = 16.dp, bottom = 16.dp)
+                .weight(1f)
         ) {
             Text(
-                text = item.name,
-                color = Color(0xFF38506B),
-                style = MaterialTheme.typography.titleLarge
+                text = item.category.uppercase(),
+                color = contentColor,
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.fillMaxWidth().bottomBorder(contentColor, 2.dp)
+                    .padding(bottom = 4.dp)
             )
-            Text(text = item.category, color = Color(0xFF38506B))
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = item.name.uppercase(),
+                color = Color(0xFFFF6D3D),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
-        CountButtons()
+        CountButtons(backgroundColor = contentColor, contentColor = backgroundColor)
     }
 }
 
 @Composable
-fun CountButtons(modifier: Modifier = Modifier) {
+fun CountButtons(
+    backgroundColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
+    modifier: Modifier = Modifier
+) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.heightIn(min = 120.dp).background(
-            color = Color(0xFF38506B),
+            color = backgroundColor,
             shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
         ).aspectRatio(1f)
     ) {
         IconButton(
-            colors = IconButtonDefaults.iconButtonColors(contentColor = Color(0xFFF4E6C5)),
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
             onClick = { /*TODO*/ }) {
             Icon(Icons.Rounded.Add, null)
         }
-        Text(text = "0", color = Color(0xFFF4E6C5), style = MaterialTheme.typography.titleMedium)
+        Text(text = "0", color = contentColor, style = MaterialTheme.typography.titleMedium)
         IconButton(
-            colors = IconButtonDefaults.iconButtonColors(contentColor = Color(0xFFF4E6C5)),
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
             onClick = { /*TODO*/ }) {
             Icon(Icons.Rounded.Remove, null)
         }
@@ -529,7 +546,7 @@ fun ActionButtons(
     Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
         IconButton(
             onClick = onLeftButtonClick,
-            modifier = Modifier.startBorder(borderColor, 2.dp),
+            modifier = Modifier.startBorder(borderColor, 2.dp, 6.dp),
             colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
             enabled = leftButtonEnabled
         ) {
@@ -537,7 +554,7 @@ fun ActionButtons(
         }
         IconButton(
             onClick = onRightButtonClick,
-            modifier = Modifier.startBorder(borderColor, 2.dp),
+            modifier = Modifier.startBorder(borderColor, 2.dp, 6.dp),
             colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
             enabled = rightButtonEnabled
         ) {

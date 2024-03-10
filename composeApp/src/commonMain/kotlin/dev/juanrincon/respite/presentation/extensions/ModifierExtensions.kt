@@ -30,13 +30,25 @@ fun Modifier.topBorder(color: Color, strokeWidth: Dp = 1.dp) = this.drawBehind {
     )
 }
 
-fun Modifier.startBorder(color: Color, strokeWidth: Dp = 1.dp) = this.drawBehind {
+fun Modifier.startBorder(color: Color, strokeWidth: Dp = 1.dp, bottomOffset: Dp = 0.dp) =
+    this.drawBehind {
     val borderSize = strokeWidth.toPx()
     val x = 0f + (borderSize / 2)
     drawLine(
         color = color,
         start = Offset(x, 0f),
-        end = Offset(x, size.height - 6.dp.toPx()),
+        end = Offset(x, size.height - bottomOffset.toPx()),
+        strokeWidth = borderSize
+    )
+}
+
+fun Modifier.bottomBorder(color: Color, strokeWidth: Dp = 1.dp) = this.drawBehind {
+    val borderSize = strokeWidth.toPx()
+    val y = size.height - (borderSize / 2)
+    drawLine(
+        color = color,
+        start = Offset(0f, y),
+        end = Offset(size.width, y),
         strokeWidth = borderSize
     )
 }
