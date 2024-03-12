@@ -20,9 +20,6 @@ class TripScreen : Screen {
         val state by screenModel.state.collectAsState()
         TripsUI(
             state = state,
-            onToggleCreateNewTrip = {
-                screenModel.onIntent(TripIntent.StartCreateTrip)
-            },
             onCreateNewTrip = {
                 screenModel.onIntent(TripIntent.CreateTrip(it))
             },
@@ -37,6 +34,10 @@ class TripScreen : Screen {
             },
             onRemoveItemCountClick = { tripId, item ->
                 screenModel.onIntent(TripIntent.RemoveItem(tripId, item))
+            },
+            onAddNewItemClick = {
+            },
+            onFinishPackingClick = {
             }
         )
     }

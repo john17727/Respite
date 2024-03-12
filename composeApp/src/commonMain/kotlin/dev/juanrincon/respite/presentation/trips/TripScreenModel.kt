@@ -17,7 +17,6 @@ class TripScreenModel(
     }
 
     override fun onIntent(intent: TripIntent) = when (intent) {
-        TripIntent.StartCreateTrip -> updateState { copy(createNewTrip = true) }
         is TripIntent.CreateTrip -> createTrip(intent.name)
         is TripIntent.AddItem -> incrementItemCount(intent.tripId, intent.item)
         is TripIntent.RemoveItem -> decrementItemCount(intent.tripId, intent.item)

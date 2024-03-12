@@ -43,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -474,6 +475,7 @@ fun EditingTripItem(
     onRemoveClick: (TripItem) -> Unit,
     backgroundColor: Color = Color(0xFFE2DFD7),
     contentColor: Color = Color(0xFF38506B),
+    contentAlpha: Float = 1f,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -492,14 +494,14 @@ fun EditingTripItem(
                 color = contentColor,
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.fillMaxWidth().bottomBorder(contentColor, 2.dp)
-                    .padding(bottom = 4.dp)
+                    .padding(bottom = 4.dp).alpha(contentAlpha)
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = item.name.uppercase(),
                 color = Color(0xFFFF6D3D),
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().alpha(contentAlpha)
             )
         }
         CountButtons(
@@ -507,7 +509,8 @@ fun EditingTripItem(
             onAddClick = { onAddClick(item) },
             onRemoveClick = { onRemoveClick(item) },
             backgroundColor = contentColor,
-            contentColor = backgroundColor
+            contentColor = backgroundColor,
+            contentAlpha = contentAlpha
         )
     }
 }
@@ -519,6 +522,7 @@ fun CountButtons(
     onRemoveClick: () -> Unit,
     backgroundColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
+    contentAlpha: Float = 1f,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -531,18 +535,21 @@ fun CountButtons(
     ) {
         IconButton(
             colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
-            onClick = onAddClick
+            onClick = onAddClick,
+            modifier = Modifier.alpha(contentAlpha)
         ) {
             Icon(Icons.Rounded.Add, null)
         }
         Text(
             text = count.toString(),
             color = contentColor,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.alpha(contentAlpha)
         )
         IconButton(
             colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
-            onClick = onRemoveClick
+            onClick = onRemoveClick,
+            modifier = Modifier.alpha(contentAlpha)
         ) {
             Icon(Icons.Rounded.Remove, null)
         }
