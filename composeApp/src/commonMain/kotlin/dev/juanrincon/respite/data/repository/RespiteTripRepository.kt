@@ -1,6 +1,7 @@
 package dev.juanrincon.respite.data.repository
 
 import dev.juanrincon.respite.TripsQueries
+import dev.juanrincon.respite.domain.extensions.getCityAbbreviation
 import dev.juanrincon.respite.domain.model.Trip
 import dev.juanrincon.respite.domain.model.TripItem
 import dev.juanrincon.respite.domain.model.TripStatus
@@ -45,6 +46,7 @@ class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripReposi
             Trip(
                 it.id,
                 it.name,
+                it.name.getCityAbbreviation(),
                 it.status,
                 it.current,
                 items

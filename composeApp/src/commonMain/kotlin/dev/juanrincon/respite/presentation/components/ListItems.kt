@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
@@ -481,7 +482,7 @@ fun EditingTripItem(
     Row(
         modifier = modifier.fillMaxWidth().height(IntrinsicSize.Min).background(
             color = backgroundColor,
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.small
         )
     ) {
         Column(
@@ -530,7 +531,7 @@ fun CountButtons(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.heightIn(min = 120.dp).background(
             color = backgroundColor,
-            shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
+            shape = MaterialTheme.shapes.small.copy(topStart = CornerSize(0), bottomStart = CornerSize(0))
         ).aspectRatio(1f)
     ) {
         IconButton(

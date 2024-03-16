@@ -3,28 +3,13 @@ package dev.juanrincon.respite.presentation.trips
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.FlightTakeoff
-import androidx.compose.material.icons.rounded.Luggage
-import androidx.compose.material.icons.rounded.Sell
+import androidx.compose.material.icons.rounded.*
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -61,7 +46,7 @@ fun TripsUI(
         when (state.trip.status) {
             TripStatus.Destination -> TODO()
             TripStatus.PackingDestination -> PackForDestinationPage(
-                destination = state.trip.name.uppercase(),
+                destination = state.trip.nameAbbr.uppercase(),
                 items = state.trip.items,
                 onAddClick = { item -> onAddItemCountClick(state.trip.id, item) },
                 onRemoveClick = { item -> onRemoveItemCountClick(state.trip.id, item) },
@@ -142,7 +127,8 @@ private fun PackForDestinationPage(
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             state = listState,
-            modifier = Modifier.weight(1f).padding(bottom = 16.dp, start = 16.dp, end = 16.dp).clip(shape = MaterialTheme.shapes.small)
+            modifier = Modifier.weight(1f).padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
+                .clip(shape = MaterialTheme.shapes.small)
 
         ) {
             items(items, key = { it.id }) { item ->
@@ -161,14 +147,18 @@ private fun PackForDestinationPage(
                 contentColor = Color(0xFF684633),
                 icon = Icons.Rounded.Add,
             )
-            Text(
-                text = destination,
-                style = MaterialTheme.typography.displaySmall,
-                modifier = Modifier.padding(
-                    bottom = 8.dp + WindowInsets.navigationBars.asPaddingValues()
-                        .calculateBottomPadding()
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround,
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(Icons.Rounded.Home, "", modifier = Modifier.heightIn(36.dp, 48.dp).widthIn(36.dp, 48.dp))
+                Icon(Icons.Rounded.East, "")
+                Text(
+                    text = destination,
+                    style = MaterialTheme.typography.displaySmall,
                 )
-            )
+            }
             RightActionButton(
                 onClick = onFinishPackingClick,
                 backgroundColor = Color(0xFFA6C994),
