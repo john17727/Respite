@@ -1,24 +1,43 @@
 package dev.juanrincon.respite.presentation.trips
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.East
+import androidx.compose.material.icons.rounded.FlightTakeoff
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Luggage
+import androidx.compose.material.icons.rounded.Sell
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import dev.juanrincon.respite.domain.model.Trip
 import dev.juanrincon.respite.domain.model.TripItem
 import dev.juanrincon.respite.domain.model.TripStatus
 import dev.juanrincon.respite.presentation.components.CallToActionTag
@@ -29,7 +48,6 @@ import dev.juanrincon.respite.presentation.components.RightActionButton
 import dev.juanrincon.respite.presentation.extensions.normalizedItemPosition
 import dev.juanrincon.respite.presentation.theme.RespiteTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.reflect.KProperty
 
 @Composable
 fun TripsUI(
@@ -39,19 +57,19 @@ fun TripsUI(
     onLuggageClick: () -> Unit,
     onAddItemCountClick: (tripId: Int, item: TripItem) -> Unit,
     onRemoveItemCountClick: (tripId: Int, item: TripItem) -> Unit,
-    onAddNewItemClick: () -> Unit,
-    onFinishPackingClick: () -> Unit,
+    onCancelPackingClick: (tripId: Int, status: TripStatus) -> Unit,
+    onFinishPackingClick: (trip: Trip) -> Unit,
 ) {
     if (state.trip != null) {
         when (state.trip.status) {
-            TripStatus.Destination -> TODO()
+            TripStatus.Destination -> Text("Destination Screen coming soon!")
             TripStatus.PackingDestination -> PackForDestinationPage(
                 destination = state.trip.nameAbbr.uppercase(),
                 items = state.trip.items,
                 onAddClick = { item -> onAddItemCountClick(state.trip.id, item) },
                 onRemoveClick = { item -> onRemoveItemCountClick(state.trip.id, item) },
-                onAddNewItemClick = onAddNewItemClick,
-                onFinishPackingClick = onFinishPackingClick
+                onCancelPacking = { onCancelPackingClick(state.trip.id, state.trip.status) },
+                onFinishPackingClick = { onFinishPackingClick(state.trip) }
             )
 
             TripStatus.PackingNextDestination -> TODO()
@@ -118,7 +136,7 @@ private fun PackForDestinationPage(
     items: List<TripItem>,
     onAddClick: (item: TripItem) -> Unit,
     onRemoveClick: (item: TripItem) -> Unit,
-    onAddNewItemClick: () -> Unit,
+    onCancelPacking: () -> Unit,
     onFinishPackingClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -142,10 +160,10 @@ private fun PackForDestinationPage(
         }
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
             LeftActionButton(
-                onClick = onAddNewItemClick,
+                onClick = onCancelPacking,
                 backgroundColor = Color(0xFFEDD379),
                 contentColor = Color(0xFF684633),
-                icon = Icons.Rounded.Add,
+                icon = Icons.Rounded.Close,
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -187,7 +205,7 @@ fun PreviewPackForDestinationPage() {
             ),
             onAddClick = {},
             onRemoveClick = {},
-            onAddNewItemClick = {},
+            onCancelPacking = {},
             onFinishPackingClick = {}
         )
     }

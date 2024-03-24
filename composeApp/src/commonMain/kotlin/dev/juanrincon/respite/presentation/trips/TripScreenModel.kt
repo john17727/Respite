@@ -2,7 +2,9 @@ package dev.juanrincon.respite.presentation.trips
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import dev.juanrincon.respite.domain.model.Trip
 import dev.juanrincon.respite.domain.model.TripItem
+import dev.juanrincon.respite.domain.model.TripStatus
 import dev.juanrincon.respite.domain.repository.TripRepository
 import dev.juanrincon.respite.mvi.MVI
 import dev.juanrincon.respite.mvi.MVIDelegate
@@ -20,6 +22,26 @@ class TripScreenModel(
         is TripIntent.CreateTrip -> createTrip(intent.name)
         is TripIntent.AddItem -> incrementItemCount(intent.tripId, intent.item)
         is TripIntent.RemoveItem -> decrementItemCount(intent.tripId, intent.item)
+        is TripIntent.CancelPacking -> cancelPacking(intent.tripId, intent.tripStatus)
+        is TripIntent.FinishPacking -> finishPacking(intent.trip)
+    }
+
+    private fun finishPacking(trip: Trip) {
+        if (trip.status is TripStatus.PackingDestination) {
+            screenModelScope.launch {
+                tripRepository.updateTrip(trip.copy(status = TripStatus.Destination))
+                getTripAndItems()
+            }
+        }
+    }
+
+    private fun cancelPacking(tripId: Int, currentStatus: TripStatus) {
+        if (currentStatus is TripStatus.PackingDestination) {
+            screenModelScope.launch {
+                tripRepository.deleteTripAndItems(tripId)
+                getTripAndItems()
+            }
+        }
     }
 
     private fun incrementItemCount(tripId: Int, item: TripItem) {

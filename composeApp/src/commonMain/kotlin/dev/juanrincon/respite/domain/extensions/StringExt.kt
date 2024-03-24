@@ -4,7 +4,12 @@ fun String.getCityAbbreviation(): String {
     val words = this.split(" ")
     return when (words.size) {
         1 -> {
-            words.first().replace("[AEIOUaeiou]", "")
+            val noVowels = words.first().replace("[AEIOUaeiou]".toRegex(), "")
+            if (noVowels.length > 3) {
+                "${noVowels.first()}${noVowels.get(noVowels.length / 2)}${noVowels.last()}"
+            } else {
+                noVowels
+            }
         }
         2 -> {
             val firstWord = words.first()

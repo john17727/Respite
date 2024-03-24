@@ -35,9 +35,11 @@ class TripScreen : Screen {
             onRemoveItemCountClick = { tripId, item ->
                 screenModel.onIntent(TripIntent.RemoveItem(tripId, item))
             },
-            onAddNewItemClick = {
+            onCancelPackingClick = { tripId, status ->
+                screenModel.onIntent(TripIntent.CancelPacking(tripId, status))
             },
-            onFinishPackingClick = {
+            onFinishPackingClick = { trip ->
+                screenModel.onIntent(TripIntent.FinishPacking(trip))
             }
         )
     }
