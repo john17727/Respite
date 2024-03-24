@@ -12,17 +12,14 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Sell
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -69,6 +66,9 @@ fun CategoriesUI(
                 VerticalBanner(
                     text = "Categories",
                     icon = Icons.Rounded.Sell,
+                    actionButtonEnabled = inEditMode.not(),
+                    actionButtonIcon = Icons.Rounded.Add,
+                    onActionButtonClick = onCreateClick,
                     backgroundColor = Color(0xFFA6C994),
                     contentColor = Color(0xFF3C422F),
                 )
@@ -135,24 +135,13 @@ fun CategoriesUI(
             }
         }
 
-        AnimatedVisibility(
-            visible = inEditMode.not(),
-            modifier = Modifier.align(Alignment.BottomEnd)
-        ) {
-            RightActionButton(
-                onClick = onCreateClick,
-                backgroundColor = Color(0xFFEDD379),
-                contentColor = Color(0xFF684633),
-                icon = Icons.Rounded.Add,
-            )
-        }
-
-        IconButton(
+        RightActionButton(
             onClick = onBackClick,
-            modifier = Modifier.align(Alignment.TopStart).padding(8.dp),
-        ) {
-            Icon(Icons.Rounded.ArrowBack, null)
-        }
+            backgroundColor = Color(0xFFEDD379),
+            contentColor = Color(0xFF684633),
+            icon = Icons.AutoMirrored.Rounded.ArrowForward,
+            modifier = Modifier.align(Alignment.BottomEnd)
+        )
     }
     BackHandler(true) {
         onBackClick()

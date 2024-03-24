@@ -13,18 +13,15 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Luggage
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -78,6 +75,9 @@ fun LuggageUI(
                 VerticalBanner(
                     text = "Luggage",
                     icon = Icons.Rounded.Luggage,
+                    actionButtonIcon = Icons.Rounded.Add,
+                    onActionButtonClick = onCreateClick,
+                    actionButtonEnabled = inEditMode.not(),
                     backgroundColor = Color(0xFFEDD379),
                     contentColor = Color(0xFF684633),
                     alignment = BannerAlignment.End
@@ -147,23 +147,13 @@ fun LuggageUI(
                 }
             }
         }
-        AnimatedVisibility(
-            inEditMode.not(),
-            modifier = Modifier.align(Alignment.BottomStart)
-        ) {
-            LeftActionButton(
-                onClick = onCreateClick,
-                backgroundColor = Color(0xFFA6C994),
-                contentColor = Color(0xFF3C422F),
-                icon = Icons.Rounded.Add
-            )
-        }
-        IconButton(
+        LeftActionButton(
             onClick = onBackClick,
-            modifier = Modifier.align(Alignment.TopEnd).padding(8.dp),
-        ) {
-            Icon(Icons.Rounded.ArrowBack, null)
-        }
+            backgroundColor = Color(0xFFA6C994),
+            contentColor = Color(0xFF3C422F),
+            icon = Icons.AutoMirrored.Rounded.ArrowBack,
+            modifier = Modifier.align(Alignment.BottomStart)
+        )
     }
     BackHandler(true) {
         onBackClick()

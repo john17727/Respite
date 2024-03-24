@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +27,9 @@ import androidx.compose.ui.unit.dp
 fun VerticalBanner(
     text: String,
     icon: ImageVector,
+    actionButtonIcon: ImageVector? = null,
+    onActionButtonClick: () -> Unit = {},
+    actionButtonEnabled: Boolean = true,
     navBarPadding: Dp = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding(),
     iconDescription: String? = null,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
@@ -37,20 +42,30 @@ fun VerticalBanner(
         BannerAlignment.Start -> CutCornerShape(topEnd = 16.dp)
     }
     Column(
-        verticalArrangement = Arrangement.Bottom,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxHeight()
             .background(backgroundColor, shape)
-            .padding(start = 10.dp, top = 16.dp, end = 10.dp, bottom = 16.dp + navBarPadding),
+            .padding(start = 10.dp, top = 16.dp, end = 10.dp, bottom = 4.dp + navBarPadding),
     ) {
+        Icon(icon, iconDescription, tint = contentColor)
+        Spacer(modifier = Modifier.height(32.dp))
         VerticalText(
             text = text.uppercase(),
             degrees = alignment.textRotation,
             style = MaterialTheme.typography.displaySmall,
             color = contentColor
         )
-        Spacer(modifier = Modifier.height(32.dp))
-        Icon(icon, iconDescription, tint = contentColor)
+        Spacer(modifier = Modifier.weight(1f))
+        actionButtonIcon?.let {
+            IconButton(
+                onClick = onActionButtonClick,
+                enabled = actionButtonEnabled,
+                colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor)
+            ) {
+                Icon(it, null)
+            }
+        }
     }
 }
 
