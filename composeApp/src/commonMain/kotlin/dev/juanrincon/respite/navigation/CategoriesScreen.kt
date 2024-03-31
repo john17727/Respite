@@ -34,6 +34,7 @@ class CategoriesScreen : Screen {
         CategoriesUI(
             categories = state.categories,
             inEditMode = state.inEditMode,
+            inAddMode = state.inAddMode,
             onEditClick = { id -> screenModel.onIntent(CategoryIntent.EditItem(id)) },
             onDeleteClick = { id -> screenModel.onIntent(CategoryIntent.DeleteCategory(id)) },
             onEditSave = { id, newName ->

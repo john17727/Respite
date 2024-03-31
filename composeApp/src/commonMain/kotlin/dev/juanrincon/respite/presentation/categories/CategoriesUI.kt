@@ -16,11 +16,13 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Sell
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,12 +39,14 @@ import dev.juanrincon.respite.presentation.components.RightActionButton
 import dev.juanrincon.respite.presentation.components.SystemCategoryItem
 import dev.juanrincon.respite.presentation.components.UserCategoryItem
 import dev.juanrincon.respite.presentation.components.VerticalBanner
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoriesUI(
     categories: List<CategoryItem>,
     inEditMode: Boolean,
+    inAddMode: Boolean,
     onEditClick: (Int) -> Unit,
     onDeleteClick: (Int) -> Unit,
     onEditSave: (Int, String) -> Unit,
@@ -54,6 +58,13 @@ fun CategoriesUI(
     showContent: Boolean = false
 ) {
     val focusRequester = remember { FocusRequester() }
+    val scrollState = rememberLazyListState()
+    LaunchedEffect(inAddMode) {
+        if (inAddMode) {
+            delay(150)
+            scrollState.animateScrollToItem(0)
+        }
+    }
     Box(
         modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()
     ) {
@@ -66,7 +77,7 @@ fun CategoriesUI(
                 VerticalBanner(
                     text = "Categories",
                     icon = Icons.Rounded.Sell,
-                    actionButtonEnabled = inEditMode.not(),
+                    actionButtonEnabled = inEditMode.not() && inAddMode.not(),
                     actionButtonIcon = Icons.Rounded.Add,
                     onActionButtonClick = onCreateClick,
                     backgroundColor = Color(0xFFA6C994),
@@ -77,6 +88,7 @@ fun CategoriesUI(
                 visible = showContent
             ) {
                 LazyColumn(
+                    state = scrollState,
                     verticalArrangement = Arrangement.spacedBy(28.dp),
                     contentPadding = PaddingValues(
                         top = 16.dp,
@@ -104,7 +116,7 @@ fun CategoriesUI(
 
                                 is CategoryItem.UserItem -> UserCategoryItem(
                                     category = item.category,
-                                    inEditMode = inEditMode,
+                                    inEditMode = inEditMode || inAddMode,
                                     borderColor = Color(0xFFC2DB9E),
                                     contentColor = Color(0xFF3C422F),
                                     onEditClick = onEditClick,

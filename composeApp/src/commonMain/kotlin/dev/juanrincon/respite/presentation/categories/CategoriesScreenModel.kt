@@ -34,7 +34,8 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
         updateState {
             copy(
                 categories = setEditableItemToUserItem(categories, id),
-                inEditMode = false
+                inEditMode = false,
+                inAddMode = false
             )
         }
     }
@@ -52,7 +53,13 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
 
 
     private fun cancelCreateItem() {
-        updateState { copy(categories = removeEditableInList(this.categories), inEditMode = false) }
+        updateState {
+            copy(
+                categories = removeEditableInList(this.categories),
+                inEditMode = false,
+                inAddMode = false
+            )
+        }
     }
 
     private fun removeEditableInList(categories: List<CategoryItem>): List<CategoryItem> =
@@ -69,21 +76,28 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
                     getCategories()
                 },
                 onFailure = {
-                    updateState { copy(loading = false, inEditMode = false) }
+                    updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
                 }
             )
         }
     }
 
     private fun addCreateItem() {
-        updateState { copy(categories = addItemEditableInList(this.categories), inEditMode = true) }
+        updateState {
+            copy(
+                categories = addItemEditableInList(this.categories),
+                inEditMode = false,
+                inAddMode = true
+            )
+        }
     }
 
     private fun setEditItem(id: Int) {
         updateState {
             copy(
                 categories = setItemEditableInList(this.categories, id),
-                inEditMode = true
+                inEditMode = true,
+                inAddMode = false
             )
         }
     }
@@ -97,12 +111,13 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
                         copy(
                             categories = it.map(::toCategoryItem),
                             loading = false,
-                            inEditMode = false
+                            inEditMode = false,
+                            inAddMode = false
                         )
                     }
                 },
                 onFailure = {
-                    updateState { copy(loading = false, inEditMode = false) }
+                    updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
                 }
             )
         }
@@ -116,7 +131,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
                     getCategories()
                 },
                 onFailure = {
-                    updateState { copy(loading = false, inEditMode = false) }
+                    updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
                 }
             )
         }
@@ -153,7 +168,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
 
     private fun addItemEditableInList(categories: List<CategoryItem>): List<CategoryItem> {
         val mutableList = categories.toMutableList()
-        mutableList.add(CategoryItem.CreatingItem(Category(0, "", null)))
+        mutableList.add(1, CategoryItem.CreatingItem(Category(0, "", null)))
         return mutableList
     }
 }
