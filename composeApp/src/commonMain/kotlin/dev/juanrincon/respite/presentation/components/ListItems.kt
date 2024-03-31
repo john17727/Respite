@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
@@ -116,7 +115,7 @@ fun EditingLuggageItem(
     categories: List<Category>,
     onCancel: (Int) -> Unit,
     onSave: (Int, String, Int) -> Unit,
-    onExpanded: (Int) -> Unit,
+    onExpanded: (Long) -> Unit,
     focusRequester: FocusRequester = FocusRequester(),
     borderColor: Color = MaterialTheme.colorScheme.secondary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,

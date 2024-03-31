@@ -40,17 +40,30 @@ class LuggageScreenModel(
         updateState {
             copy(
                 luggage = setItemEditable(this.luggage, id),
-                inEditMode = true
+                inEditMode = true,
+                inAddMode = false
             )
         }
     }
 
     private fun addCreateItem() {
-        updateState { copy(luggage = addItemEditable(this.luggage), inEditMode = true) }
+        updateState {
+            copy(
+                luggage = addItemEditable(this.luggage),
+                inEditMode = false,
+                inAddMode = true
+            )
+        }
     }
 
     private fun cancelCreateItem() {
-        updateState { copy(luggage = removeEditable(luggage), inEditMode = false) }
+        updateState {
+            copy(
+                luggage = removeEditable(luggage),
+                inEditMode = false,
+                inAddMode = false
+            )
+        }
     }
 
     private fun removeEditable(luggage: List<LuggageItem>): List<LuggageItem> =
@@ -62,7 +75,7 @@ class LuggageScreenModel(
 
     private fun addItemEditable(luggage: List<LuggageItem>): List<LuggageItem> {
         val mutableList = luggage.toMutableList()
-        mutableList.add(LuggageItem.CreatingItem(Item(0, "", Category(0, "", null))))
+        mutableList.add(0, LuggageItem.CreatingItem(Item(0, "", Category(0, "", null))))
         return mutableList
     }
 

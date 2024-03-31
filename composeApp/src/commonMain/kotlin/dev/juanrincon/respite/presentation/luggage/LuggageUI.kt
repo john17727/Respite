@@ -23,6 +23,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Luggage
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -52,6 +53,7 @@ fun LuggageUI(
     luggage: List<LuggageItem>,
     categories: List<Category>,
     inEditMode: Boolean,
+    inAddMode: Boolean,
     onDeleteClick: (Int) -> Unit,
     onEditClick: (Int) -> Unit,
     onEditSave: (Int, String, Int) -> Unit,
@@ -65,6 +67,13 @@ fun LuggageUI(
     val focusRequester = remember { FocusRequester() }
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberLazyListState()
+    LaunchedEffect(inAddMode) {
+        if (inAddMode) {
+            delay(150)
+            scrollState.animateScrollToItem(0)
+        }
+    }
+
     Box(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()) {
         Row(horizontalArrangement = Arrangement.Reverse, modifier = Modifier.fillMaxSize()) {
             AnimatedVisibility(
@@ -77,7 +86,7 @@ fun LuggageUI(
                     icon = Icons.Rounded.Luggage,
                     actionButtonIcon = Icons.Rounded.Add,
                     onActionButtonClick = onCreateClick,
-                    actionButtonEnabled = inEditMode.not(),
+                    actionButtonEnabled = inEditMode.not() && inAddMode.not(),
                     backgroundColor = Color(0xFFEDD379),
                     contentColor = Color(0xFF684633),
                     alignment = BannerAlignment.End
@@ -108,23 +117,25 @@ fun LuggageUI(
                             modifier = Modifier.animateItemPlacement()
                         ) { item ->
                             when (item) {
-                                is LuggageItem.CreatingItem -> CreatingLuggageItem(
-                                    categories = categories,
-                                    onCancel = onCreateCancel,
-                                    onSave = onCreateSave,
-                                    focusRequester = focusRequester,
-                                    borderColor = Color(0xFFFFD55F),
-                                    contentColor = Color(0xFF684633),
-                                )
+                                is LuggageItem.CreatingItem -> {
+                                    CreatingLuggageItem(
+                                        categories = categories,
+                                        onCancel = onCreateCancel,
+                                        onSave = onCreateSave,
+                                        focusRequester = focusRequester,
+                                        borderColor = Color(0xFFFFD55F),
+                                        contentColor = Color(0xFF684633),
+                                    )
+                                }
 
                                 is LuggageItem.EditingItem -> EditingLuggageItem(
                                     item = item.item,
                                     categories = categories,
                                     onCancel = onEditCancel,
                                     onSave = onEditSave,
-                                    onExpanded = {
+                                    onExpanded = { delay ->
                                         coroutineScope.launch {
-                                            delay(200)
+                                            delay(delay)
                                             scrollState.animateScrollToItem(index)
                                         }
                                     },
@@ -135,7 +146,7 @@ fun LuggageUI(
 
                                 is LuggageItem.UserItem -> UserLuggageItem(
                                     item = item.item,
-                                    inEditMode = inEditMode,
+                                    inEditMode = inEditMode || inAddMode,
                                     borderColor = Color(0xFFFFD55F),
                                     contentColor = Color(0xFF684633),
                                     onEditClick = onEditClick,
