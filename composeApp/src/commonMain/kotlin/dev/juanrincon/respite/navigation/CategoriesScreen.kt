@@ -12,9 +12,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.juanrincon.respite.presentation.categories.CategoriesScreenModel
-import dev.juanrincon.respite.presentation.categories.CategoriesUI
-import dev.juanrincon.respite.presentation.categories.CategoryIntent
+import dev.juanrincon.respite.categories.presentation.CategoriesScreenModel
+import dev.juanrincon.respite.categories.presentation.CategoriesUI
+import dev.juanrincon.respite.categories.presentation.CategoryIntent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
