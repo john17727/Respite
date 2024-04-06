@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun VerticalBanner(
-    text: String,
-    icon: ImageVector,
+    text: String? = null,
+    icon: ImageVector? = null,
     actionButtonIcon: ImageVector? = null,
     onActionButtonClick: () -> Unit = {},
     actionButtonEnabled: Boolean = true,
@@ -48,14 +48,18 @@ fun VerticalBanner(
             .background(backgroundColor, shape)
             .padding(start = 10.dp, top = 16.dp, end = 10.dp, bottom = 4.dp + navBarPadding),
     ) {
-        Icon(icon, iconDescription, tint = contentColor)
+        icon?.let {
+            Icon(it, iconDescription, tint = contentColor)
+        }
         Spacer(modifier = Modifier.height(32.dp))
-        VerticalText(
-            text = text.uppercase(),
-            degrees = alignment.textRotation,
-            style = MaterialTheme.typography.displaySmall,
-            color = contentColor
-        )
+        text?.let {
+            VerticalText(
+                text = it.uppercase(),
+                degrees = alignment.textRotation,
+                style = MaterialTheme.typography.displaySmall,
+                color = contentColor
+            )
+        }
         Spacer(modifier = Modifier.weight(1f))
         actionButtonIcon?.let {
             IconButton(
