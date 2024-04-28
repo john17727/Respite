@@ -17,7 +17,6 @@ INSERT OR REPLACE INTO category (id, name) VALUES (6, "Miscellaneous");
 get:
 SELECT * FROM category ORDER BY (CASE WHEN [description] IS NULL THEN 0 ELSE 1 END) DESC, name ASC;
 
-
 insert:
 INSERT INTO category VALUES (?, ?, ?);
 

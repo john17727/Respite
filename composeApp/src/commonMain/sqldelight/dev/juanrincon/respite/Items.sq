@@ -6,13 +6,14 @@ CREATE TABLE item (
     category_id INTEGER AS Int NOT NULL
 );
 
-INSERT OR REPLACE INTO item (id, name, category_id) VALUES (1, "Toothbrush", 2);
-INSERT OR REPLACE INTO item (id, name, category_id) VALUES (2, "Toothpaste", 2);
-INSERT OR REPLACE INTO item (id, name, category_id) VALUES (3, "Body Wash", 2);
-INSERT OR REPLACE INTO item (id, name, category_id) VALUES (4, "Shampoo", 2);
-INSERT OR REPLACE INTO item (id, name, category_id) VALUES (5, "Conditioner", 2);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (1, "Toothbrush", 3);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (2, "Toothpaste", 3);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (3, "Body Wash", 3);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (4, "Shampoo", 3);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (5, "Conditioner", 3);
 INSERT OR REPLACE INTO item (id, name, category_id) VALUES (6, "Phone", 4);
 INSERT OR REPLACE INTO item (id, name, category_id) VALUES (7, "Phone Charger", 4);
+INSERT OR REPLACE INTO item (id, name, category_id) VALUES (8, "Shirt", 2);
 
 get:
 SELECT
