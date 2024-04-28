@@ -1,5 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
@@ -16,8 +14,6 @@ kotlin {
         }
     }
 
-    jvm("desktop")
-
     listOf(
         iosX64(),
         iosArm64(),
@@ -30,8 +26,6 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
-
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
@@ -61,14 +55,12 @@ kotlin {
 
             implementation(libs.stately.common) // Fixes exception from libs.voyager.koin current version, might not need for future voyager versions
         }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.sqldelight.jvm.driver)
-        }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
         }
     }
+
+    task("testClasses")
 }
 
 android {
@@ -102,18 +94,6 @@ android {
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
-    }
-}
-
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "dev.juanrincon.respite"
-            packageVersion = "1.0.0"
-        }
     }
 }
 
