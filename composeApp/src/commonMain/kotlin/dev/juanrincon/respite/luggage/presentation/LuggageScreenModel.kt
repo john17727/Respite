@@ -2,10 +2,10 @@ package dev.juanrincon.respite.luggage.presentation
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import dev.juanrincon.mvi.MVI
+import dev.juanrincon.mvi.MVIDelegate
 import dev.juanrincon.respite.categories.domain.Category
 import dev.juanrincon.respite.categories.domain.CategoryRepository
-import dev.juanrincon.respite.common.mvi.MVI
-import dev.juanrincon.respite.common.mvi.MVIDelegate
 import dev.juanrincon.respite.luggage.domain.Item
 import dev.juanrincon.respite.luggage.domain.ItemRepository
 import dev.juanrincon.respite.luggage.presentation.LuggageItem.Companion.toEditingItem

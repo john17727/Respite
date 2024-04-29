@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common.mvi
+package dev.juanrincon.mvi
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MVIDelegate<State, Intent, SideEffect> internal constructor(
+class MVIDelegate<State, Intent, SideEffect>(
     initialUiState: State,
 ) : MVI<State, Intent, SideEffect> {
 

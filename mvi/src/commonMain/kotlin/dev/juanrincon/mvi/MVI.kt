@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common.mvi
+package dev.juanrincon.mvi
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
