@@ -2,12 +2,12 @@ package dev.juanrincon.respite.trips.presentation
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import dev.juanrincon.core.domain.TripStatus
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.MVIDelegate
 import dev.juanrincon.respite.trips.domain.Trip
 import dev.juanrincon.respite.trips.domain.TripItem
 import dev.juanrincon.respite.trips.domain.TripRepository
-import dev.juanrincon.respite.trips.domain.TripStatus
 import kotlinx.coroutines.launch
 
 class TripScreenModel(

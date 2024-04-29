@@ -2,9 +2,9 @@ package dev.juanrincon.respite.trips.presentation
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import dev.juanrincon.core.domain.TripStatus
 import dev.juanrincon.respite.trips.domain.Trip
 import dev.juanrincon.respite.trips.domain.TripItem
-import dev.juanrincon.respite.trips.domain.TripStatus
 import dev.juanrincon.respite.trips.presentation.pages.EmptyPage
 import dev.juanrincon.respite.trips.presentation.pages.PackForDestinationPage
 

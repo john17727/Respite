@@ -1,5 +1,7 @@
 package dev.juanrincon.respite.trips.domain
 
+import dev.juanrincon.core.domain.TripStatus
+
 data class Trip(
     val id: Int,
     val name: String,
@@ -8,9 +10,3 @@ data class Trip(
     val current: Boolean,
     val items: List<TripItem>
 )
-
-sealed interface TripStatus {
-    data object PackingDestination : TripStatus
-    data object Destination : TripStatus
-    data object PackingNextDestination : TripStatus
-}

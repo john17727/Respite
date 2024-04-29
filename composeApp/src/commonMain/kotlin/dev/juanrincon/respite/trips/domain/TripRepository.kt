@@ -1,5 +1,7 @@
 package dev.juanrincon.respite.trips.domain
 
+import dev.juanrincon.core.domain.TripStatus
+
 interface TripRepository {
 
     suspend fun createTrip(

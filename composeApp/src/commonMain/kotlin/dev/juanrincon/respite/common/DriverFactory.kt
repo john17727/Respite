@@ -2,12 +2,12 @@ package dev.juanrincon.respite.common
 
 import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
+import dev.juanrincon.core.domain.TripStatus
 import dev.juanrincon.respite.Category
 import dev.juanrincon.respite.Database
 import dev.juanrincon.respite.Item
 import dev.juanrincon.respite.Trip
 import dev.juanrincon.respite.Trip_item
-import dev.juanrincon.respite.trips.domain.TripStatus
 
 expect class DriverFactory {
     fun createDriver(): SqlDriver

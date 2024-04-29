@@ -56,6 +56,7 @@ kotlin {
             implementation(libs.stately.common) // Fixes exception from libs.voyager.koin current version, might not need for future voyager versions
 
             implementation(project(":mvi"))
+            implementation(project(":core:domain"))
         }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)

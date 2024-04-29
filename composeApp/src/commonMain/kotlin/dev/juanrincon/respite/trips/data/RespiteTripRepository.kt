@@ -1,10 +1,10 @@
 package dev.juanrincon.respite.trips.data
 
+import dev.juanrincon.core.domain.TripStatus
 import dev.juanrincon.respite.TripsQueries
 import dev.juanrincon.respite.trips.domain.Trip
 import dev.juanrincon.respite.trips.domain.TripItem
 import dev.juanrincon.respite.trips.domain.TripRepository
-import dev.juanrincon.respite.trips.domain.TripStatus
 import dev.juanrincon.respite.trips.domain.extensions.getCityAbbreviation
 
 class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripRepository {
