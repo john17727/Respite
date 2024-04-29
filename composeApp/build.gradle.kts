@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.sqlDelight)
+    alias(libs.plugins.sqlDelight) // Need the sqldelight plugin here as well
 }
 
 kotlin {
@@ -30,9 +30,6 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
 
-            // Database
-            implementation(libs.sqldelight.android.driver)
-
             // Dependency Injection
             implementation(libs.koin.android)
         }
@@ -57,9 +54,9 @@ kotlin {
 
             implementation(project(":mvi"))
             implementation(project(":core:domain"))
+            implementation(project(":core:data"))
         }
         iosMain.dependencies {
-            implementation(libs.sqldelight.native.driver)
         }
     }
 
@@ -97,13 +94,5 @@ android {
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
-    }
-}
-
-sqldelight {
-    databases {
-        create("Database") {
-            packageName.set("dev.juanrincon.respite")
-        }
     }
 }

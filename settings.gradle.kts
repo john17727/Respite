@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 include(":composeApp")
 include(":mvi")
 include(":core:domain")
+include(":core:data")

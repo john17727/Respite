@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common
+package dev.juanrincon.core.data
 
 import android.content.Context
 import app.cash.sqldelight.db.SqlDriver

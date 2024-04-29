@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common
+package dev.juanrincon.core.data
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.native.NativeSqliteDriver
