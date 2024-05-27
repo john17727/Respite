@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.luggage.presentation
+package dev.juanrincon.luggage.presentation
 
 import dev.juanrincon.core.domain.Category
 

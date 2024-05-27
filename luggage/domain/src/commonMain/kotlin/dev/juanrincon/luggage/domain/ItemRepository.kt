@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.luggage.domain
+package dev.juanrincon.luggage.domain
 
 interface ItemRepository {
 

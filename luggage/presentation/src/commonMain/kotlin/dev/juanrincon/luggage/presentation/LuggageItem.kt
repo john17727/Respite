@@ -1,6 +1,7 @@
-package dev.juanrincon.respite.luggage.presentation
+package dev.juanrincon.luggage.presentation
 
-import dev.juanrincon.respite.luggage.domain.Item
+import dev.juanrincon.luggage.domain.Item
+
 
 sealed class LuggageItem(val id: Int) {
     data class UserItem(val item: Item) : LuggageItem(item.id)

@@ -4,10 +4,10 @@ import dev.juanrincon.categories.data.RespiteCategoryRepository
 import dev.juanrincon.categories.domain.CategoryRepository
 import dev.juanrincon.categories.presentation.CategoriesScreenModel
 import dev.juanrincon.core.data.createDatabase
+import dev.juanrincon.luggage.data.RespiteLuggageRepository
+import dev.juanrincon.luggage.domain.ItemRepository
+import dev.juanrincon.luggage.presentation.LuggageScreenModel
 import dev.juanrincon.respite.Database
-import dev.juanrincon.respite.luggage.data.RespiteLuggageRepository
-import dev.juanrincon.respite.luggage.domain.ItemRepository
-import dev.juanrincon.respite.luggage.presentation.LuggageScreenModel
 import dev.juanrincon.respite.trips.data.RespiteTripRepository
 import dev.juanrincon.respite.trips.domain.TripRepository
 import dev.juanrincon.respite.trips.presentation.TripScreenModel

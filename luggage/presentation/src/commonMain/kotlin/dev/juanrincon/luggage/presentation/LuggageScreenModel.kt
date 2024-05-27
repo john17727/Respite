@@ -1,15 +1,15 @@
-package dev.juanrincon.respite.luggage.presentation
+package dev.juanrincon.luggage.presentation
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import dev.juanrincon.categories.domain.CategoryRepository
 import dev.juanrincon.core.domain.Category
+import dev.juanrincon.luggage.domain.Item
+import dev.juanrincon.luggage.domain.ItemRepository
+import dev.juanrincon.luggage.presentation.LuggageItem.Companion.toEditingItem
+import dev.juanrincon.luggage.presentation.LuggageItem.Companion.toUserItem
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.MVIDelegate
-import dev.juanrincon.respite.luggage.domain.Item
-import dev.juanrincon.respite.luggage.domain.ItemRepository
-import dev.juanrincon.respite.luggage.presentation.LuggageItem.Companion.toEditingItem
-import dev.juanrincon.respite.luggage.presentation.LuggageItem.Companion.toUserItem
 import kotlinx.coroutines.launch
 
 class LuggageScreenModel(

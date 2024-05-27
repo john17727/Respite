@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.luggage.presentation
+package dev.juanrincon.luggage.presentation
 
 sealed interface LuggageIntent {
     data object GetLuggage : LuggageIntent

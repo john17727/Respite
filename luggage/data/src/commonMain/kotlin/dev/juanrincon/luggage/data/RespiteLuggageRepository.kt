@@ -1,9 +1,9 @@
-package dev.juanrincon.respite.luggage.data
+package dev.juanrincon.luggage.data
 
 import dev.juanrincon.core.domain.Category
+import dev.juanrincon.luggage.domain.Item
+import dev.juanrincon.luggage.domain.ItemRepository
 import dev.juanrincon.respite.ItemsQueries
-import dev.juanrincon.respite.luggage.domain.Item
-import dev.juanrincon.respite.luggage.domain.ItemRepository
 
 class RespiteLuggageRepository(private val itemsQueries: ItemsQueries) : ItemRepository {
     override suspend fun create(name: String, categoryId: Int): Result<Unit> = try {

@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common.presentation
+package dev.juanrincon.luggage.presentation.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -41,7 +41,7 @@ import dev.juanrincon.core.domain.Category
 import dev.juanrincon.core.presentation.components.ActionButtons
 import dev.juanrincon.core.presentation.components.RespiteTextField
 import dev.juanrincon.core.presentation.extensions.topBorder
-import dev.juanrincon.respite.luggage.domain.Item
+import dev.juanrincon.luggage.domain.Item
 
 @Composable
 fun UserLuggageItem(

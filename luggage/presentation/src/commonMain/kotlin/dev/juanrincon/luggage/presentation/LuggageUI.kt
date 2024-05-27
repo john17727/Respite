@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.luggage.presentation
+package dev.juanrincon.luggage.presentation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -41,9 +41,9 @@ import dev.juanrincon.core.presentation.components.LeftActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
 import dev.juanrincon.core.presentation.navigation.BackHandler
 import dev.juanrincon.core.presentation.utils.Reverse
-import dev.juanrincon.respite.common.presentation.CreatingLuggageItem
-import dev.juanrincon.respite.common.presentation.EditingLuggageItem
-import dev.juanrincon.respite.common.presentation.UserLuggageItem
+import dev.juanrincon.luggage.presentation.components.CreatingLuggageItem
+import dev.juanrincon.luggage.presentation.components.EditingLuggageItem
+import dev.juanrincon.luggage.presentation.components.UserLuggageItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

@@ -56,10 +56,12 @@ kotlin {
             implementation(project(":core:domain"))
             implementation(project(":core:data"))
             implementation(project(":core:presentation"))
-            implementation(project(":categories:presentation"))
             implementation(project(":categories:data"))
             implementation(project(":categories:domain"))
-
+            implementation(project(":categories:presentation"))
+            implementation(project(":luggage:data"))
+            implementation(project(":luggage:domain"))
+            implementation(project(":luggage:presentation"))
         }
         iosMain.dependencies {
         }
