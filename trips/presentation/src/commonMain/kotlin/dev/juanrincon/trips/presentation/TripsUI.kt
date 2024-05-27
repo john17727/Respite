@@ -1,12 +1,12 @@
-package dev.juanrincon.respite.trips.presentation
+package dev.juanrincon.trips.presentation
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import dev.juanrincon.core.domain.TripStatus
-import dev.juanrincon.respite.trips.domain.Trip
-import dev.juanrincon.respite.trips.domain.TripItem
-import dev.juanrincon.respite.trips.presentation.pages.EmptyPage
-import dev.juanrincon.respite.trips.presentation.pages.PackForDestinationPage
+import dev.juanrincon.trips.domain.Trip
+import dev.juanrincon.trips.domain.TripItem
+import dev.juanrincon.trips.presentation.pages.EmptyPage
+import dev.juanrincon.trips.presentation.pages.PackForDestinationPage
 
 @Composable
 fun TripsUI(

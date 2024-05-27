@@ -1,8 +1,8 @@
-package dev.juanrincon.respite.trips.presentation
+package dev.juanrincon.trips.presentation
 
 import dev.juanrincon.core.domain.TripStatus
-import dev.juanrincon.respite.trips.domain.Trip
-import dev.juanrincon.respite.trips.domain.TripItem
+import dev.juanrincon.trips.domain.Trip
+import dev.juanrincon.trips.domain.TripItem
 
 sealed interface TripIntent {
     data class CreateTrip(val name: String) : TripIntent

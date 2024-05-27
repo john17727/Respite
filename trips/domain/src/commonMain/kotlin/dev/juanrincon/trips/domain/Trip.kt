@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.trips.domain
+package dev.juanrincon.trips.domain
 
 import dev.juanrincon.core.domain.TripStatus
 

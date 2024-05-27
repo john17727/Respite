@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.trips.presentation.pages
+package dev.juanrincon.trips.presentation.pages
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement

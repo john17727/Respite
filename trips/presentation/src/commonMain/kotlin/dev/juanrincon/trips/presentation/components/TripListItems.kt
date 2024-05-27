@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.trips.presentation.components
+package dev.juanrincon.trips.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.core.presentation.extensions.startBorder
 import dev.juanrincon.core.presentation.extensions.topBorder
-import dev.juanrincon.respite.trips.domain.TripItem
+import dev.juanrincon.trips.domain.TripItem
 
 @Composable
 fun RightTripItem(

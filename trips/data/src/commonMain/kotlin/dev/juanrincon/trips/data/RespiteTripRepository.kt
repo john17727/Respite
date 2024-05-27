@@ -1,11 +1,11 @@
-package dev.juanrincon.respite.trips.data
+package dev.juanrincon.trips.data
 
 import dev.juanrincon.core.domain.TripStatus
 import dev.juanrincon.respite.TripsQueries
-import dev.juanrincon.respite.trips.domain.Trip
-import dev.juanrincon.respite.trips.domain.TripItem
-import dev.juanrincon.respite.trips.domain.TripRepository
-import dev.juanrincon.respite.trips.domain.extensions.getCityAbbreviation
+import dev.juanrincon.trips.domain.Trip
+import dev.juanrincon.trips.domain.TripItem
+import dev.juanrincon.trips.domain.TripRepository
+import dev.juanrincon.trips.domain.extensions.getCityAbbreviation
 
 class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripRepository {
     override suspend fun createTrip(name: String, status: TripStatus): Result<Unit> = try {

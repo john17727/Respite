@@ -1,8 +1,8 @@
-package dev.juanrincon.respite.trips.data
+package dev.juanrincon.trips.data
 
 import dev.juanrincon.respite.TripsQueries
-import dev.juanrincon.respite.trips.domain.TripItem
-import dev.juanrincon.respite.trips.domain.TripItemRepository
+import dev.juanrincon.trips.domain.TripItem
+import dev.juanrincon.trips.domain.TripItemRepository
 
 @Deprecated("This class is deprecated, use RespiteTripRepository instead")
 class RespiteTripItemRepository(private val tripsQueries: TripsQueries) : TripItemRepository {

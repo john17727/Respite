@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.trips.domain.extensions
+package dev.juanrincon.trips.domain.extensions
 
 fun String.getCityAbbreviation(): String {
     val words = this.split(" ")

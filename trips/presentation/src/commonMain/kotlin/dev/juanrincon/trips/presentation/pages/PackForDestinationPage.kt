@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.trips.presentation.pages
+package dev.juanrincon.trips.presentation.pages
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -36,8 +36,8 @@ import dev.juanrincon.core.presentation.components.LeftActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
 import dev.juanrincon.core.presentation.theme.RespiteTheme
 import dev.juanrincon.core.presentation.utils.Reverse
-import dev.juanrincon.respite.trips.domain.TripItem
-import dev.juanrincon.respite.trips.presentation.components.RightTripItem
+import dev.juanrincon.trips.domain.TripItem
+import dev.juanrincon.trips.presentation.components.RightTripItem
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

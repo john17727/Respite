@@ -8,9 +8,9 @@ import dev.juanrincon.luggage.data.RespiteLuggageRepository
 import dev.juanrincon.luggage.domain.ItemRepository
 import dev.juanrincon.luggage.presentation.LuggageScreenModel
 import dev.juanrincon.respite.Database
-import dev.juanrincon.respite.trips.data.RespiteTripRepository
-import dev.juanrincon.respite.trips.domain.TripRepository
-import dev.juanrincon.respite.trips.presentation.TripScreenModel
+import dev.juanrincon.trips.data.RespiteTripRepository
+import dev.juanrincon.trips.domain.TripRepository
+import dev.juanrincon.trips.presentation.TripScreenModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module

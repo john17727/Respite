@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.trips.domain
+package dev.juanrincon.trips.domain
 
 @Deprecated("This class is deprecated, use TripRepository instead")
 interface TripItemRepository {

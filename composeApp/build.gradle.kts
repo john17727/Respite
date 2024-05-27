@@ -62,6 +62,9 @@ kotlin {
             implementation(project(":luggage:data"))
             implementation(project(":luggage:domain"))
             implementation(project(":luggage:presentation"))
+            implementation(project(":trips:data"))
+            implementation(project(":trips:domain"))
+            implementation(project(":trips:presentation"))
         }
         iosMain.dependencies {
         }
