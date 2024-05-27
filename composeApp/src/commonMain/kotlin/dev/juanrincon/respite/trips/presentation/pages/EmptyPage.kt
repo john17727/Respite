@@ -24,11 +24,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.respite.common.presentation.components.CallToActionTag
-import dev.juanrincon.respite.common.presentation.components.InputTag
-import dev.juanrincon.respite.common.presentation.components.LeftActionButton
-import dev.juanrincon.respite.common.presentation.components.RightActionButton
-import dev.juanrincon.respite.common.presentation.theme.RespiteTheme
+import dev.juanrincon.core.presentation.components.CallToActionTag
+import dev.juanrincon.core.presentation.components.InputTag
+import dev.juanrincon.core.presentation.components.LeftActionButton
+import dev.juanrincon.core.presentation.components.RightActionButton
+import dev.juanrincon.core.presentation.theme.RespiteTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

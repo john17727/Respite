@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common.presentation.components
+package dev.juanrincon.respite.common.presentation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -41,10 +41,11 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import dev.juanrincon.core.presentation.animations.fadeInFadeOut
+import dev.juanrincon.core.presentation.components.RespiteTextField
+import dev.juanrincon.core.presentation.extensions.startBorder
+import dev.juanrincon.core.presentation.extensions.topBorder
 import dev.juanrincon.respite.categories.domain.Category
-import dev.juanrincon.respite.common.presentation.animations.fadeInFadeOut
-import dev.juanrincon.respite.common.presentation.extensions.startBorder
-import dev.juanrincon.respite.common.presentation.extensions.topBorder
 import dev.juanrincon.respite.luggage.domain.Item
 
 @Composable

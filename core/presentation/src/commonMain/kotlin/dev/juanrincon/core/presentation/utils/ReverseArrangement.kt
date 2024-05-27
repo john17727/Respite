@@ -1,11 +1,11 @@
-package dev.juanrincon.respite.common.presentation.utils
+package dev.juanrincon.core.presentation.utils
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
 val Arrangement.Reverse: Arrangement.Horizontal
-    get() = ReverseArrangement
+    get() = dev.juanrincon.core.presentation.utils.ReverseArrangement
 
 private object ReverseArrangement : Arrangement.Horizontal {
 

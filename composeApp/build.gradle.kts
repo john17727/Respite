@@ -55,6 +55,7 @@ kotlin {
             implementation(project(":mvi"))
             implementation(project(":core:domain"))
             implementation(project(":core:data"))
+            implementation(project(":core:presentation"))
         }
         iosMain.dependencies {
         }

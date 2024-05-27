@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common.presentation.animations
+package dev.juanrincon.core.presentation.animations
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform

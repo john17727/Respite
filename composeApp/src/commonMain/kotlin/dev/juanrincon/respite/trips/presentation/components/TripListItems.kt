@@ -25,8 +25,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.respite.common.presentation.extensions.startBorder
-import dev.juanrincon.respite.common.presentation.extensions.topBorder
+import dev.juanrincon.core.presentation.extensions.startBorder
+import dev.juanrincon.core.presentation.extensions.topBorder
 import dev.juanrincon.respite.trips.domain.TripItem
 
 @Composable

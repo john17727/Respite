@@ -29,15 +29,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.respite.common.presentation.animations.fadeInFadeOut
-import dev.juanrincon.respite.common.presentation.animations.slideDown
-import dev.juanrincon.respite.common.presentation.animations.slideUp
-import dev.juanrincon.respite.common.presentation.components.CreatingCategoryItem
-import dev.juanrincon.respite.common.presentation.components.EditingCategoryItem
-import dev.juanrincon.respite.common.presentation.components.RightActionButton
-import dev.juanrincon.respite.common.presentation.components.SystemCategoryItem
-import dev.juanrincon.respite.common.presentation.components.UserCategoryItem
-import dev.juanrincon.respite.common.presentation.components.VerticalBanner
+import dev.juanrincon.core.presentation.animations.fadeInFadeOut
+import dev.juanrincon.core.presentation.animations.slideDown
+import dev.juanrincon.core.presentation.animations.slideUp
+import dev.juanrincon.core.presentation.components.RightActionButton
+import dev.juanrincon.core.presentation.components.VerticalBanner
+import dev.juanrincon.respite.common.presentation.CreatingCategoryItem
+import dev.juanrincon.respite.common.presentation.EditingCategoryItem
+import dev.juanrincon.respite.common.presentation.SystemCategoryItem
+import dev.juanrincon.respite.common.presentation.UserCategoryItem
 import dev.juanrincon.respite.navigation.BackHandler
 import kotlinx.coroutines.delay
 

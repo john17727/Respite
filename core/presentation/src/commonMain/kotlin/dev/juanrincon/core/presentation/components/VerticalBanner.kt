@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common.presentation.components
+package dev.juanrincon.core.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

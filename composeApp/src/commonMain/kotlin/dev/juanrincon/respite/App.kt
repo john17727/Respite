@@ -3,7 +3,7 @@ package dev.juanrincon.respite
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
-import dev.juanrincon.respite.common.presentation.theme.RespiteTheme
+import dev.juanrincon.core.presentation.theme.RespiteTheme
 import dev.juanrincon.respite.navigation.TripScreen
 import dev.juanrincon.respite.navigation.createStore
 import kotlinx.coroutines.CoroutineScope

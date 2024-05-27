@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common.presentation.extensions
+package dev.juanrincon.core.presentation.extensions
 
 import androidx.compose.foundation.lazy.LazyListLayoutInfo
 import kotlin.math.max

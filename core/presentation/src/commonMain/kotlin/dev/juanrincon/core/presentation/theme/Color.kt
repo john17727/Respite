@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.common.presentation.theme
+package dev.juanrincon.core.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
