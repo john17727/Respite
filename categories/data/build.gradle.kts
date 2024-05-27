@@ -18,25 +18,26 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "mvi"
+            baseName = "data"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.kotlinx.coroutines.core)
+            //put your multiplatform dependencies here
+            implementation(project(":categories:domain"))
+            implementation(project(":core:data"))
+            implementation(project(":core:domain"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
     }
-
-    task("testClasses")
 }
 
 android {
-    namespace = "dev.juanrincon.mvi"
+    namespace = "dev.juanrincon.categories.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

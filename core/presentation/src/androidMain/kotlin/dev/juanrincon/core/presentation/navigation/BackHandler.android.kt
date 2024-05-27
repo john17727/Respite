@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.navigation
+package dev.juanrincon.core.presentation.navigation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable

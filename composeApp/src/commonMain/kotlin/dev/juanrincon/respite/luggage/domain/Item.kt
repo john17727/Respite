@@ -1,6 +1,7 @@
 package dev.juanrincon.respite.luggage.domain
 
-import dev.juanrincon.respite.categories.domain.Category
+import dev.juanrincon.core.domain.Category
+
 
 data class Item(
     val id: Int,

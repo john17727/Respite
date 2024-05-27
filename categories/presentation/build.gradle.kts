@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.jetbrainsCompose)
 }
 
 kotlin {
@@ -18,25 +19,33 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "mvi"
+            baseName = "presentation"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.kotlinx.coroutines.core)
+            //put your multiplatform dependencies here
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
+
+            implementation(libs.voyager.screenModel)
+            implementation(project(":categories:domain"))
+            implementation(project(":mvi"))
+            implementation(project(":core:presentation"))
+            implementation(project(":core:domain"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
     }
-
-    task("testClasses")
 }
 
 android {
-    namespace = "dev.juanrincon.mvi"
+    namespace = "dev.juanrincon.categories.presentation"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

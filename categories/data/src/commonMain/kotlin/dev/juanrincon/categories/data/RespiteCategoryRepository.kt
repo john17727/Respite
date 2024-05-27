@@ -1,8 +1,9 @@
-package dev.juanrincon.respite.categories.data
+package dev.juanrincon.categories.data
 
+import dev.juanrincon.categories.domain.CategoryRepository
+import dev.juanrincon.core.domain.Category
 import dev.juanrincon.respite.CategoryQueries
-import dev.juanrincon.respite.categories.domain.Category
-import dev.juanrincon.respite.categories.domain.CategoryRepository
+
 
 class RespiteCategoryRepository(private val categoryQueries: CategoryQueries): CategoryRepository {
     override suspend fun create(newCategory: Category): Result<Unit> = try {

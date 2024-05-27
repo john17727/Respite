@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.categories.domain
+package dev.juanrincon.core.domain
 
 data class Category(
     val id: Int,

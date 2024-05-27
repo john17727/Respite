@@ -1,4 +1,6 @@
-package dev.juanrincon.respite.categories.domain
+package dev.juanrincon.categories.domain
+
+import dev.juanrincon.core.domain.Category
 
 interface CategoryRepository {
     

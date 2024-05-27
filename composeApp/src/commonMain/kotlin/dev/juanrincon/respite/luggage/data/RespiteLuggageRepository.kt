@@ -1,7 +1,7 @@
 package dev.juanrincon.respite.luggage.data
 
+import dev.juanrincon.core.domain.Category
 import dev.juanrincon.respite.ItemsQueries
-import dev.juanrincon.respite.categories.domain.Category
 import dev.juanrincon.respite.luggage.domain.Item
 import dev.juanrincon.respite.luggage.domain.ItemRepository
 

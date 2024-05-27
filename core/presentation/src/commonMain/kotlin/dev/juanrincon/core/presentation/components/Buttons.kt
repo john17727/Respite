@@ -1,8 +1,11 @@
 package dev.juanrincon.core.presentation.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,6 +13,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import dev.juanrincon.core.presentation.extensions.startBorder
 
 @Composable
 fun LeftActionButton(
@@ -98,6 +104,37 @@ fun TagButton(
             modifier = modifier
         ) {
             Text(text = text.uppercase(), style = MaterialTheme.typography.labelLarge)
+        }
+    }
+}
+
+@Composable
+fun ActionButtons(
+    onLeftButtonClick: () -> Unit,
+    onRightButtonClick: () -> Unit,
+    leftButtonIcon: ImageVector,
+    rightButtonIcon: ImageVector,
+    rightButtonEnabled: Boolean = true,
+    leftButtonEnabled: Boolean = true,
+    borderColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface
+) {
+    Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
+        IconButton(
+            onClick = onLeftButtonClick,
+            modifier = Modifier.startBorder(borderColor, 2.dp, 6.dp),
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
+            enabled = leftButtonEnabled
+        ) {
+            Icon(leftButtonIcon, null)
+        }
+        IconButton(
+            onClick = onRightButtonClick,
+            modifier = Modifier.startBorder(borderColor, 2.dp, 6.dp),
+            colors = IconButtonDefaults.iconButtonColors(contentColor = contentColor),
+            enabled = rightButtonEnabled
+        ) {
+            Icon(rightButtonIcon, null)
         }
     }
 }

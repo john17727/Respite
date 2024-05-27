@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import dev.juanrincon.core.domain.Category
 import dev.juanrincon.core.presentation.animations.fadeInFadeOut
 import dev.juanrincon.core.presentation.animations.slideDown
 import dev.juanrincon.core.presentation.animations.slideLeft
@@ -38,12 +39,11 @@ import dev.juanrincon.core.presentation.animations.slideUp
 import dev.juanrincon.core.presentation.components.BannerAlignment
 import dev.juanrincon.core.presentation.components.LeftActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
+import dev.juanrincon.core.presentation.navigation.BackHandler
 import dev.juanrincon.core.presentation.utils.Reverse
-import dev.juanrincon.respite.categories.domain.Category
 import dev.juanrincon.respite.common.presentation.CreatingLuggageItem
 import dev.juanrincon.respite.common.presentation.EditingLuggageItem
 import dev.juanrincon.respite.common.presentation.UserLuggageItem
-import dev.juanrincon.respite.navigation.BackHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

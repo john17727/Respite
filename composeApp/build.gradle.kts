@@ -56,6 +56,10 @@ kotlin {
             implementation(project(":core:domain"))
             implementation(project(":core:data"))
             implementation(project(":core:presentation"))
+            implementation(project(":categories:presentation"))
+            implementation(project(":categories:data"))
+            implementation(project(":categories:domain"))
+
         }
         iosMain.dependencies {
         }
@@ -96,4 +100,7 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
+}
+dependencies {
+    implementation(project(":categories:presentation"))
 }

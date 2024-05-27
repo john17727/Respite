@@ -1,13 +1,13 @@
-package dev.juanrincon.respite.categories.presentation
+package dev.juanrincon.categories.presentation
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import dev.juanrincon.categories.domain.CategoryRepository
+import dev.juanrincon.categories.presentation.CategoryItem.Companion.toEditingItem
+import dev.juanrincon.categories.presentation.CategoryItem.Companion.toUserItem
+import dev.juanrincon.core.domain.Category
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.MVIDelegate
-import dev.juanrincon.respite.categories.domain.Category
-import dev.juanrincon.respite.categories.domain.CategoryRepository
-import dev.juanrincon.respite.categories.presentation.CategoryItem.Companion.toEditingItem
-import dev.juanrincon.respite.categories.presentation.CategoryItem.Companion.toUserItem
 import kotlinx.coroutines.launch
 
 class CategoriesScreenModel(private val repository: CategoryRepository) : ScreenModel,

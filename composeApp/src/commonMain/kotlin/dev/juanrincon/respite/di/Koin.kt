@@ -1,10 +1,10 @@
 package dev.juanrincon.respite.di
 
+import dev.juanrincon.categories.data.RespiteCategoryRepository
+import dev.juanrincon.categories.domain.CategoryRepository
+import dev.juanrincon.categories.presentation.CategoriesScreenModel
 import dev.juanrincon.core.data.createDatabase
 import dev.juanrincon.respite.Database
-import dev.juanrincon.respite.categories.data.RespiteCategoryRepository
-import dev.juanrincon.respite.categories.domain.CategoryRepository
-import dev.juanrincon.respite.categories.presentation.CategoriesScreenModel
 import dev.juanrincon.respite.luggage.data.RespiteLuggageRepository
 import dev.juanrincon.respite.luggage.domain.ItemRepository
 import dev.juanrincon.respite.luggage.presentation.LuggageScreenModel

@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.categories.presentation
+package dev.juanrincon.categories.presentation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -29,16 +29,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import dev.juanrincon.categories.presentation.components.CreatingCategoryItem
+import dev.juanrincon.categories.presentation.components.EditingCategoryItem
+import dev.juanrincon.categories.presentation.components.SystemCategoryItem
+import dev.juanrincon.categories.presentation.components.UserCategoryItem
 import dev.juanrincon.core.presentation.animations.fadeInFadeOut
 import dev.juanrincon.core.presentation.animations.slideDown
 import dev.juanrincon.core.presentation.animations.slideUp
 import dev.juanrincon.core.presentation.components.RightActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
-import dev.juanrincon.respite.common.presentation.CreatingCategoryItem
-import dev.juanrincon.respite.common.presentation.EditingCategoryItem
-import dev.juanrincon.respite.common.presentation.SystemCategoryItem
-import dev.juanrincon.respite.common.presentation.UserCategoryItem
-import dev.juanrincon.respite.navigation.BackHandler
+import dev.juanrincon.core.presentation.navigation.BackHandler
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class)

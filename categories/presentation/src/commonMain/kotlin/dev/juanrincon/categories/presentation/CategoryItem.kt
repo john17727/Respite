@@ -1,6 +1,7 @@
-package dev.juanrincon.respite.categories.presentation
+package dev.juanrincon.categories.presentation
 
-import dev.juanrincon.respite.categories.domain.Category
+import dev.juanrincon.core.domain.Category
+
 
 sealed class CategoryItem(val id: Int) {
     data class SystemItem(val category: Category) : CategoryItem(category.id)

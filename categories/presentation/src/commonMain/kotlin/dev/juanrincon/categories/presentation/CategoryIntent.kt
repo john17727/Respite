@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.categories.presentation
+package dev.juanrincon.categories.presentation
 
 sealed interface CategoryIntent {
     data object GetAllCategories : CategoryIntent

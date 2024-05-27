@@ -1,6 +1,7 @@
 package dev.juanrincon.respite.luggage.presentation
 
-import dev.juanrincon.respite.categories.domain.Category
+import dev.juanrincon.core.domain.Category
+
 
 data class LuggageState(
     val luggage: List<LuggageItem> = listOf(),

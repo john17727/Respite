@@ -1,4 +1,4 @@
-package dev.juanrincon.respite.categories.presentation
+package dev.juanrincon.categories.presentation
 
 data class CategoryState(
     val categories: List<CategoryItem> = listOf(),
