@@ -14,7 +14,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.juanrincon.categories.presentation.CategoriesScreenModel
 import dev.juanrincon.categories.presentation.CategoriesUI
-import dev.juanrincon.categories.presentation.CategoryIntent
+import dev.juanrincon.categories.presentation.models.CategoryIntent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

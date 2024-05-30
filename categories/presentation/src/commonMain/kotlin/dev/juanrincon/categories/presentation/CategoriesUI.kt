@@ -33,6 +33,7 @@ import dev.juanrincon.categories.presentation.components.CreatingCategoryItem
 import dev.juanrincon.categories.presentation.components.EditingCategoryItem
 import dev.juanrincon.categories.presentation.components.SystemCategoryItem
 import dev.juanrincon.categories.presentation.components.UserCategoryItem
+import dev.juanrincon.categories.presentation.models.CategoryItem
 import dev.juanrincon.core.presentation.animations.fadeInFadeOut
 import dev.juanrincon.core.presentation.animations.slideDown
 import dev.juanrincon.core.presentation.animations.slideUp

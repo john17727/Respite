@@ -3,8 +3,12 @@ package dev.juanrincon.categories.presentation
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import dev.juanrincon.categories.domain.CategoryRepository
-import dev.juanrincon.categories.presentation.CategoryItem.Companion.toEditingItem
-import dev.juanrincon.categories.presentation.CategoryItem.Companion.toUserItem
+import dev.juanrincon.categories.presentation.models.CategoryIntent
+import dev.juanrincon.categories.presentation.models.CategoryItem
+import dev.juanrincon.categories.presentation.models.CategoryItem.Companion.toEditingItem
+import dev.juanrincon.categories.presentation.models.CategoryItem.Companion.toUserItem
+import dev.juanrincon.categories.presentation.models.CategoryState
+import dev.juanrincon.categories.presentation.models.UICategory.Companion.toUIModel
 import dev.juanrincon.core.domain.Category
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.MVIDelegate
@@ -153,9 +157,9 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
 
     private fun toCategoryItem(category: Category): CategoryItem =
         if (category.description !== null) {
-            CategoryItem.SystemItem(category)
+            CategoryItem.SystemItem(category.toUIModel())
         } else {
-            CategoryItem.UserItem(category)
+            CategoryItem.UserItem(category.toUIModel())
         }
 
     private fun setItemEditableInList(categories: List<CategoryItem>, id: Int): List<CategoryItem> =
@@ -168,7 +172,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
 
     private fun addItemEditableInList(categories: List<CategoryItem>): List<CategoryItem> {
         val mutableList = categories.toMutableList()
-        mutableList.add(1, CategoryItem.CreatingItem(Category(0, "", null)))
+        mutableList.add(1, CategoryItem.newItem())
         return mutableList
     }
 }

@@ -31,15 +31,15 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.core.domain.Category
+import dev.juanrincon.categories.presentation.models.UICategory
 import dev.juanrincon.core.presentation.animations.fadeInFadeOut
 import dev.juanrincon.core.presentation.components.ActionButtons
 import dev.juanrincon.core.presentation.components.RespiteTextField
 import dev.juanrincon.core.presentation.extensions.topBorder
 
 @Composable
-fun SystemCategoryItem(
-    category: Category,
+internal fun SystemCategoryItem(
+    category: UICategory,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
     modifier: Modifier = Modifier
@@ -88,8 +88,8 @@ fun SystemCategoryItem(
 }
 
 @Composable
-fun UserCategoryItem(
-    category: Category,
+internal fun UserCategoryItem(
+    category: UICategory,
     inEditMode: Boolean,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -123,8 +123,8 @@ fun UserCategoryItem(
 }
 
 @Composable
-fun EditingCategoryItem(
-    category: Category,
+internal fun EditingCategoryItem(
+    category: UICategory,
     onSave: (Int, String) -> Unit,
     onCancel: (Int) -> Unit,
     focusRequester: FocusRequester = FocusRequester(),
@@ -166,8 +166,8 @@ fun EditingCategoryItem(
 }
 
 @Composable
-fun CreatingCategoryItem(
-    category: Category,
+internal fun CreatingCategoryItem(
+    category: UICategory,
     onSave: (String) -> Unit,
     onCancel: () -> Unit,
     focusRequester: FocusRequester = FocusRequester(),
