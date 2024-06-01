@@ -7,6 +7,7 @@ import dev.juanrincon.luggage.domain.Item
 import dev.juanrincon.luggage.domain.ItemRepository
 import dev.juanrincon.luggage.presentation.LuggageItem.Companion.toEditingItem
 import dev.juanrincon.luggage.presentation.LuggageItem.Companion.toUserItem
+import dev.juanrincon.luggage.presentation.models.UICategory.Companion.toUICategory
 import dev.juanrincon.luggage.presentation.models.UIItem.Companion.toUIItem
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.MVIDelegate
@@ -34,7 +35,6 @@ class LuggageScreenModel(
         is LuggageIntent.EditItem -> setEditItem(intent.id)
         LuggageIntent.GetLuggage -> getLuggage()
         is LuggageIntent.UpdateLuggage -> updateLuggage(intent.id, intent.name, intent.categoryId)
-        else -> Unit
     }
 
     private fun setEditItem(id: Int) {
@@ -153,7 +153,7 @@ class LuggageScreenModel(
             updateState { copy(loading = true) }
             categoryRepository.read().fold(
                 onSuccess = {
-                    updateState { copy(categories = it) }
+                    updateState { copy(categories = it.map { it.toUICategory() }, loading = false) }
                 },
                 onFailure = {
                     updateState { copy(loading = false) }

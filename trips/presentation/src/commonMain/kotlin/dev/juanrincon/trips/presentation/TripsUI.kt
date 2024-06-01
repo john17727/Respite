@@ -2,9 +2,10 @@ package dev.juanrincon.trips.presentation
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import dev.juanrincon.core.domain.TripStatus
-import dev.juanrincon.trips.domain.Trip
-import dev.juanrincon.trips.domain.TripItem
+import dev.juanrincon.trips.presentation.models.TripState
+import dev.juanrincon.trips.presentation.models.UITrip
+import dev.juanrincon.trips.presentation.models.UITripItem
+import dev.juanrincon.trips.presentation.models.UITripStatus
 import dev.juanrincon.trips.presentation.pages.EmptyPage
 import dev.juanrincon.trips.presentation.pages.PackForDestinationPage
 
@@ -14,16 +15,16 @@ fun TripsUI(
     onCreateNewTrip: (String) -> Unit,
     onCategoriesClick: () -> Unit,
     onLuggageClick: () -> Unit,
-    onAddItemCountClick: (tripId: Int, item: TripItem) -> Unit,
-    onRemoveItemCountClick: (tripId: Int, item: TripItem) -> Unit,
-    onCancelPackingClick: (tripId: Int, status: TripStatus) -> Unit,
-    onFinishPackingClick: (trip: Trip) -> Unit,
+    onAddItemCountClick: (tripId: Int, item: UITripItem) -> Unit,
+    onRemoveItemCountClick: (tripId: Int, item: UITripItem) -> Unit,
+    onCancelPackingClick: (tripId: Int, status: UITripStatus) -> Unit,
+    onFinishPackingClick: (trip: UITrip) -> Unit,
 ) {
     if (state.trip != null) {
         when (state.trip.status) {
-            TripStatus.Destination -> Text("Destination Screen coming soon!")
-            TripStatus.PackingDestination -> PackForDestinationPage(
-                destination = state.trip.nameAbbr.uppercase(),
+            UITripStatus.Destination -> Text("Destination Screen coming soon!")
+            UITripStatus.PackingDestination -> PackForDestinationPage(
+                destination = state.trip.name.uppercase(),
                 items = state.trip.items,
                 onAddClick = { item -> onAddItemCountClick(state.trip.id, item) },
                 onRemoveClick = { item -> onRemoveItemCountClick(state.trip.id, item) },
@@ -31,7 +32,7 @@ fun TripsUI(
                 onFinishPackingClick = { onFinishPackingClick(state.trip) }
             )
 
-            TripStatus.PackingNextDestination -> TODO()
+            UITripStatus.PackingNextDestination -> TODO()
         }
     } else {
         EmptyPage(

@@ -3,7 +3,7 @@ package dev.juanrincon.luggage.presentation.models
 import dev.juanrincon.luggage.domain.Item
 import dev.juanrincon.luggage.presentation.models.UICategory.Companion.toUICategory
 
-class UIItem(
+data class UIItem(
     val id: Int,
     val name: String,
     val category: UICategory

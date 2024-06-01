@@ -36,16 +36,16 @@ import dev.juanrincon.core.presentation.components.LeftActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
 import dev.juanrincon.core.presentation.theme.RespiteTheme
 import dev.juanrincon.core.presentation.utils.Reverse
-import dev.juanrincon.trips.domain.TripItem
 import dev.juanrincon.trips.presentation.components.RightTripItem
+import dev.juanrincon.trips.presentation.models.UITripItem
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PackForDestinationPage(
     destination: String,
-    items: List<TripItem>,
-    onAddClick: (item: TripItem) -> Unit,
-    onRemoveClick: (item: TripItem) -> Unit,
+    items: List<UITripItem>,
+    onAddClick: (item: UITripItem) -> Unit,
+    onRemoveClick: (item: UITripItem) -> Unit,
     onCancelPacking: () -> Unit,
     onFinishPackingClick: () -> Unit,
     showContent: Boolean = true,
@@ -123,14 +123,14 @@ fun PreviewPackForDestinationPage() {
         PackForDestinationPage(
             destination = "Trip Name",
             items = listOf(
-                TripItem(0, "Item 1", "Category 1", 0, 0),
-                TripItem(1, "Item 2", "Category 1", 0, 0),
-                TripItem(2, "Item 3", "Category 1", 0, 0),
-                TripItem(3, "Item 4", "Category 1", 0, 0),
-                TripItem(4, "Item 5", "Category 1", 0, 0),
-                TripItem(5, "Item 6", "Category 1", 0, 0),
-                TripItem(6, "Item 7", "Category 1", 0, 0),
-                TripItem(7, "Item 8", "Category 1", 0, 0),
+                UITripItem(0, "Item 1", "Category 1", 0),
+                UITripItem(1, "Item 2", "Category 1", 0),
+                UITripItem(2, "Item 3", "Category 1", 0),
+                UITripItem(3, "Item 4", "Category 1", 0),
+                UITripItem(4, "Item 5", "Category 1", 0),
+                UITripItem(5, "Item 6", "Category 1", 0),
+                UITripItem(6, "Item 7", "Category 1", 0),
+                UITripItem(7, "Item 8", "Category 1", 0),
             ),
             onAddClick = {},
             onRemoveClick = {},

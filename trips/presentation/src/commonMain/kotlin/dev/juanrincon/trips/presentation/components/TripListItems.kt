@@ -27,13 +27,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.juanrincon.core.presentation.extensions.startBorder
 import dev.juanrincon.core.presentation.extensions.topBorder
-import dev.juanrincon.trips.domain.TripItem
+import dev.juanrincon.trips.presentation.models.UITripItem
 
 @Composable
 fun RightTripItem(
-    item: TripItem,
-    onAddClick: (TripItem) -> Unit,
-    onRemoveClick: (TripItem) -> Unit,
+    item: UITripItem,
+    onAddClick: (UITripItem) -> Unit,
+    onRemoveClick: (UITripItem) -> Unit,
     borderColor: Color = MaterialTheme.colorScheme.secondary,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
     modifier: Modifier = Modifier
@@ -55,7 +55,7 @@ fun RightTripItem(
                 modifier = Modifier.padding(top = 6.dp, start = 4.dp).fillMaxWidth(0.50f)
             )
             CountActionButtons(
-                count = item.amount,
+                count = item.total,
                 onLeftButtonClick = { onRemoveClick(item) },
                 onRightButtonClick = { onAddClick(item) },
                 leftButtonIcon = Icons.Rounded.Remove,

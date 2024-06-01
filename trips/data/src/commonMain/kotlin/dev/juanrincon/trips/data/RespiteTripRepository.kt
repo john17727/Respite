@@ -5,7 +5,6 @@ import dev.juanrincon.respite.TripsQueries
 import dev.juanrincon.trips.domain.Trip
 import dev.juanrincon.trips.domain.TripItem
 import dev.juanrincon.trips.domain.TripRepository
-import dev.juanrincon.trips.domain.extensions.getCityAbbreviation
 
 class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripRepository {
     override suspend fun createTrip(name: String, status: TripStatus): Result<Unit> = try {
@@ -23,30 +22,27 @@ class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripReposi
     override suspend fun getCurrentTrip(): Result<Trip?> = try {
         val trip = tripsQueries.getCurrentTrip().executeAsOneOrNull()?.let {
             val items: List<TripItem> = if (it.status is TripStatus.PackingDestination) {
-                tripsQueries.getAllTripItems<TripItem>(it.id) { id, name, category, amount, accounted ->
+                tripsQueries.getAllTripItems<TripItem>(it.id) { id, name, category, amount ->
                     TripItem(
                         id,
                         name,
                         category,
-                        amount ?: 0,
-                        accounted ?: 0
+                        amount ?: 0
                     )
                 }.executeAsList()
             } else {
-                tripsQueries.getCurrentTripItems<TripItem>(it.id) { id, name, category, amount, accounted ->
+                tripsQueries.getCurrentTripItems<TripItem>(it.id) { id, name, category, amount ->
                     TripItem(
                         id,
                         name,
                         category,
-                        amount,
-                        accounted
+                        amount
                     )
                 }.executeAsList()
             }
             Trip(
                 it.id,
                 it.name,
-                it.name.getCityAbbreviation(),
                 it.status,
                 it.current,
                 items
@@ -74,8 +70,7 @@ class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripReposi
             id = getTripItemKey(tripId, newItem.id),
             trip_id = tripId,
             item_id = newItem.id,
-            amount = newItem.amount,
-            accounted = newItem.accounted
+            amount = newItem.total
         )
         Result.success(Unit)
     } catch (e: Exception) {
@@ -84,8 +79,7 @@ class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripReposi
 
     override suspend fun updateItem(tripId: Int, newItem: TripItem): Result<Unit> = try {
         tripsQueries.updateTripItem(
-            amount = newItem.amount,
-            accounted = newItem.accounted,
+            amount = newItem.total,
             id = getTripItemKey(tripId, newItem.id)
         )
         Result.success(Unit)
