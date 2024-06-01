@@ -3,11 +3,11 @@ package dev.juanrincon.luggage.presentation
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import dev.juanrincon.categories.domain.CategoryRepository
-import dev.juanrincon.core.domain.Category
 import dev.juanrincon.luggage.domain.Item
 import dev.juanrincon.luggage.domain.ItemRepository
 import dev.juanrincon.luggage.presentation.LuggageItem.Companion.toEditingItem
 import dev.juanrincon.luggage.presentation.LuggageItem.Companion.toUserItem
+import dev.juanrincon.luggage.presentation.models.UIItem.Companion.toUIItem
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.MVIDelegate
 import kotlinx.coroutines.launch
@@ -34,6 +34,7 @@ class LuggageScreenModel(
         is LuggageIntent.EditItem -> setEditItem(intent.id)
         LuggageIntent.GetLuggage -> getLuggage()
         is LuggageIntent.UpdateLuggage -> updateLuggage(intent.id, intent.name, intent.categoryId)
+        else -> Unit
     }
 
     private fun setEditItem(id: Int) {
@@ -75,7 +76,7 @@ class LuggageScreenModel(
 
     private fun addItemEditable(luggage: List<LuggageItem>): List<LuggageItem> {
         val mutableList = luggage.toMutableList()
-        mutableList.add(0, LuggageItem.CreatingItem(Item(0, "", Category(0, "", null))))
+        mutableList.add(0, LuggageItem.newItem())
         return mutableList
     }
 
@@ -178,5 +179,5 @@ class LuggageScreenModel(
             mutableList
         } ?: luggage
 
-    private fun toLuggageItem(item: Item): LuggageItem = LuggageItem.UserItem(item)
+    private fun toLuggageItem(item: Item): LuggageItem = LuggageItem.UserItem(item.toUIItem())
 }

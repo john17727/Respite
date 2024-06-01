@@ -37,15 +37,15 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.core.domain.Category
 import dev.juanrincon.core.presentation.components.ActionButtons
 import dev.juanrincon.core.presentation.components.RespiteTextField
 import dev.juanrincon.core.presentation.extensions.topBorder
-import dev.juanrincon.luggage.domain.Item
+import dev.juanrincon.luggage.presentation.models.UICategory
+import dev.juanrincon.luggage.presentation.models.UIItem
 
 @Composable
 fun UserLuggageItem(
-    item: Item,
+    item: UIItem,
     inEditMode: Boolean,
     onEditClick: (Int) -> Unit,
     onDeleteClick: (Int) -> Unit,
@@ -94,8 +94,8 @@ fun UserLuggageItem(
 
 @Composable
 fun EditingLuggageItem(
-    item: Item,
-    categories: List<Category>,
+    item: UIItem,
+    categories: List<UICategory>,
     onCancel: (Int) -> Unit,
     onSave: (Int, String, Int) -> Unit,
     onExpanded: (Long) -> Unit,
@@ -191,7 +191,7 @@ fun EditingLuggageItem(
 
 @Composable
 fun CreatingLuggageItem(
-    categories: List<Category>,
+    categories: List<UICategory>,
     onCancel: () -> Unit,
     onSave: (String, Int) -> Unit,
     focusRequester: FocusRequester = FocusRequester(),

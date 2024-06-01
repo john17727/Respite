@@ -8,7 +8,7 @@ data class UICategory(
     val description: String?
 ) {
     companion object {
-        fun Category.toUIModel() = UICategory(
+        inline fun Category.toUIModel() = UICategory(
             id = id,
             name = name,
             description = description

@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.core.domain.Category
 import dev.juanrincon.core.presentation.animations.fadeInFadeOut
 import dev.juanrincon.core.presentation.animations.slideDown
 import dev.juanrincon.core.presentation.animations.slideLeft
@@ -44,6 +43,7 @@ import dev.juanrincon.core.presentation.utils.Reverse
 import dev.juanrincon.luggage.presentation.components.CreatingLuggageItem
 import dev.juanrincon.luggage.presentation.components.EditingLuggageItem
 import dev.juanrincon.luggage.presentation.components.UserLuggageItem
+import dev.juanrincon.luggage.presentation.models.UICategory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -51,7 +51,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LuggageUI(
     luggage: List<LuggageItem>,
-    categories: List<Category>,
+    categories: List<UICategory>,
     inEditMode: Boolean,
     inAddMode: Boolean,
     onDeleteClick: (Int) -> Unit,
@@ -152,6 +152,8 @@ fun LuggageUI(
                                     onEditClick = onEditClick,
                                     onDeleteClick = onDeleteClick
                                 )
+
+                                else -> Unit
                             }
                         }
                     }
