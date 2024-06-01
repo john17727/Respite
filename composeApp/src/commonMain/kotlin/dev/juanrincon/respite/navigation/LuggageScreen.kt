@@ -12,9 +12,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.juanrincon.respite.luggage.presentation.LuggageIntent
-import dev.juanrincon.respite.luggage.presentation.LuggageScreenModel
-import dev.juanrincon.respite.luggage.presentation.LuggageUI
+import dev.juanrincon.luggage.presentation.LuggageIntent
+import dev.juanrincon.luggage.presentation.LuggageScreenModel
+import dev.juanrincon.luggage.presentation.LuggageUI
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

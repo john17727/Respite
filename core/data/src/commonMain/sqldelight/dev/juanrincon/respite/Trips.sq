@@ -1,0 +1,71 @@
+import dev.juanrincon.core.domain.TripStatus;
+import kotlin.Boolean;
+import kotlin.Int;
+
+CREATE TABLE trip (
+    id INTEGER AS Int PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    status TEXT AS TripStatus NOT NULL,
+    current INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+CREATE TABLE trip_item (
+    id TEXT PRIMARY KEY NOT NULL,
+    trip_id INTEGER AS Int NOT NULL,
+    item_id INTEGER AS Int NOT NULL,
+    amount INTEGER AS Int NOT NULL DEFAULT 0
+);
+
+getCurrentTrip:
+SELECT
+    *
+FROM trip
+WHERE current = 1;
+
+insertTrip:
+INSERT INTO trip VALUES(?, ?, ?, ?);
+
+updateTrip:
+UPDATE trip SET name=?, status=?, current=? WHERE id=?;
+
+deleteTrip:
+DELETE FROM trip WHERE id=?;
+
+getAllTripItems:
+SELECT
+    item.id AS id,
+    item.name AS name,
+    category.name AS category,
+    trip_item.amount AS amount
+FROM item
+JOIN category ON item.category_id = category.id
+LEFT JOIN trip_item ON item.id = trip_item.item_id
+AND trip_item.trip_id = ?
+ORDER BY category.name ASC;
+
+getCurrentTripItems:
+SELECT
+    item.id AS id,
+    item.name AS name,
+    category.name AS category,
+    trip_item.amount AS amount
+FROM trip_item
+JOIN item ON trip_item.item_id = item.id
+JOIN category ON item.category_id = category.id
+WHERE trip_item.trip_id = ?;
+
+upsertTripItem:
+INSERT OR REPLACE INTO trip_item VALUES(?, ?, ?, ?);
+
+updateTripItem:
+UPDATE trip_item SET amount=? WHERE id=?;
+
+updateTripItems:
+UPDATE trip_item SET trip_id=? WHERE trip_id=?;
+
+deleteTripItem:
+DELETE FROM trip_item WHERE id=?;
+
+deleteTripItems:
+DELETE FROM trip_item WHERE trip_id=?;
+

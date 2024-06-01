@@ -1,10 +1,8 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.sqlDelight)
+    alias(libs.plugins.sqlDelight) // Need the sqldelight plugin here as well
 }
 
 kotlin {
@@ -15,8 +13,6 @@ kotlin {
             }
         }
     }
-
-    jvm("desktop")
 
     listOf(
         iosX64(),
@@ -30,14 +26,9 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
-
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
-
-            // Database
-            implementation(libs.sqldelight.android.driver)
 
             // Dependency Injection
             implementation(libs.koin.android)
@@ -60,15 +51,26 @@ kotlin {
             implementation(libs.koin.core)
 
             implementation(libs.stately.common) // Fixes exception from libs.voyager.koin current version, might not need for future voyager versions
-        }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.sqldelight.jvm.driver)
+
+            implementation(project(":mvi"))
+            implementation(project(":core:domain"))
+            implementation(project(":core:data"))
+            implementation(project(":core:presentation"))
+            implementation(project(":categories:data"))
+            implementation(project(":categories:domain"))
+            implementation(project(":categories:presentation"))
+            implementation(project(":luggage:data"))
+            implementation(project(":luggage:domain"))
+            implementation(project(":luggage:presentation"))
+            implementation(project(":trips:data"))
+            implementation(project(":trips:domain"))
+            implementation(project(":trips:presentation"))
         }
         iosMain.dependencies {
-            implementation(libs.sqldelight.native.driver)
         }
     }
+
+    task("testClasses")
 }
 
 android {
@@ -104,23 +106,6 @@ android {
         debugImplementation(libs.compose.ui.tooling)
     }
 }
-
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "dev.juanrincon.respite"
-            packageVersion = "1.0.0"
-        }
-    }
-}
-
-sqldelight {
-    databases {
-        create("Database") {
-            packageName.set("dev.juanrincon.respite")
-        }
-    }
+dependencies {
+    implementation(project(":categories:presentation"))
 }

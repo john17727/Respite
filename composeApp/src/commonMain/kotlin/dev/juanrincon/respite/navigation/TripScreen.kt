@@ -7,9 +7,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.juanrincon.respite.trips.presentation.TripIntent
-import dev.juanrincon.respite.trips.presentation.TripScreenModel
-import dev.juanrincon.respite.trips.presentation.TripsUI
+import dev.juanrincon.trips.presentation.TripScreenModel
+import dev.juanrincon.trips.presentation.TripsUI
+import dev.juanrincon.trips.presentation.models.TripIntent
 
 class TripScreen : Screen {
 

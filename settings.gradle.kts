@@ -19,3 +19,16 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":mvi")
+include(":core:domain")
+include(":core:data")
+include(":core:presentation")
+include(":categories:data")
+include(":categories:domain")
+include(":categories:presentation")
+include(":luggage:data")
+include(":luggage:domain")
+include(":luggage:presentation")
+include(":trips:data")
+include(":trips:domain")
+include(":trips:presentation")
