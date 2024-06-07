@@ -1,8 +1,10 @@
 package dev.juanrincon.respite.di
 
 import dev.juanrincon.categories.data.RespiteCategoryRepository
+import dev.juanrincon.categories.data.di.categoryDataModule
 import dev.juanrincon.categories.domain.CategoryRepository
 import dev.juanrincon.categories.presentation.CategoriesScreenModel
+import dev.juanrincon.categories.presentation.di.categoryViewModelModule
 import dev.juanrincon.core.data.createDatabase
 import dev.juanrincon.luggage.data.RespiteLuggageRepository
 import dev.juanrincon.luggage.domain.ItemRepository
@@ -25,7 +27,9 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
         sqlDelightModule,
         platformModule(),
         tripsDataModule,
-        tripsViewModelModule
+        tripsViewModelModule,
+        categoryDataModule,
+        categoryViewModelModule
     )
 }
 

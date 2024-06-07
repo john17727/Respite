@@ -16,4 +16,6 @@ sealed interface CategoryIntent {
     data object CreateItem : CategoryIntent
 
     data object CancelCreateItem : CategoryIntent
+
+    data object NavigateBack : CategoryIntent
 }

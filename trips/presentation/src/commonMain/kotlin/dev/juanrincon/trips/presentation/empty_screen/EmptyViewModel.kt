@@ -17,6 +17,8 @@ class EmptyViewModel(
 
     override fun onIntent(intent: EmptyScreenIntent) = when (intent) {
         is EmptyScreenIntent.CreateTrip -> createTrip(intent.name)
+        EmptyScreenIntent.NavigateToCategories -> Unit
+        EmptyScreenIntent.NavigateToLuggage -> Unit
     }
 
     private fun getTripAndItems() {

@@ -1,7 +1,7 @@
 package dev.juanrincon.categories.presentation
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.juanrincon.categories.domain.CategoryRepository
 import dev.juanrincon.categories.presentation.models.CategoryIntent
 import dev.juanrincon.categories.presentation.models.CategoryItem
@@ -11,13 +11,12 @@ import dev.juanrincon.categories.presentation.models.CategoryState
 import dev.juanrincon.categories.presentation.models.UICategory.Companion.toUIModel
 import dev.juanrincon.core.domain.Category
 import dev.juanrincon.mvi.MVI
-import dev.juanrincon.mvi.MVIDelegate
+import dev.juanrincon.mvi.mvi
 import kotlinx.coroutines.launch
 
-class CategoriesScreenModel(private val repository: CategoryRepository) : ScreenModel,
-    MVI<CategoryState, CategoryIntent, Nothing> by MVIDelegate(
-        CategoryState()
-    ) {
+class CategoryViewModel(
+    private val repository: CategoryRepository
+) : ViewModel(), MVI<CategoryState, CategoryIntent, Nothing> by mvi(CategoryState()) {
 
     init {
         getCategories()
@@ -75,7 +74,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
         } ?: categories
 
     private fun createCategory(name: String) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             repository.create(Category(0, name, null)).fold(
                 onSuccess = {
                     getCategories()
@@ -108,7 +107,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
     }
 
     private fun getCategories() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             updateState { copy(loading = true) }
             repository.read().fold(
                 onSuccess = {
@@ -129,7 +128,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
     }
 
     private fun updateCategory(id: Int, name: String) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             updateState { copy(loading = true) }
             repository.update(Category(id, name, null)).fold(
                 onSuccess = {
@@ -143,7 +142,7 @@ class CategoriesScreenModel(private val repository: CategoryRepository) : Screen
     }
 
     private fun deleteCategory(id: Int) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             updateState { copy(loading = true) }
             repository.delete(id).fold(
                 onSuccess = {

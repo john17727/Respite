@@ -12,7 +12,13 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
         route = "trips"
     ) {
         composable(route = "empty") {
-            EmptyScreenRoot()
+            EmptyScreenRoot(
+                onCategoriesClick = {
+                    navController.navigate(route = "categories")
+                },
+                onLuggageClick = {
+                }
+            )
         }
     }
 }

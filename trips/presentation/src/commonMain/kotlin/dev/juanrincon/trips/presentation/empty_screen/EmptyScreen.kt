@@ -33,12 +33,20 @@ import dev.juanrincon.core.presentation.di.koinViewModel
 
 @Composable
 fun EmptyScreenRoot(
+    onCategoriesClick: () -> Unit,
+    onLuggageClick: () -> Unit,
     viewModel: EmptyViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     EmptyScreenRootScreen(
         state = state,
-        onIntent = viewModel::onIntent
+        onIntent = { intent ->
+            when (intent) {
+                EmptyScreenIntent.NavigateToCategories -> onCategoriesClick()
+                EmptyScreenIntent.NavigateToLuggage -> onLuggageClick()
+                else -> viewModel.onIntent(intent)
+            }
+        }
     )
 }
 
@@ -79,13 +87,13 @@ private fun EmptyScreenRootScreen(
         }
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
             LeftActionButton(
-                onClick = {},
+                onClick = { onIntent(EmptyScreenIntent.NavigateToCategories) },
                 backgroundColor = Color(0xFFA6C994),
                 contentColor = Color(0xFF3C422F),
                 icon = Icons.Rounded.Sell,
             )
             RightActionButton(
-                onClick = {},
+                onClick = { onIntent(EmptyScreenIntent.NavigateToLuggage) },
                 backgroundColor = Color(0xFFEDD379),
                 contentColor = Color(0xFF684633),
                 icon = Icons.Rounded.Luggage,
