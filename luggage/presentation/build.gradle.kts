@@ -47,7 +47,6 @@ kotlin {
             // Navigation
             implementation(libs.navigation.compose)
 
-            implementation(libs.voyager.screenModel)
             implementation(project(":luggage:domain"))
             implementation(project(":mvi"))
             implementation(project(":core:presentation"))

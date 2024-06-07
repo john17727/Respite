@@ -44,12 +44,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
 
             //Navigation
-            implementation(libs.voyager.navigator)
-            implementation(libs.voyager.screenModel)
-            implementation(libs.voyager.koin)
-
-            implementation(libs.stately.common) // Fixes exception from libs.voyager.koin current version, might not need for future voyager versions
-
             implementation(libs.navigation.compose)
 
             implementation(libs.koin.compose)
