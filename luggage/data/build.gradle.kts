@@ -25,7 +25,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            implementation(libs.koin.core)
             implementation(project(":luggage:domain"))
             implementation(project(":core:data"))
             implementation(project(":core:domain"))

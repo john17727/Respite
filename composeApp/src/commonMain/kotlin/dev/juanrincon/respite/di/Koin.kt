@@ -7,8 +7,10 @@ import dev.juanrincon.categories.presentation.CategoriesScreenModel
 import dev.juanrincon.categories.presentation.di.categoryViewModelModule
 import dev.juanrincon.core.data.createDatabase
 import dev.juanrincon.luggage.data.RespiteLuggageRepository
+import dev.juanrincon.luggage.data.di.luggageDataModule
 import dev.juanrincon.luggage.domain.ItemRepository
 import dev.juanrincon.luggage.presentation.LuggageScreenModel
+import dev.juanrincon.luggage.presentation.di.luggageViewModelModule
 import dev.juanrincon.respite.Database
 import dev.juanrincon.trips.data.RespiteTripRepository
 import dev.juanrincon.trips.data.di.tripsDataModule
@@ -29,7 +31,9 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
         tripsDataModule,
         tripsViewModelModule,
         categoryDataModule,
-        categoryViewModelModule
+        categoryViewModelModule,
+        luggageDataModule,
+        luggageViewModelModule
     )
 }
 

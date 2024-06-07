@@ -9,4 +9,5 @@ sealed interface LuggageIntent {
     data class CancelEditItem(val id: Int) : LuggageIntent
     data object CreateItem : LuggageIntent
     data object CancelCreateItem : LuggageIntent
+    data object NavigateBack : LuggageIntent
 }

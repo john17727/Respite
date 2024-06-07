@@ -17,6 +17,7 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
                     navController.navigate(route = "categories")
                 },
                 onLuggageClick = {
+                    navController.navigate(route = "luggage")
                 }
             )
         }

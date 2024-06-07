@@ -1,7 +1,7 @@
 package dev.juanrincon.luggage.presentation
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.juanrincon.categories.domain.CategoryRepository
 import dev.juanrincon.luggage.domain.Item
 import dev.juanrincon.luggage.domain.ItemRepository
@@ -10,16 +10,13 @@ import dev.juanrincon.luggage.presentation.LuggageItem.Companion.toUserItem
 import dev.juanrincon.luggage.presentation.models.UICategory.Companion.toUICategory
 import dev.juanrincon.luggage.presentation.models.UIItem.Companion.toUIItem
 import dev.juanrincon.mvi.MVI
-import dev.juanrincon.mvi.MVIDelegate
+import dev.juanrincon.mvi.mvi
 import kotlinx.coroutines.launch
 
-class LuggageScreenModel(
+class LuggageViewModel(
     private val repository: ItemRepository,
     private val categoryRepository: CategoryRepository
-) : ScreenModel,
-    MVI<LuggageState, LuggageIntent, Nothing> by MVIDelegate(
-        LuggageState()
-    ) {
+) : ViewModel(), MVI<LuggageState, LuggageIntent, Nothing> by mvi(LuggageState()) {
 
     init {
         getCategories()
@@ -35,7 +32,7 @@ class LuggageScreenModel(
         is LuggageIntent.EditItem -> setEditItem(intent.id)
         LuggageIntent.GetLuggage -> getLuggage()
         is LuggageIntent.UpdateLuggage -> updateLuggage(intent.id, intent.name, intent.categoryId)
-        else -> Unit
+        LuggageIntent.NavigateBack -> Unit
     }
 
     private fun setEditItem(id: Int) {
@@ -90,7 +87,7 @@ class LuggageScreenModel(
         } ?: luggage
 
     private fun deleteLuggage(id: Int) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             updateState { copy(loading = true) }
             repository.delete(id).fold(
                 onSuccess = {
@@ -104,7 +101,7 @@ class LuggageScreenModel(
     }
 
     private fun getLuggage() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             updateState { copy(loading = true) }
             repository.read().fold(
                 onSuccess = {
@@ -124,7 +121,7 @@ class LuggageScreenModel(
     }
 
     private fun updateLuggage(id: Int, name: String, categoryId: Int) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             updateState { copy(loading = true) }
             repository.update(id, name, categoryId).fold(
                 onSuccess = { getLuggage() },
@@ -137,7 +134,7 @@ class LuggageScreenModel(
 
     private fun createLuggage(name: String, categoryId: Int) {
         updateState { copy(loading = true) }
-        screenModelScope.launch {
+        viewModelScope.launch {
             repository.create(name, categoryId).fold(
                 onSuccess = {
                     getLuggage()
@@ -150,7 +147,7 @@ class LuggageScreenModel(
     }
 
     private fun getCategories() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             updateState { copy(loading = true) }
             categoryRepository.read().fold(
                 onSuccess = {
