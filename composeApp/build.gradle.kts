@@ -32,6 +32,7 @@ kotlin {
 
             // Dependency Injection
             implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -47,10 +48,11 @@ kotlin {
             implementation(libs.voyager.screenModel)
             implementation(libs.voyager.koin)
 
-            // Dependency Injection
-            implementation(libs.koin.core)
-
             implementation(libs.stately.common) // Fixes exception from libs.voyager.koin current version, might not need for future voyager versions
+
+            implementation(libs.navigation.compose)
+
+            implementation(libs.koin.compose)
 
             implementation(project(":mvi"))
             implementation(project(":core:domain"))
@@ -105,7 +107,4 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
-}
-dependencies {
-    implementation(project(":categories:presentation"))
 }

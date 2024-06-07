@@ -25,6 +25,12 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            // Dependency Injection
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+        }
+
         commonMain.dependencies {
             //put your multiplatform dependencies here
             implementation(compose.runtime)
@@ -32,6 +38,15 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             implementation(compose.components.uiToolingPreview)
+
+            // ViewModel
+            implementation(libs.lifecycle.viewmodel)
+
+            // Dependency Injection
+            api(libs.koin.core)
+
+            // Navigation
+            implementation(libs.navigation.compose)
 
             implementation(libs.voyager.screenModel)
             implementation(project(":trips:domain"))

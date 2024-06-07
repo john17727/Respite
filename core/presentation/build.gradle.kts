@@ -36,6 +36,15 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            // ViewModel
+            implementation(libs.lifecycle.viewmodel)
+
+            // Dependency Injection
+            implementation(libs.koin.compose)
+
+            // Navigation
+            implementation(libs.navigation.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
