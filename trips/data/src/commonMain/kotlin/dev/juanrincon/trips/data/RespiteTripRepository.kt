@@ -6,7 +6,7 @@ import dev.juanrincon.trips.domain.Trip
 import dev.juanrincon.trips.domain.TripItem
 import dev.juanrincon.trips.domain.TripRepository
 
-class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripRepository {
+internal class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripRepository {
     override suspend fun createTrip(name: String, status: TripStatus): Result<Unit> = try {
         tripsQueries.insertTrip(
             id = null,

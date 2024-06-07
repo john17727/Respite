@@ -5,7 +5,7 @@ import dev.juanrincon.luggage.domain.Item
 import dev.juanrincon.luggage.domain.ItemRepository
 import dev.juanrincon.respite.ItemsQueries
 
-class RespiteLuggageRepository(private val itemsQueries: ItemsQueries) : ItemRepository {
+internal class RespiteLuggageRepository(private val itemsQueries: ItemsQueries) : ItemRepository {
     override suspend fun create(name: String, categoryId: Int): Result<Unit> = try {
         Result.success(itemsQueries.insert(null, name, categoryId))
     } catch (t: Throwable) {

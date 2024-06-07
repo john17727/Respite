@@ -4,7 +4,8 @@ import dev.juanrincon.categories.domain.CategoryRepository
 import dev.juanrincon.core.domain.Category
 import dev.juanrincon.respite.CategoryQueries
 
-class RespiteCategoryRepository(private val categoryQueries: CategoryQueries): CategoryRepository {
+internal class RespiteCategoryRepository(private val categoryQueries: CategoryQueries) :
+    CategoryRepository {
     override suspend fun create(newCategory: Category): Result<Unit> = try {
         Result.success(categoryQueries.insert(null, newCategory.name, newCategory.description))
     } catch (t: Throwable) {
