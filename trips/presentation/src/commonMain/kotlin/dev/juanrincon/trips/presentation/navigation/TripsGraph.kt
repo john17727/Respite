@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import dev.juanrincon.trips.presentation.destination.DestinationScreenRoot
 import dev.juanrincon.trips.presentation.empty_screen.EmptyScreenRoot
 import dev.juanrincon.trips.presentation.pack_destination.PackForDestinationScreenRoot
 
@@ -21,7 +22,9 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
                     navController.navigate(route = "luggage")
                 },
                 onNavigateToPackForDestination = {
-                    navController.navigate(route = "pack_for_destination")
+                    navController.navigate(route = "pack_for_destination") {
+                        popUpTo("empty")
+                    }
                 },
                 onNavigateToDestination = {
                     navController.navigate(route = "destination")
@@ -37,6 +40,9 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
                     navController.navigateUp()
                 }
             )
+        }
+        composable(route = "destination") {
+            DestinationScreenRoot()
         }
     }
 }
