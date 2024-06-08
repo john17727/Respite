@@ -40,15 +40,19 @@ import dev.juanrincon.core.presentation.animations.slideUp
 import dev.juanrincon.core.presentation.components.BannerAlignment
 import dev.juanrincon.core.presentation.components.LeftActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
-import dev.juanrincon.core.presentation.di.koinViewModel
 import dev.juanrincon.core.presentation.navigation.BackHandler
 import dev.juanrincon.core.presentation.utils.Reverse
 import dev.juanrincon.luggage.presentation.components.CreatingLuggageItem
 import dev.juanrincon.luggage.presentation.components.EditingLuggageItem
 import dev.juanrincon.luggage.presentation.components.UserLuggageItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
+@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun LuggageScreenRoot(
     onBackPressed: () -> Unit,
@@ -59,7 +63,14 @@ fun LuggageScreenRoot(
         state = state,
         onIntent = { intent ->
             when (intent) {
-                LuggageIntent.NavigateBack -> onBackPressed()
+                LuggageIntent.NavigateBack -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        viewModel.onIntent(intent)
+                        delay(150)
+                        onBackPressed()
+                    }
+                }
+
                 else -> viewModel.onIntent(intent)
             }
         }
@@ -71,7 +82,6 @@ fun LuggageScreenRoot(
 private fun LuggageScreen(
     state: LuggageState,
     onIntent: (LuggageIntent) -> Unit,
-    showContent: Boolean = true
 ) {
     val focusRequester = remember { FocusRequester() }
     val coroutineScope = rememberCoroutineScope()
@@ -86,7 +96,7 @@ private fun LuggageScreen(
     Box(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()) {
         Row(horizontalArrangement = Arrangement.Reverse, modifier = Modifier.fillMaxSize()) {
             AnimatedVisibility(
-                visible = showContent,
+                visible = state.transitionAnimation,
                 enter = slideUp { fullHeight -> fullHeight / 12 },
                 exit = slideDown { fullHeight -> fullHeight / 12 }
             ) {
@@ -102,7 +112,7 @@ private fun LuggageScreen(
                 )
             }
             AnimatedVisibility(
-                visible = showContent,
+                visible = state.listAnimation,
                 enter = fadeIn() + slideLeft { fullWidth -> fullWidth / 12 }
             ) {
                 LazyColumn(

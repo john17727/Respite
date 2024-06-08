@@ -43,21 +43,33 @@ import dev.juanrincon.core.presentation.animations.slideDown
 import dev.juanrincon.core.presentation.animations.slideUp
 import dev.juanrincon.core.presentation.components.RightActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
-import dev.juanrincon.core.presentation.di.koinViewModel
 import dev.juanrincon.core.presentation.navigation.BackHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
+@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun CategoriesScreenRoot(
     onBackPressed: () -> Unit,
     viewModel: CategoryViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    CategoriesScreenRootScreen(
+    CategoriesScreen(
         state = state,
         onIntent = { intent ->
             when (intent) {
-                CategoryIntent.NavigateBack -> onBackPressed()
+                CategoryIntent.NavigateBack -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        viewModel.onIntent(intent)
+                        delay(150)
+                        onBackPressed()
+                    }
+                }
+
                 else -> viewModel.onIntent(intent)
             }
         }
@@ -66,10 +78,9 @@ fun CategoriesScreenRoot(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun CategoriesScreenRootScreen(
+private fun CategoriesScreen(
     state: CategoryState,
     onIntent: (CategoryIntent) -> Unit,
-    showContent: Boolean = true
 ) {
     val focusRequester = remember { FocusRequester() }
     val scrollState = rememberLazyListState()
@@ -84,7 +95,7 @@ private fun CategoriesScreenRootScreen(
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
             AnimatedVisibility(
-                visible = showContent,
+                visible = state.transitionAnimation,
                 enter = slideUp { fullHeight -> fullHeight / 12 },
                 exit = slideDown { fullHeight -> fullHeight / 12 }
             ) {
@@ -99,7 +110,7 @@ private fun CategoriesScreenRootScreen(
                 )
             }
             AnimatedVisibility(
-                visible = showContent
+                visible = state.listAnimation
             ) {
                 LazyColumn(
                     state = scrollState,

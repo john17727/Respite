@@ -12,6 +12,7 @@ import dev.juanrincon.categories.presentation.models.UICategory.Companion.toUIMo
 import dev.juanrincon.core.domain.Category
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.mvi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(
@@ -31,7 +32,15 @@ class CategoryViewModel(
         is CategoryIntent.CreateCategory -> createCategory(intent.name)
         CategoryIntent.CancelCreateItem -> cancelCreateItem()
         is CategoryIntent.CancelEditItem -> cancelEditItem(intent.id)
-        CategoryIntent.NavigateBack -> Unit
+        CategoryIntent.NavigateBack -> playClosingAnimation()
+    }
+
+    private fun playClosingAnimation() {
+        viewModelScope.launch {
+            updateState { copy(listAnimation = false) }
+            delay(125)
+            updateState { copy(transitionAnimation = false) }
+        }
     }
 
     private fun cancelEditItem(id: Int) {
@@ -111,14 +120,18 @@ class CategoryViewModel(
             updateState { copy(loading = true) }
             repository.read().fold(
                 onSuccess = {
+                    delay(50)
                     updateState {
                         copy(
                             categories = it.map(::toCategoryItem),
                             loading = false,
                             inEditMode = false,
-                            inAddMode = false
+                            inAddMode = false,
+                            transitionAnimation = true
                         )
                     }
+                    delay(100)
+                    updateState { copy(listAnimation = true) }
                 },
                 onFailure = {
                     updateState { copy(loading = false, inEditMode = false, inAddMode = false) }

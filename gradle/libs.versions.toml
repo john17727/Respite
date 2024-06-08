@@ -16,9 +16,9 @@ junit = "4.13.2"
 kotlin = "1.9.22"
 kotlinxCoroutinesCore = "1.8.1-Beta"
 sqldelight = "2.0.1"
-koin = "3.6.0-alpha3"
+koin = "3.6.0-Beta4"
 navigationCompose = "2.7.0-alpha07"
-koinComposeMultiplatform = "1.2.0-alpha3"
+koinComposeMultiplatform = "1.2.0-Beta4"
 lifecycleViewModel = "2.8.1"
 
 [libraries]
@@ -41,6 +41,7 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeMultiplatform" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewModel" }
 

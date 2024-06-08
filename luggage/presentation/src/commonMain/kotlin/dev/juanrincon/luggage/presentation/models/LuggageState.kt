@@ -8,5 +8,7 @@ data class LuggageState(
     val categories: List<UICategory> = listOf(),
     val inEditMode: Boolean = false,
     val inAddMode: Boolean = false,
-    val loading: Boolean = false
+    val loading: Boolean = false,
+    val transitionAnimation: Boolean = false,
+    val listAnimation: Boolean = false
 )

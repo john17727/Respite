@@ -1,5 +1,9 @@
 package dev.juanrincon.luggage.presentation.di
 
-import org.koin.core.module.Module
+import dev.juanrincon.luggage.presentation.LuggageViewModel
+import org.koin.compose.viewmodel.dsl.viewModelOf
+import org.koin.dsl.module
 
-expect val luggageViewModelModule: Module
+val luggageViewModelModule = module {
+    viewModelOf(::LuggageViewModel)
+}

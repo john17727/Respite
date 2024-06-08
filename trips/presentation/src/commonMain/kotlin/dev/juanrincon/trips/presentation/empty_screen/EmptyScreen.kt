@@ -29,7 +29,7 @@ import dev.juanrincon.core.presentation.components.CallToActionTag
 import dev.juanrincon.core.presentation.components.InputTag
 import dev.juanrincon.core.presentation.components.LeftActionButton
 import dev.juanrincon.core.presentation.components.RightActionButton
-import dev.juanrincon.core.presentation.di.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun EmptyScreenRoot(

@@ -11,6 +11,7 @@ import dev.juanrincon.luggage.presentation.models.UICategory.Companion.toUICateg
 import dev.juanrincon.luggage.presentation.models.UIItem.Companion.toUIItem
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.mvi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LuggageViewModel(
@@ -32,7 +33,15 @@ class LuggageViewModel(
         is LuggageIntent.EditItem -> setEditItem(intent.id)
         LuggageIntent.GetLuggage -> getLuggage()
         is LuggageIntent.UpdateLuggage -> updateLuggage(intent.id, intent.name, intent.categoryId)
-        LuggageIntent.NavigateBack -> Unit
+        LuggageIntent.NavigateBack -> playClosingAnimation()
+    }
+
+    private fun playClosingAnimation() {
+        viewModelScope.launch {
+            updateState { copy(listAnimation = false) }
+            delay(125)
+            updateState { copy(transitionAnimation = false) }
+        }
     }
 
     private fun setEditItem(id: Int) {
@@ -105,13 +114,17 @@ class LuggageViewModel(
             updateState { copy(loading = true) }
             repository.read().fold(
                 onSuccess = {
+                    delay(50)
                     updateState {
                         copy(
                             luggage = it.map(::toLuggageItem),
                             loading = false,
-                            inEditMode = false
+                            inEditMode = false,
+                            transitionAnimation = true
                         )
                     }
+                    delay(100)
+                    updateState { copy(listAnimation = true) }
                 },
                 onFailure = {
                     updateState { copy(loading = false, inEditMode = false) }
