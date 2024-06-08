@@ -35,6 +35,7 @@ import dev.juanrincon.categories.presentation.components.CreatingCategoryItem
 import dev.juanrincon.categories.presentation.components.EditingCategoryItem
 import dev.juanrincon.categories.presentation.components.SystemCategoryItem
 import dev.juanrincon.categories.presentation.components.UserCategoryItem
+import dev.juanrincon.categories.presentation.models.CategoryEvent
 import dev.juanrincon.categories.presentation.models.CategoryIntent
 import dev.juanrincon.categories.presentation.models.CategoryItem
 import dev.juanrincon.categories.presentation.models.CategoryState
@@ -44,10 +45,8 @@ import dev.juanrincon.core.presentation.animations.slideUp
 import dev.juanrincon.core.presentation.components.RightActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
 import dev.juanrincon.core.presentation.navigation.BackHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import dev.juanrincon.core.presentation.utils.ObserveAsEvents
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -58,21 +57,14 @@ fun CategoriesScreenRoot(
     viewModel: CategoryViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    ObserveAsEvents(viewModel.sideEffect) { event ->
+        when (event) {
+            CategoryEvent.NavigateBack -> onBackPressed()
+        }
+    }
     CategoriesScreen(
         state = state,
-        onIntent = { intent ->
-            when (intent) {
-                CategoryIntent.NavigateBack -> {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        viewModel.onIntent(intent)
-                        delay(150)
-                        onBackPressed()
-                    }
-                }
-
-                else -> viewModel.onIntent(intent)
-            }
-        }
+        onIntent = viewModel::onIntent
     )
 }
 

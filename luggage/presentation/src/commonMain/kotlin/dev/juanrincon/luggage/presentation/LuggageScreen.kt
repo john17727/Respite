@@ -41,12 +41,12 @@ import dev.juanrincon.core.presentation.components.BannerAlignment
 import dev.juanrincon.core.presentation.components.LeftActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
 import dev.juanrincon.core.presentation.navigation.BackHandler
+import dev.juanrincon.core.presentation.utils.ObserveAsEvents
 import dev.juanrincon.core.presentation.utils.Reverse
 import dev.juanrincon.luggage.presentation.components.CreatingLuggageItem
 import dev.juanrincon.luggage.presentation.components.EditingLuggageItem
 import dev.juanrincon.luggage.presentation.components.UserLuggageItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import dev.juanrincon.luggage.presentation.models.LuggageEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -59,21 +59,14 @@ fun LuggageScreenRoot(
     viewModel: LuggageViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    ObserveAsEvents(viewModel.sideEffect) { event ->
+        when (event) {
+            LuggageEvent.NavigateBack -> onBackPressed()
+        }
+    }
     LuggageScreen(
         state = state,
-        onIntent = { intent ->
-            when (intent) {
-                LuggageIntent.NavigateBack -> {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        viewModel.onIntent(intent)
-                        delay(150)
-                        onBackPressed()
-                    }
-                }
-
-                else -> viewModel.onIntent(intent)
-            }
-        }
+        onIntent = viewModel::onIntent
     )
 }
 

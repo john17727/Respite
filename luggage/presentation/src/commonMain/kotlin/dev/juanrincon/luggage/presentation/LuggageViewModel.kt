@@ -7,6 +7,7 @@ import dev.juanrincon.luggage.domain.Item
 import dev.juanrincon.luggage.domain.ItemRepository
 import dev.juanrincon.luggage.presentation.LuggageItem.Companion.toEditingItem
 import dev.juanrincon.luggage.presentation.LuggageItem.Companion.toUserItem
+import dev.juanrincon.luggage.presentation.models.LuggageEvent
 import dev.juanrincon.luggage.presentation.models.UICategory.Companion.toUICategory
 import dev.juanrincon.luggage.presentation.models.UIItem.Companion.toUIItem
 import dev.juanrincon.mvi.MVI
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 class LuggageViewModel(
     private val repository: ItemRepository,
     private val categoryRepository: CategoryRepository
-) : ViewModel(), MVI<LuggageState, LuggageIntent, Nothing> by mvi(LuggageState()) {
+) : ViewModel(), MVI<LuggageState, LuggageIntent, LuggageEvent> by mvi(LuggageState()) {
 
     init {
         getCategories()
@@ -33,15 +34,20 @@ class LuggageViewModel(
         is LuggageIntent.EditItem -> setEditItem(intent.id)
         LuggageIntent.GetLuggage -> getLuggage()
         is LuggageIntent.UpdateLuggage -> updateLuggage(intent.id, intent.name, intent.categoryId)
-        LuggageIntent.NavigateBack -> playClosingAnimation()
+        LuggageIntent.NavigateBack -> navigateBack()
     }
 
-    private fun playClosingAnimation() {
+    private fun navigateBack() {
         viewModelScope.launch {
-            updateState { copy(listAnimation = false) }
-            delay(125)
-            updateState { copy(transitionAnimation = false) }
+            playClosingAnimation()
+            emitSideEffect(LuggageEvent.NavigateBack)
         }
+    }
+
+    private suspend fun playClosingAnimation() {
+        updateState { copy(listAnimation = false) }
+        delay(125)
+        updateState { copy(transitionAnimation = false) }
     }
 
     private fun setEditItem(id: Int) {

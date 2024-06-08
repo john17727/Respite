@@ -3,6 +3,7 @@ package dev.juanrincon.categories.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.juanrincon.categories.domain.CategoryRepository
+import dev.juanrincon.categories.presentation.models.CategoryEvent
 import dev.juanrincon.categories.presentation.models.CategoryIntent
 import dev.juanrincon.categories.presentation.models.CategoryItem
 import dev.juanrincon.categories.presentation.models.CategoryItem.Companion.toEditingItem
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class CategoryViewModel(
     private val repository: CategoryRepository
-) : ViewModel(), MVI<CategoryState, CategoryIntent, Nothing> by mvi(CategoryState()) {
+) : ViewModel(), MVI<CategoryState, CategoryIntent, CategoryEvent> by mvi(CategoryState()) {
 
     init {
         getCategories()
@@ -32,15 +33,20 @@ class CategoryViewModel(
         is CategoryIntent.CreateCategory -> createCategory(intent.name)
         CategoryIntent.CancelCreateItem -> cancelCreateItem()
         is CategoryIntent.CancelEditItem -> cancelEditItem(intent.id)
-        CategoryIntent.NavigateBack -> playClosingAnimation()
+        CategoryIntent.NavigateBack -> navigateBack()
     }
 
-    private fun playClosingAnimation() {
+    private fun navigateBack() {
         viewModelScope.launch {
-            updateState { copy(listAnimation = false) }
-            delay(125)
-            updateState { copy(transitionAnimation = false) }
+            playClosingAnimation()
+            emitSideEffect(CategoryEvent.NavigateBack)
         }
+    }
+
+    private suspend fun playClosingAnimation() {
+        updateState { copy(listAnimation = false) }
+        delay(125)
+        updateState { copy(transitionAnimation = false) }
     }
 
     private fun cancelEditItem(id: Int) {
