@@ -3,14 +3,13 @@ package dev.juanrincon.trips.presentation.utils
 import dev.juanrincon.core.domain.TripStatus
 import dev.juanrincon.trips.domain.Trip
 import dev.juanrincon.trips.domain.TripItem
-import dev.juanrincon.trips.domain.extensions.getCityAbbreviation
 import dev.juanrincon.trips.presentation.models.UITrip
 import dev.juanrincon.trips.presentation.models.UITripItem
 import dev.juanrincon.trips.presentation.models.UITripStatus
 
 fun Trip.toUIModel() = UITrip(
     this.id,
-    this.name.getCityAbbreviation(),
+    this.name,
     this.status.toUIModel(),
     this.current,
     this.items.map { it.toUIModel() }

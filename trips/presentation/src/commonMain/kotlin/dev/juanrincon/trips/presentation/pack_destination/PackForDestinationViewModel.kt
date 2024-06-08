@@ -11,11 +11,13 @@ import dev.juanrincon.trips.presentation.models.UITripItem
 import dev.juanrincon.trips.presentation.models.UITripStatus
 import dev.juanrincon.trips.presentation.utils.toDomainModel
 import dev.juanrincon.trips.presentation.utils.toUIModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PackForDestinationViewModel(
     private val tripRepository: TripRepository,
-) : ViewModel(), MVI<TripState, PackForDestinationIntent, Nothing> by MVIDelegate(TripState()) {
+) : ViewModel(),
+    MVI<TripState, PackForDestinationIntent, PackForDestinationEvent> by MVIDelegate(TripState()) {
 
     init {
         getTripAndItems()
@@ -23,7 +25,7 @@ class PackForDestinationViewModel(
 
     override fun onIntent(intent: PackForDestinationIntent) = when (intent) {
         is PackForDestinationIntent.AddItem -> incrementItemCount(intent.tripId, intent.item)
-        is PackForDestinationIntent.CancelPacking -> cancelPacking(intent.tripId, intent.tripStatus)
+        is PackForDestinationIntent.CancelPacking -> cancelPacking(intent.tripId)
         is PackForDestinationIntent.FinishPacking -> finishPacking(intent.trip)
         is PackForDestinationIntent.RemoveItem -> decrementItemCount(intent.tripId, intent.item)
     }
@@ -32,7 +34,18 @@ class PackForDestinationViewModel(
         updateState { copy(loading = true) }
         viewModelScope.launch {
             tripRepository.getCurrentTrip().onSuccess { trip ->
-                updateState { copy(trip = trip?.toUIModel(), loading = false) }
+                trip?.let {
+                    delay(50)
+                    updateState {
+                        copy(
+                            trip = it.toUIModel(),
+                            loading = false,
+                            transitionAnimation = true
+                        )
+                    }
+                    delay(100)
+                    updateState { copy(listAnimation = true) }
+                }
             }.onFailure {
                 updateState { copy(loading = false) }
             }
@@ -43,16 +56,15 @@ class PackForDestinationViewModel(
         if (trip.status is UITripStatus.PackingDestination) {
             viewModelScope.launch {
                 tripRepository.updateTrip(trip.toDomainModel())
-                getTripAndItems()
             }
         }
     }
 
-    private fun cancelPacking(tripId: Int, currentStatus: UITripStatus) {
-        if (currentStatus is UITripStatus.PackingDestination) {
-            viewModelScope.launch {
-                tripRepository.deleteTripAndItems(tripId)
-                getTripAndItems()
+    private fun cancelPacking(tripId: Int) {
+        viewModelScope.launch {
+            tripRepository.deleteTripAndItems(tripId).onSuccess {
+                playClosingAnimation()
+                emitSideEffect(PackForDestinationEvent.CancelPacking)
             }
         }
     }
@@ -88,5 +100,11 @@ class PackForDestinationViewModel(
                 }
             }
         }
+    }
+
+    private suspend fun playClosingAnimation() {
+        updateState { copy(listAnimation = false) }
+        delay(125)
+        updateState { copy(transitionAnimation = false) }
     }
 }
