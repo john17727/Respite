@@ -13,6 +13,8 @@ import dev.juanrincon.luggage.presentation.models.UIItem.Companion.toUIItem
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.mvi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class LuggageViewModel(
@@ -166,17 +168,11 @@ class LuggageViewModel(
     }
 
     private fun getCategories() {
-        viewModelScope.launch {
-            updateState { copy(loading = true) }
-            categoryRepository.read().fold(
-                onSuccess = {
-                    updateState { copy(categories = it.map { it.toUICategory() }, loading = false) }
-                },
-                onFailure = {
-                    updateState { copy(loading = false) }
-                }
-            )
-        }
+        updateState { copy(loading = true) }
+        categoryRepository.read().onEach { categories ->
+            val categoriesList = categories.map { it.toUICategory() }
+            updateState { copy(categories = categoriesList, loading = false) }
+        }.launchIn(viewModelScope)
     }
 
     private fun cancelEditItem(id: Int) {

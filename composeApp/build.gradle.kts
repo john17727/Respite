@@ -7,8 +7,6 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization") version "2.0.0"
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
     alias(libs.plugins.sqlDelight) // Need the sqldelight plugin here as well
 }
 
@@ -39,7 +37,6 @@ kotlin {
             // Dependency Injection
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
-            implementation(libs.room.runtime.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -54,9 +51,6 @@ kotlin {
             implementation(libs.navigation.compose)
 
             implementation(libs.koin.compose)
-
-            implementation(libs.room.runtime)
-            implementation(libs.sqlite.bundled)
 
             implementation(project(":mvi"))
             implementation(project(":core:domain"))
@@ -110,12 +104,4 @@ android {
     dependencies {
         debugImplementation(compose.uiTooling)
     }
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
-}
-
-dependencies {
-    add("kspCommonMainMetadata", libs.room.compiler)
 }
