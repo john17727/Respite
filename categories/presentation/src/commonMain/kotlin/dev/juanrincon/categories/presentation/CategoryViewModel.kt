@@ -167,7 +167,8 @@ class CategoryViewModel(
 
     private fun addItemEditableInList(categories: List<CategoryItem>): List<CategoryItem> {
         val mutableList = categories.toMutableList()
-        mutableList.add(1, CategoryItem.newItem())
+        val topIndex = categories.count { it is CategoryItem.SystemItem }
+        mutableList.add(topIndex, CategoryItem.newItem())
         return mutableList
     }
 }
