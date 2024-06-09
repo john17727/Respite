@@ -28,7 +28,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.koin.core)
-            implementation(libs.room.runtime)
             implementation(project(":categories:domain"))
             implementation(project(":core:data"))
             implementation(project(":core:domain"))

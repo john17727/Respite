@@ -1,8 +1,9 @@
-package dev.juanrincon.core.data.database
+package dev.juanrincon.core.data.database.daos
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
+import dev.juanrincon.core.data.database.entities.Category
 import kotlinx.coroutines.flow.Flow
 
 @Dao

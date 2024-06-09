@@ -41,7 +41,7 @@ kotlin {
             implementation(libs.room.runtime.android)
         }
         commonMain.dependencies {
-            implementation(libs.room.runtime)
+            api(libs.room.runtime)
             implementation(libs.sqlite.bundled)
             implementation(project(":core:domain"))
         }

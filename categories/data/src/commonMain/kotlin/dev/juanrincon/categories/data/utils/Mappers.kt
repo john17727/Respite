@@ -1,7 +1,7 @@
 package dev.juanrincon.categories.data.utils
 
 import dev.juanrincon.core.domain.Category
-import dev.juanrincon.core.data.database.Category as CategoryEntity
+import dev.juanrincon.core.data.database.entities.Category as CategoryEntity
 
 fun Category.toEntity(): CategoryEntity = CategoryEntity(
     this.id,

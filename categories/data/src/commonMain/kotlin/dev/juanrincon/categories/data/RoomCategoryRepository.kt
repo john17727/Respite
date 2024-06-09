@@ -3,7 +3,7 @@ package dev.juanrincon.categories.data
 import dev.juanrincon.categories.data.utils.toDomain
 import dev.juanrincon.categories.data.utils.toEntity
 import dev.juanrincon.categories.domain.CategoryRepository
-import dev.juanrincon.core.data.database.CategoryDao
+import dev.juanrincon.core.data.database.daos.CategoryDao
 import dev.juanrincon.core.domain.Category
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -106,7 +106,9 @@ class CategoryViewModel(
 
     private fun createCategory(name: String) {
         viewModelScope.launch {
-            repository.create(Category(0, name, null)).onFailure {
+            repository.create(Category(0, name, null)).onSuccess {
+                updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
+            }.onFailure {
                 updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
             }
         }
@@ -135,7 +137,9 @@ class CategoryViewModel(
     private fun updateCategory(id: Int, name: String) {
         viewModelScope.launch {
             updateState { copy(loading = true) }
-            repository.update(Category(id, name, null)).onFailure {
+            repository.update(Category(id, name, null)).onSuccess {
+                updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
+            }.onFailure {
                 updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
             }
         }

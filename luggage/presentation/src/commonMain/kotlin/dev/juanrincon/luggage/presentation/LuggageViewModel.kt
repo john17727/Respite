@@ -34,7 +34,6 @@ class LuggageViewModel(
         is LuggageIntent.CreateLuggage -> createLuggage(intent.name, intent.categoryId)
         is LuggageIntent.DeleteLuggage -> deleteLuggage(intent.id)
         is LuggageIntent.EditItem -> setEditItem(intent.id)
-        LuggageIntent.GetLuggage -> getLuggage()
         is LuggageIntent.UpdateLuggage -> updateLuggage(intent.id, intent.name, intent.categoryId)
         LuggageIntent.NavigateBack -> navigateBack()
     }
@@ -106,64 +105,49 @@ class LuggageViewModel(
     private fun deleteLuggage(id: Int) {
         viewModelScope.launch {
             updateState { copy(loading = true) }
-            repository.delete(id).fold(
-                onSuccess = {
-                    getLuggage()
-                },
-                onFailure = {
-                    updateState { copy(loading = false) }
-                }
-            )
+            repository.delete(id).onFailure {
+                updateState { copy(loading = false) }
+
+            }
         }
     }
 
     private fun getLuggage() {
-        viewModelScope.launch {
-            updateState { copy(loading = true) }
-            repository.read().fold(
-                onSuccess = {
-                    delay(50)
-                    updateState {
-                        copy(
-                            luggage = it.map(::toLuggageItem),
-                            loading = false,
-                            inEditMode = false,
-                            transitionAnimation = true
-                        )
-                    }
-                    delay(100)
-                    updateState { copy(listAnimation = true) }
-                },
-                onFailure = {
-                    updateState { copy(loading = false, inEditMode = false) }
-                }
-            )
-        }
+        updateState { copy(loading = true) }
+        repository.read().onEach { items ->
+            delay(50)
+            updateState {
+                copy(
+                    luggage = items.map(::toLuggageItem),
+                    loading = false,
+                    inEditMode = false,
+                    transitionAnimation = true
+                )
+            }
+            delay(100)
+            updateState { copy(listAnimation = true) }
+        }.launchIn(viewModelScope)
     }
 
     private fun updateLuggage(id: Int, name: String, categoryId: Int) {
         viewModelScope.launch {
             updateState { copy(loading = true) }
-            repository.update(id, name, categoryId).fold(
-                onSuccess = { getLuggage() },
-                onFailure = {
-                    updateState { copy(loading = false, inEditMode = false) }
-                }
-            )
+            repository.update(id, name, categoryId).onSuccess {
+                updateState { copy(loading = false, inEditMode = false) }
+            }.onFailure {
+                updateState { copy(loading = false, inEditMode = false) }
+            }
         }
     }
 
     private fun createLuggage(name: String, categoryId: Int) {
         updateState { copy(loading = true) }
         viewModelScope.launch {
-            repository.create(name, categoryId).fold(
-                onSuccess = {
-                    getLuggage()
-                },
-                onFailure = {
-                    updateState { copy(loading = false) }
-                }
-            )
+            repository.create(name, categoryId).onSuccess {
+                updateState { copy(loading = false, inAddMode = false) }
+            }.onFailure {
+                updateState { copy(loading = false, inAddMode = false) }
+            }
         }
     }
 
