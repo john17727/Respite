@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization") version "2.0.0"
-    alias(libs.plugins.sqlDelight) // Need the sqldelight plugin here as well
 }
 
 kotlin {
@@ -25,7 +24,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            isStatic = false
+            isStatic = true
         }
     }
 

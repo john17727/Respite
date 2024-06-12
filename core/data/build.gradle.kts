@@ -7,7 +7,6 @@ plugins {
     kotlin("plugin.serialization") version "2.0.0"
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
-    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -36,8 +35,6 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            // Database
-            implementation(libs.sqldelight.android.driver)
             implementation(libs.room.runtime.android)
         }
         commonMain.dependencies {
@@ -47,9 +44,6 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-        }
-        iosMain.dependencies {
-            implementation(libs.sqldelight.native.driver)
         }
     }
 
@@ -68,16 +62,10 @@ android {
     }
 }
 
-sqldelight {
-    databases {
-        create("Database") {
-            packageName.set("dev.juanrincon.respite")
-        }
-    }
-}
 room {
     schemaDirectory("$projectDir/schemas")
 }
+
 dependencies {
     add("kspCommonMainMetadata", libs.room.compiler)
 }
