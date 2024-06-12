@@ -37,12 +37,14 @@ import dev.juanrincon.trips.presentation.components.RightTripItem
 import dev.juanrincon.trips.presentation.models.TripState
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.core.parameter.ParametersHolder
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun PackForDestinationScreenRoot(
     onNavigateBack: () -> Unit,
-    viewModel: PackForDestinationViewModel = koinViewModel()
+    parametersHolder: ParametersHolder,
+    viewModel: PackForDestinationViewModel = koinViewModel(parameters = { parametersHolder })
 ) {
     ObserveAsEvents(flow = viewModel.sideEffect) { event ->
         when (event) {

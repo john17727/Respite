@@ -12,9 +12,13 @@ import dev.juanrincon.trips.presentation.models.UITripStatus
 import dev.juanrincon.trips.presentation.utils.toDomainModel
 import dev.juanrincon.trips.presentation.utils.toUIModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class PackForDestinationViewModel(
+    private val tripId: Int,
     private val tripRepository: TripRepository,
 ) : ViewModel(),
     MVI<TripState, PackForDestinationIntent, PackForDestinationEvent> by MVIDelegate(TripState()) {
@@ -32,13 +36,22 @@ class PackForDestinationViewModel(
 
     private fun getTripAndItems() {
         updateState { copy(loading = true) }
-        viewModelScope.launch {
-            tripRepository.getCurrentTrip().onSuccess { trip ->
+        tripRepository.getCurrentTrip()
+            .combine(tripRepository.getPotentialItemsForTrip(tripId)) { trip, items ->
+                trip?.let {
+                    UITrip(
+                        it.id,
+                        it.name,
+                        it.status.toUIModel(),
+                        it.current,
+                        items.map { item -> item.toUIModel() })
+                }
+            }.onEach { trip ->
                 trip?.let {
                     delay(50)
                     updateState {
                         copy(
-                            trip = it.toUIModel(),
+                            trip = it,
                             loading = false,
                             transitionAnimation = true
                         )
@@ -46,10 +59,7 @@ class PackForDestinationViewModel(
                     delay(100)
                     updateState { copy(listAnimation = true) }
                 }
-            }.onFailure {
-                updateState { copy(loading = false) }
-            }
-        }
+            }.launchIn(viewModelScope)
     }
 
     private fun finishPacking(trip: UITrip) {
@@ -73,7 +83,7 @@ class PackForDestinationViewModel(
         updateState { copy(loading = true) }
         viewModelScope.launch {
             tripRepository.upsertItem(tripId, item.toDomainModel().increment()).onSuccess {
-                getTripAndItems()
+                updateState { copy(loading = false) }
             }.onFailure {
                 updateState { copy(loading = false) }
             }
@@ -86,7 +96,7 @@ class PackForDestinationViewModel(
         viewModelScope.launch {
             if (newItem.total == 0) {
                 tripRepository.deleteTripItem(tripId, newItem.id).onSuccess {
-                    getTripAndItems()
+                    updateState { copy(loading = false) }
                 }.onFailure {
                     updateState { copy(loading = false) }
                 }
@@ -94,7 +104,7 @@ class PackForDestinationViewModel(
                 updateState { copy(loading = false) }
             } else {
                 tripRepository.upsertItem(tripId, newItem).onSuccess {
-                    getTripAndItems()
+                    updateState { copy(loading = false) }
                 }.onFailure {
                     updateState { copy(loading = false) }
                 }

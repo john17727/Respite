@@ -1,7 +1,6 @@
 package dev.juanrincon.luggage.presentation
 
 sealed interface LuggageIntent {
-    data object GetLuggage : LuggageIntent
     data class UpdateLuggage(val id: Int, val name: String, val categoryId: Int) : LuggageIntent
     data class DeleteLuggage(val id: Int) : LuggageIntent
     data class CreateLuggage(val name: String, val categoryId: Int) : LuggageIntent

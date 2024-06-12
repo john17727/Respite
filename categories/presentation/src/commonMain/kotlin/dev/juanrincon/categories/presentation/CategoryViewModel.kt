@@ -14,6 +14,8 @@ import dev.juanrincon.core.domain.Category
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.mvi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(
@@ -21,11 +23,25 @@ class CategoryViewModel(
 ) : ViewModel(), MVI<CategoryState, CategoryIntent, CategoryEvent> by mvi(CategoryState()) {
 
     init {
-        getCategories()
+        repository.read().onEach { categories ->
+            val categoriesUI = categories.map(::toCategoryItem)
+            delay(50)
+            updateState {
+                copy(
+                    categories = categoriesUI,
+                    loading = false,
+                    inEditMode = false,
+                    inAddMode = false,
+                    transitionAnimation = true
+                )
+            }
+            delay(100)
+            updateState { copy(listAnimation = true) }
+        }.launchIn(viewModelScope)
     }
 
     override fun onIntent(intent: CategoryIntent) = when (intent) {
-        CategoryIntent.GetAllCategories -> getCategories()
+        CategoryIntent.GetAllCategories -> Unit
         is CategoryIntent.DeleteCategory -> deleteCategory(intent.id)
         is CategoryIntent.UpdateCategory -> updateCategory(intent.id, intent.newName)
         is CategoryIntent.EditItem -> setEditItem(intent.id)
@@ -90,14 +106,11 @@ class CategoryViewModel(
 
     private fun createCategory(name: String) {
         viewModelScope.launch {
-            repository.create(Category(0, name, null)).fold(
-                onSuccess = {
-                    getCategories()
-                },
-                onFailure = {
-                    updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
-                }
-            )
+            repository.create(Category(0, name, null)).onSuccess {
+                updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
+            }.onFailure {
+                updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
+            }
         }
     }
 
@@ -121,56 +134,23 @@ class CategoryViewModel(
         }
     }
 
-    private fun getCategories() {
-        viewModelScope.launch {
-            updateState { copy(loading = true) }
-            repository.read().fold(
-                onSuccess = {
-                    delay(50)
-                    updateState {
-                        copy(
-                            categories = it.map(::toCategoryItem),
-                            loading = false,
-                            inEditMode = false,
-                            inAddMode = false,
-                            transitionAnimation = true
-                        )
-                    }
-                    delay(100)
-                    updateState { copy(listAnimation = true) }
-                },
-                onFailure = {
-                    updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
-                }
-            )
-        }
-    }
-
     private fun updateCategory(id: Int, name: String) {
         viewModelScope.launch {
             updateState { copy(loading = true) }
-            repository.update(Category(id, name, null)).fold(
-                onSuccess = {
-                    getCategories()
-                },
-                onFailure = {
-                    updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
-                }
-            )
+            repository.update(Category(id, name, null)).onSuccess {
+                updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
+            }.onFailure {
+                updateState { copy(loading = false, inEditMode = false, inAddMode = false) }
+            }
         }
     }
 
     private fun deleteCategory(id: Int) {
         viewModelScope.launch {
             updateState { copy(loading = true) }
-            repository.delete(id).fold(
-                onSuccess = {
-                    getCategories()
-                },
-                onFailure = {
-                    updateState { copy(loading = false) }
-                }
-            )
+            repository.delete(id).onFailure {
+                updateState { copy(loading = false) }
+            }
         }
     }
 
@@ -191,7 +171,8 @@ class CategoryViewModel(
 
     private fun addItemEditableInList(categories: List<CategoryItem>): List<CategoryItem> {
         val mutableList = categories.toMutableList()
-        mutableList.add(1, CategoryItem.newItem())
+        val topIndex = categories.count { it is CategoryItem.SystemItem }
+        mutableList.add(topIndex, CategoryItem.newItem())
         return mutableList
     }
 }
