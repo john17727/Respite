@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Luggage
 import androidx.compose.material.icons.rounded.Sell
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,20 +38,21 @@ import org.koin.core.annotation.KoinExperimentalAPI
 fun EmptyScreenRoot(
     onCategoriesClick: () -> Unit,
     onLuggageClick: () -> Unit,
-    onNavigateToPackForDestination: () -> Unit,
+    onNavigateToPackForDestination: (Int) -> Unit,
     onNavigateToDestination: () -> Unit,
     onNavigateToNextDestination: () -> Unit,
     viewModel: EmptyViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    LaunchedEffect(Unit) {
-        viewModel.onIntent(EmptyScreenIntent.GetTrips)
-    }
     ObserveAsEvents(viewModel.sideEffect) { event ->
         when (event) {
-            EmptyScreenEvent.TripCreationSuccess -> onNavigateToPackForDestination()
+            is EmptyScreenEvent.TripCreationSuccess -> {
+                onNavigateToPackForDestination(event.tripId)
+            }
             EmptyScreenEvent.Destination -> onNavigateToDestination()
-            EmptyScreenEvent.PackForDestination -> onNavigateToPackForDestination()
+            is EmptyScreenEvent.PackForDestination -> {
+                onNavigateToPackForDestination(event.tripId)
+            }
             EmptyScreenEvent.PackForNextDestination -> onNavigateToNextDestination()
         }
     }
@@ -62,7 +62,6 @@ fun EmptyScreenRoot(
             when (intent) {
                 EmptyScreenIntent.NavigateToCategories -> onCategoriesClick()
                 EmptyScreenIntent.NavigateToLuggage -> onLuggageClick()
-                EmptyScreenIntent.NavigateToPackForDestination -> onNavigateToPackForDestination()
                 else -> viewModel.onIntent(intent)
             }
         }

@@ -5,22 +5,25 @@ import dev.juanrincon.respite.TripsQueries
 import dev.juanrincon.trips.domain.Trip
 import dev.juanrincon.trips.domain.TripItem
 import dev.juanrincon.trips.domain.TripRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
+@Deprecated("Moving to room")
 internal class RespiteTripRepository(private val tripsQueries: TripsQueries) : TripRepository {
-    override suspend fun createTrip(name: String, status: TripStatus): Result<Unit> = try {
+    override suspend fun createTrip(name: String, status: TripStatus): Result<Int> = try {
         tripsQueries.insertTrip(
             id = null,
             name = name,
             status = status,
             current = true
         )
-        Result.success(Unit)
+        Result.success(0)
     } catch (e: Exception) {
         Result.failure(e)
     }
 
-    override suspend fun getCurrentTrip(): Result<Trip?> = try {
-        val trip = tripsQueries.getCurrentTrip().executeAsOneOrNull()?.let {
+    override fun getCurrentTrip(): Flow<Trip?> = flowOf(
+        tripsQueries.getCurrentTrip().executeAsOneOrNull()?.let {
             val items: List<TripItem> = if (it.status is TripStatus.PackingDestination) {
                 tripsQueries.getAllTripItems<TripItem>(it.id) { id, name, category, amount ->
                     TripItem(
@@ -45,12 +48,16 @@ internal class RespiteTripRepository(private val tripsQueries: TripsQueries) : T
                 it.name,
                 it.status,
                 it.current,
-                items
             )
         }
-        Result.success(trip)
-    } catch (e: Exception) {
-        Result.failure(e)
+    )
+
+    override fun getPotentialItemsForTrip(tripId: Int): Flow<List<TripItem>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getItemsForTrip(tripId: Int): Flow<List<TripItem>> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun updateTrip(trip: Trip): Result<Unit> = try {
@@ -82,13 +89,6 @@ internal class RespiteTripRepository(private val tripsQueries: TripsQueries) : T
             amount = newItem.total,
             id = getTripItemKey(tripId, newItem.id)
         )
-        Result.success(Unit)
-    } catch (e: Exception) {
-        Result.failure(e)
-    }
-
-    override suspend fun updateAllItems(tripId: Int, newTripId: Int): Result<Unit> = try {
-        tripsQueries.updateTripItems(tripId, newTripId)
         Result.success(Unit)
     } catch (e: Exception) {
         Result.failure(e)

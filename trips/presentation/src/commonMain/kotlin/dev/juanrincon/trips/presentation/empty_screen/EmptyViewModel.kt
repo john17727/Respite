@@ -13,6 +13,10 @@ class EmptyViewModel(
 ) : ViewModel(),
     MVI<EmptyScreenState, EmptyScreenIntent, EmptyScreenEvent> by mvi(EmptyScreenState()) {
 
+    init {
+        getTripAndItems()
+    }
+
     override fun onIntent(intent: EmptyScreenIntent) = when (intent) {
         is EmptyScreenIntent.CreateTrip -> createTrip(intent.name)
         EmptyScreenIntent.NavigateToCategories -> Unit
@@ -24,15 +28,18 @@ class EmptyViewModel(
     private fun getTripAndItems() {
         updateState { copy(loading = true) }
         viewModelScope.launch {
-            tripRepository.getCurrentTrip().onSuccess { trip ->
+            tripRepository.getCurrentTrip().collect { trip ->
                 when (trip?.status) {
                     TripStatus.Destination -> emitSideEffect(EmptyScreenEvent.Destination)
-                    TripStatus.PackingDestination -> emitSideEffect(EmptyScreenEvent.PackForDestination)
+                    TripStatus.PackingDestination -> emitSideEffect(
+                        EmptyScreenEvent.PackForDestination(
+                            trip.id
+                        )
+                    )
+
                     TripStatus.PackingNextDestination -> emitSideEffect(EmptyScreenEvent.PackForNextDestination)
                     null -> updateState { copy(loading = false) }
                 }
-            }.onFailure {
-                updateState { copy(loading = false) }
             }
         }
     }
@@ -40,7 +47,7 @@ class EmptyViewModel(
     private fun createTrip(name: String) {
         viewModelScope.launch {
             tripRepository.createTrip(name).onSuccess {
-                emitSideEffect(EmptyScreenEvent.TripCreationSuccess)
+                emitSideEffect(EmptyScreenEvent.TripCreationSuccess(it))
             }
         }
     }
