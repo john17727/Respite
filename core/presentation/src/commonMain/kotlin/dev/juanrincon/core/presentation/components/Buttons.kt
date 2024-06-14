@@ -59,6 +59,7 @@ fun LeftActionButton(
 fun RightActionButton(
     onClick: () -> Unit,
     icon: ImageVector,
+    enabled: Boolean = true,
     navBarPadding: Dp = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding(),
     backgroundColor: Color = MaterialTheme.colorScheme.tertiary,
     contentColor: Color = MaterialTheme.colorScheme.onTertiary,
@@ -71,6 +72,7 @@ fun RightActionButton(
             containerColor = backgroundColor,
             contentColor = contentColor
         ),
+        enabled = enabled,
         contentPadding = PaddingValues(
             start = 24.dp,
             top = 16.dp,

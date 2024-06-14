@@ -8,7 +8,6 @@ import dev.juanrincon.trips.domain.TripRepository
 import dev.juanrincon.trips.presentation.models.TripState
 import dev.juanrincon.trips.presentation.models.UITrip
 import dev.juanrincon.trips.presentation.models.UITripItem
-import dev.juanrincon.trips.presentation.models.UITripStatus
 import dev.juanrincon.trips.presentation.utils.toDomainModel
 import dev.juanrincon.trips.presentation.utils.toUIModel
 import kotlinx.coroutines.delay
@@ -63,9 +62,9 @@ class PackForDestinationViewModel(
     }
 
     private fun finishPacking(trip: UITrip) {
-        if (trip.status is UITripStatus.PackingDestination) {
-            viewModelScope.launch {
-                tripRepository.updateTrip(trip.toDomainModel())
+        viewModelScope.launch {
+            tripRepository.updateTrip(trip.toDomainModel()).onSuccess {
+                playClosingAnimation()
             }
         }
     }

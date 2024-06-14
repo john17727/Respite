@@ -94,9 +94,8 @@ private fun CategoriesScreen(
                 VerticalBanner(
                     text = "Categories",
                     icon = Icons.Rounded.Sell,
-                    actionButtonEnabled = state.inEditMode.not() && state.inAddMode.not(),
-                    actionButtonIcon = Icons.Rounded.Add,
-                    onActionButtonClick = { onIntent(CategoryIntent.CreateItem) },
+                    actionButtonIcon = Icons.AutoMirrored.Rounded.ArrowForward,
+                    onActionButtonClick = { onIntent(CategoryIntent.NavigateBack) },
                     backgroundColor = Color(0xFFA6C994),
                     contentColor = Color(0xFF3C422F),
                 )
@@ -178,10 +177,11 @@ private fun CategoriesScreen(
         }
 
         RightActionButton(
-            onClick = { onIntent(CategoryIntent.NavigateBack) },
+            onClick = { onIntent(CategoryIntent.CreateItem) },
+            enabled = state.inEditMode.not() && state.inAddMode.not(),
             backgroundColor = Color(0xFFEDD379),
             contentColor = Color(0xFF684633),
-            icon = Icons.AutoMirrored.Rounded.ArrowForward,
+            icon = Icons.Rounded.Add,
             modifier = Modifier.align(Alignment.BottomEnd)
         )
     }

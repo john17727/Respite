@@ -46,13 +46,8 @@ fun EmptyScreenRoot(
     val state by viewModel.state.collectAsState()
     ObserveAsEvents(viewModel.sideEffect) { event ->
         when (event) {
-            is EmptyScreenEvent.TripCreationSuccess -> {
-                onNavigateToPackForDestination(event.tripId)
-            }
             EmptyScreenEvent.Destination -> onNavigateToDestination()
-            is EmptyScreenEvent.PackForDestination -> {
-                onNavigateToPackForDestination(event.tripId)
-            }
+            is EmptyScreenEvent.PackForDestination -> onNavigateToPackForDestination(event.tripId)
             EmptyScreenEvent.PackForNextDestination -> onNavigateToNextDestination()
         }
     }

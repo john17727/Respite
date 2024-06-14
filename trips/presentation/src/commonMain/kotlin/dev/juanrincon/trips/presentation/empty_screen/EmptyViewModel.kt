@@ -29,16 +29,18 @@ class EmptyViewModel(
         updateState { copy(loading = true) }
         viewModelScope.launch {
             tripRepository.getCurrentTrip().collect { trip ->
-                when (trip?.status) {
-                    TripStatus.Destination -> emitSideEffect(EmptyScreenEvent.Destination)
-                    TripStatus.PackingDestination -> emitSideEffect(
-                        EmptyScreenEvent.PackForDestination(
-                            trip.id
+                updateState { copy(loading = false) }
+                trip?.let {
+                    when (it.status) {
+                        TripStatus.Destination -> emitSideEffect(EmptyScreenEvent.Destination)
+                        TripStatus.PackingDestination -> emitSideEffect(
+                            EmptyScreenEvent.PackForDestination(
+                                trip.id
+                            )
                         )
-                    )
 
-                    TripStatus.PackingNextDestination -> emitSideEffect(EmptyScreenEvent.PackForNextDestination)
-                    null -> updateState { copy(loading = false) }
+                        TripStatus.PackingNextDestination -> emitSideEffect(EmptyScreenEvent.PackForNextDestination)
+                    }
                 }
             }
         }
@@ -46,9 +48,7 @@ class EmptyViewModel(
 
     private fun createTrip(name: String) {
         viewModelScope.launch {
-            tripRepository.createTrip(name).onSuccess {
-                emitSideEffect(EmptyScreenEvent.TripCreationSuccess(it))
-            }
+            tripRepository.createTrip(name)
         }
     }
 }
