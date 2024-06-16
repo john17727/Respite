@@ -1,16 +1,45 @@
 package dev.juanrincon.trips.presentation.destination
 
-import androidx.compose.material3.Text
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Explore
+import androidx.compose.material.icons.rounded.FlightTakeoff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import dev.juanrincon.core.presentation.animations.slideDown
+import dev.juanrincon.core.presentation.animations.slideUp
+import dev.juanrincon.core.presentation.components.RightActionButton
+import dev.juanrincon.core.presentation.components.VerticalBanner
+import dev.juanrincon.core.presentation.navigation.BackHandler
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.core.parameter.ParametersHolder
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun DestinationScreenRoot(
-    viewModel: DestinationViewModel = koinViewModel()
+    parametersHolder: ParametersHolder,
+    viewModel: DestinationViewModel = koinViewModel(parameters = { parametersHolder })
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -25,5 +54,54 @@ private fun DestinationScreen(
     state: DestinationState,
     onIntent: (DestinationIntent) -> Unit
 ) {
-    Text("Destination")
+    val listState = rememberLazyListState()
+    Box(
+        modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()
+    ) {
+        Row(modifier = Modifier.fillMaxSize()) {
+            AnimatedVisibility(
+                visible = state.transitionAnimation,
+                enter = slideUp { fullHeight -> fullHeight / 12 },
+                exit = slideDown { fullHeight -> fullHeight / 12 }
+            ) {
+                VerticalBanner(
+                    text = state.trip.name,
+                    icon = Icons.Rounded.Explore,
+                    actionButtonIcon = Icons.Rounded.Close,
+                    onActionButtonClick = {},
+                    backgroundColor = Color(0xFFA6C994),
+                    contentColor = Color(0xFF3C422F),
+                )
+            }
+            AnimatedVisibility(
+                visible = state.listAnimation
+            ) {
+                LazyColumn(
+                    state = listState,
+                    verticalArrangement = Arrangement.spacedBy(28.dp),
+                    contentPadding = PaddingValues(
+                        top = 16.dp,
+                        end = 24.dp,
+                        bottom = 70.dp + WindowInsets.navigationBars.asPaddingValues()
+                            .calculateBottomPadding()
+                    ),
+                    modifier = Modifier.fillMaxHeight().weight(1f)
+                ) {
+                    items(state.trip.items, key = { it.id }) { item ->
+                    }
+                }
+            }
+        }
+
+        RightActionButton(
+            onClick = {},
+            backgroundColor = Color(0xFFEDD379),
+            contentColor = Color(0xFF684633),
+            icon = Icons.Rounded.FlightTakeoff,
+            modifier = Modifier.align(Alignment.BottomEnd)
+        )
+    }
+    BackHandler(true) {
+
+    }
 }

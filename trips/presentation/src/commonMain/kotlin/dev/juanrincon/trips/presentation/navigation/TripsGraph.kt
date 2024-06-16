@@ -30,7 +30,7 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
                     }
                 },
                 onNavigateToDestination = { tripId ->
-                    navController.navigate(route = "destination/{tripId}") {
+                    navController.navigate(route = "destination/$tripId") {
                         popUpTo("empty")
                     }
                 },
@@ -56,7 +56,9 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
             )
         }
         composable(route = "destination/{tripId}") {
-            DestinationScreenRoot()
+            DestinationScreenRoot(
+                parametersHolder = parametersOf(it.arguments?.getInt("tripId") ?: 0)
+            )
         }
     }
 }
