@@ -12,7 +12,7 @@ import dev.juanrincon.categories.presentation.models.CategoryState
 import dev.juanrincon.categories.presentation.models.UICategory.Companion.toUIModel
 import dev.juanrincon.core.domain.Category
 import dev.juanrincon.mvi.MVI
-import dev.juanrincon.mvi.mvi
+import dev.juanrincon.mvi.mviHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class CategoryViewModel(
     private val repository: CategoryRepository
-) : ViewModel(), MVI<CategoryState, CategoryIntent, CategoryEvent> by mvi(CategoryState()) {
+) : ViewModel(), MVI<CategoryState, CategoryIntent, CategoryEvent> by mviHandler(CategoryState()) {
 
     init {
         repository.read().onEach { categories ->

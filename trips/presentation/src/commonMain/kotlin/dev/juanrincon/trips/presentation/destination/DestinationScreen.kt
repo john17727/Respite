@@ -31,6 +31,7 @@ import dev.juanrincon.core.presentation.animations.slideUp
 import dev.juanrincon.core.presentation.components.RightActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
 import dev.juanrincon.core.presentation.navigation.BackHandler
+import dev.juanrincon.core.presentation.utils.ObserveAsEvents
 import dev.juanrincon.trips.presentation.components.LeftTripItem
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -39,9 +40,15 @@ import org.koin.core.parameter.ParametersHolder
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun DestinationScreenRoot(
+    onNavigateBack: () -> Unit,
     parametersHolder: ParametersHolder,
     viewModel: DestinationViewModel = koinViewModel(parameters = { parametersHolder })
 ) {
+    ObserveAsEvents(viewModel.sideEffect) { event ->
+        when (event) {
+            DestinationEvent.CancelTrip -> onNavigateBack()
+        }
+    }
     val state by viewModel.state.collectAsState()
 
     DestinationScreen(
@@ -69,7 +76,7 @@ private fun DestinationScreen(
                     text = state.trip.name,
                     icon = Icons.Rounded.Explore,
                     actionButtonIcon = Icons.Rounded.Close,
-                    onActionButtonClick = {},
+                    onActionButtonClick = { onIntent(DestinationIntent.CancelTrip(state.trip.id)) },
                     backgroundColor = Color(0xFFA6C994),
                     contentColor = Color(0xFF3C422F),
                 )
@@ -108,6 +115,6 @@ private fun DestinationScreen(
         )
     }
     BackHandler(true) {
-
+        onIntent(DestinationIntent.CancelTrip(state.trip.id))
     }
 }

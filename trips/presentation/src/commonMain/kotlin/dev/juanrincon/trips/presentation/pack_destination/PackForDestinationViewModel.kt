@@ -3,7 +3,7 @@ package dev.juanrincon.trips.presentation.pack_destination
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.juanrincon.mvi.MVI
-import dev.juanrincon.mvi.MVIDelegate
+import dev.juanrincon.mvi.mviHandler
 import dev.juanrincon.trips.domain.TripRepository
 import dev.juanrincon.trips.presentation.models.TripState
 import dev.juanrincon.trips.presentation.models.UITrip
@@ -21,7 +21,7 @@ class PackForDestinationViewModel(
     private val tripId: Int,
     private val tripRepository: TripRepository,
 ) : ViewModel(),
-    MVI<TripState, PackForDestinationIntent, PackForDestinationEvent> by MVIDelegate(TripState()) {
+    MVI<TripState, PackForDestinationIntent, PackForDestinationEvent> by mviHandler(TripState()) {
 
     init {
         getTripAndItems()

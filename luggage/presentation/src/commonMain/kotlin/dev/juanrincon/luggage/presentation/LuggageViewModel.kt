@@ -11,7 +11,7 @@ import dev.juanrincon.luggage.presentation.models.LuggageEvent
 import dev.juanrincon.luggage.presentation.models.UICategory.Companion.toUICategory
 import dev.juanrincon.luggage.presentation.models.UIItem.Companion.toUIItem
 import dev.juanrincon.mvi.MVI
-import dev.juanrincon.mvi.mvi
+import dev.juanrincon.mvi.mviHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 class LuggageViewModel(
     private val repository: ItemRepository,
     private val categoryRepository: CategoryRepository
-) : ViewModel(), MVI<LuggageState, LuggageIntent, LuggageEvent> by mvi(LuggageState()) {
+) : ViewModel(), MVI<LuggageState, LuggageIntent, LuggageEvent> by mviHandler(LuggageState()) {
 
     init {
         getCategories()

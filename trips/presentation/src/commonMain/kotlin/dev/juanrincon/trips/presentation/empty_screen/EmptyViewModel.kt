@@ -4,14 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.juanrincon.core.domain.TripStatus
 import dev.juanrincon.mvi.MVI
-import dev.juanrincon.mvi.mvi
+import dev.juanrincon.mvi.mviHandler
 import dev.juanrincon.trips.domain.TripRepository
 import kotlinx.coroutines.launch
 
 class EmptyViewModel(
     private val tripRepository: TripRepository
 ) : ViewModel(),
-    MVI<EmptyScreenState, EmptyScreenIntent, EmptyScreenEvent> by mvi(EmptyScreenState()) {
+    MVI<EmptyScreenState, EmptyScreenIntent, EmptyScreenEvent> by mviHandler(EmptyScreenState()) {
 
     init {
         getTripAndItems()

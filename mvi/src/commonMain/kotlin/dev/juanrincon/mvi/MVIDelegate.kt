@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MVIDelegate<State, Intent, SideEffect>(
+internal class MVIDelegate<State, Intent, SideEffect>(
     initialUiState: State,
 ) : MVI<State, Intent, SideEffect> {
 
@@ -35,6 +35,6 @@ class MVIDelegate<State, Intent, SideEffect>(
     }
 }
 
-fun <UiState, UiAction, SideEffect> mvi(
+fun <UiState, UiAction, SideEffect> mviHandler(
     initialUiState: UiState,
 ): MVI<UiState, UiAction, SideEffect> = MVIDelegate(initialUiState)

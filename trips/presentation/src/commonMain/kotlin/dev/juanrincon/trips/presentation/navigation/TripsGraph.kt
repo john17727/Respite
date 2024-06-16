@@ -61,6 +61,9 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
         ) {
             val id = it.arguments?.getInt("tripId") ?: 0
             DestinationScreenRoot(
+                onNavigateBack = {
+                    navController.navigateUp()
+                },
                 parametersHolder = parametersOf(id)
             )
         }
