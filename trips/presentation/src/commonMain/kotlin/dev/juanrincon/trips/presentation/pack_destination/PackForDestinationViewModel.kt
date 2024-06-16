@@ -12,9 +12,11 @@ import dev.juanrincon.trips.presentation.models.UITripItem
 import dev.juanrincon.trips.presentation.utils.toDomainModel
 import dev.juanrincon.trips.presentation.utils.toUIModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class PackForDestinationViewModel(
@@ -35,32 +37,22 @@ class PackForDestinationViewModel(
     }
 
     private fun getTripAndItems() {
-        updateState { copy(loading = true) }
-        tripRepository.getCurrentTrip()
-            .combine(tripRepository.getPotentialItemsForTrip(tripId)) { trip, items ->
-                trip?.let {
-                    UITrip(
-                        it.id,
-                        it.name,
-                        it.status.toUIModel(),
-                        it.current,
-                        items.map { item -> item.toUIModel() })
+
+        tripRepository.getTripAndPotentialItems(tripId).map { trip -> trip.toUIModel() }
+            .onEach { trip ->
+                delay(50)
+                updateState {
+                    copy(
+                        trip = trip,
+                        loading = false,
+                        transitionAnimation = true,
+                        isNextButtonEnabled = trip.items.sumOf { item -> item.total } > 0
+                    )
                 }
-            }.onEach { trip ->
-                trip?.let {
-                    delay(50)
-                    updateState {
-                        copy(
-                            trip = it,
-                            loading = false,
-                            transitionAnimation = true,
-                            isNextButtonEnabled = it.items.sumOf { item -> item.total } > 0
-                        )
-                    }
-                    delay(100)
-                    updateState { copy(listAnimation = true) }
-                }
-            }.launchIn(viewModelScope)
+                delay(100)
+                updateState { copy(listAnimation = true) }
+            }.onStart { updateState { copy(loading = true) } }
+            .onCompletion { updateState { copy(loading = false) } }.launchIn(viewModelScope)
     }
 
     private fun finishPacking(trip: UITrip) {

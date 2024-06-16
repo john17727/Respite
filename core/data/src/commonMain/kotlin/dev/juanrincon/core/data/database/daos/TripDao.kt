@@ -11,6 +11,9 @@ interface TripDao {
     @Query("SELECT * FROM trip WHERE current = true")
     fun getCurrentTrip(): Flow<Trip?>
 
+    @Query("SELECT * FROM trip WHERE id = :id")
+    fun getTrip(id: Int): Flow<Trip>
+
     @Upsert
     suspend fun upsert(trip: Trip): Long
 

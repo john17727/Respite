@@ -9,6 +9,7 @@ import dev.juanrincon.trips.domain.Trip
 import dev.juanrincon.trips.domain.TripItem
 import dev.juanrincon.trips.domain.TripRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import dev.juanrincon.core.data.database.entities.Trip as TripEntity
 import dev.juanrincon.core.data.database.entities.TripItem as TripItemEntity
@@ -43,6 +44,16 @@ internal class RoomTripRepository(
 
     override fun getItemsForTrip(tripId: Int): Flow<List<TripItem>> =
         tripItemDao.getAllForTrip(tripId).map { items -> items.map { it.toDomain() } }
+
+    override fun getTripAndPotentialItems(id: Int): Flow<Trip> =
+        tripDao.getTrip(id).combine(tripItemDao.getPotentialItemsForTrip(id)) { trip, items ->
+            trip.toDomain(items.map { it.toDomain() })
+        }
+
+    override fun getTripAndItems(id: Int): Flow<Trip> =
+        tripDao.getTrip(id).combine(tripItemDao.getAllForTrip(id)) { trip, items ->
+            trip.toDomain(items.map { it.toDomain() })
+        }
 
     override suspend fun updateTrip(trip: Trip): Result<Unit> = try {
         tripDao.upsert(trip.toEntity())

@@ -7,4 +7,5 @@ data class Trip(
     val name: String,
     val status: TripStatus,
     val current: Boolean,
+    val items: List<TripItem>
 )

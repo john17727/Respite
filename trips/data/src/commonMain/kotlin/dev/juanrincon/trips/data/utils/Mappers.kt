@@ -24,15 +24,18 @@ fun TripEntity.toDomain(): Trip = Trip(
     id = this.id,
     name = this.name,
     status = this.status.toDomain(),
-    current = this.current
+    current = this.current,
+    items = listOf()
 )
 
-fun Trip.toDomain(): TripEntity = TripEntity(
+fun TripEntity.toDomain(items: List<TripItem>): Trip = Trip(
     id = this.id,
     name = this.name,
-    status = this.status.toEntity(),
-    current = this.current
+    status = this.status.toDomain(),
+    current = this.current,
+    items = items
 )
+
 
 fun DetailTripItem.toDomain(): TripItem = TripItem(
     id = this.luggageItem.item.id,

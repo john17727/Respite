@@ -12,8 +12,9 @@ fun Trip.toUIModel() = UITrip(
     this.name,
     this.status.toUIModel(),
     this.current,
-    listOf()
+    this.items.map { it.toUIModel() }
 )
+
 
 fun TripItem.toUIModel() = UITripItem(
     this.id,
@@ -32,7 +33,8 @@ fun UITrip.toDomainModel() = Trip(
     this.id,
     this.name,
     this.status.toDomainModel(),
-    this.active
+    this.active,
+    this.items.map { it.toDomainModel() }
 )
 
 fun UITripStatus.toDomainModel() = when (this) {
