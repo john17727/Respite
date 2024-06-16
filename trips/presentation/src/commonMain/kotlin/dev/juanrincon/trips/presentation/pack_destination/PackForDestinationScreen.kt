@@ -83,6 +83,7 @@ private fun PackForDestinationScreen(
                             )
                         )
                     },
+                    actionButtonEnabled = state.isNextButtonEnabled,
                     backgroundColor = Color(0xFFEDD379),
                     contentColor = Color(0xFF684633),
                     alignment = BannerAlignment.End

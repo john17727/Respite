@@ -52,7 +52,8 @@ class PackForDestinationViewModel(
                         copy(
                             trip = it,
                             loading = false,
-                            transitionAnimation = true
+                            transitionAnimation = true,
+                            isNextButtonEnabled = it.items.sumOf { item -> item.total } > 0
                         )
                     }
                     delay(100)
