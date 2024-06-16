@@ -31,6 +31,7 @@ import dev.juanrincon.core.presentation.animations.slideUp
 import dev.juanrincon.core.presentation.components.RightActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
 import dev.juanrincon.core.presentation.navigation.BackHandler
+import dev.juanrincon.trips.presentation.components.LeftTripItem
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.parameter.ParametersHolder
@@ -88,6 +89,11 @@ private fun DestinationScreen(
                     modifier = Modifier.fillMaxHeight().weight(1f)
                 ) {
                     items(state.trip.items, key = { it.id }) { item ->
+                        LeftTripItem(
+                            item = item,
+                            borderColor = Color(0xFFC2DB9E),
+                            contentColor = Color(0xFF3C422F)
+                        )
                     }
                 }
             }

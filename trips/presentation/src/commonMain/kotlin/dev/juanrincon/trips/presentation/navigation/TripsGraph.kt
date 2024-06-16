@@ -55,9 +55,13 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
                 parametersHolder = parametersOf(it.arguments?.getInt("tripId") ?: 0)
             )
         }
-        composable(route = "destination/{tripId}") {
+        composable(
+            route = "destination/{tripId}",
+            arguments = listOf(navArgument("tripId") { type = NavType.IntType })
+        ) {
+            val id = it.arguments?.getInt("tripId") ?: 0
             DestinationScreenRoot(
-                parametersHolder = parametersOf(it.arguments?.getInt("tripId") ?: 0)
+                parametersHolder = parametersOf(id)
             )
         }
     }

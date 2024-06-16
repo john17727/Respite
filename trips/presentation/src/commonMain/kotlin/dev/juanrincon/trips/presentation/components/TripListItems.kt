@@ -77,6 +77,48 @@ fun RightTripItem(
 }
 
 @Composable
+fun LeftTripItem(
+    item: UITripItem,
+    borderColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth().topBorder(borderColor, 2.dp)
+        ) {
+            Text(
+                text = item.name.uppercase(),
+                style = MaterialTheme.typography.titleLarge,
+                color = contentColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 6.dp, start = 4.dp)
+            )
+            Text(
+                text = item.total.toString(),
+                style = MaterialTheme.typography.bodyLarge,
+                color = contentColor,
+            )
+        }
+        Text(
+            text = item.category.uppercase(),
+            style = MaterialTheme.typography.titleMedium,
+            color = contentColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.topBorder(borderColor, 2.dp).padding(top = 6.dp, start = 4.dp)
+                .fillMaxWidth()
+        )
+    }
+}
+
+@Composable
 fun CountActionButtons(
     count: Int,
     onLeftButtonClick: () -> Unit,
