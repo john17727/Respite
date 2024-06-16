@@ -12,10 +12,6 @@ interface TripRepository {
 
     fun getCurrentTrip(): Flow<Trip?>
 
-    fun getPotentialItemsForTrip(tripId: Int): Flow<List<TripItem>>
-
-    fun getItemsForTrip(tripId: Int): Flow<List<TripItem>>
-
     fun getTripAndPotentialItems(id: Int): Flow<Trip>
 
     fun getTripAndItems(id: Int): Flow<Trip>

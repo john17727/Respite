@@ -17,8 +17,7 @@ import dev.juanrincon.core.data.database.entities.TripItem as TripItemEntity
 internal class RoomTripRepository(
     private val tripDao: TripDao,
     private val tripItemDao: TripItemDao
-) :
-    TripRepository {
+) : TripRepository {
     override suspend fun createTrip(name: String, status: TripStatus): Result<Int> = try {
         Result.success(
             tripDao.upsert(
@@ -36,14 +35,6 @@ internal class RoomTripRepository(
 
     override fun getCurrentTrip(): Flow<Trip?> =
         tripDao.getCurrentTrip().map { trip -> trip?.toDomain() }
-
-    override fun getPotentialItemsForTrip(tripId: Int): Flow<List<TripItem>> =
-        tripItemDao.getPotentialItemsForTrip(tripId).map { items ->
-            items.map { it.toDomain() }
-        }
-
-    override fun getItemsForTrip(tripId: Int): Flow<List<TripItem>> =
-        tripItemDao.getAllForTrip(tripId).map { items -> items.map { it.toDomain() } }
 
     override fun getTripAndPotentialItems(id: Int): Flow<Trip> =
         tripDao.getTrip(id).combine(tripItemDao.getPotentialItemsForTrip(id)) { trip, items ->
