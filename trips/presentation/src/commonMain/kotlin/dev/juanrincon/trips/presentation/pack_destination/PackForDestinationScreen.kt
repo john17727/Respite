@@ -44,12 +44,14 @@ import org.koin.core.parameter.ParametersHolder
 @Composable
 fun PackForDestinationScreenRoot(
     onNavigateBack: () -> Unit,
+    onNavigateToDestination: (Int) -> Unit,
     parametersHolder: ParametersHolder,
     viewModel: PackForDestinationViewModel = koinViewModel(parameters = { parametersHolder })
 ) {
     ObserveAsEvents(flow = viewModel.sideEffect) { event ->
         when (event) {
             PackForDestinationEvent.CancelPacking -> onNavigateBack()
+            is PackForDestinationEvent.PackForDestination -> onNavigateToDestination(event.tripId)
         }
     }
     val state by viewModel.state.collectAsState()

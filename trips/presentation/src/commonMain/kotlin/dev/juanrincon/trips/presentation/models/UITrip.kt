@@ -15,5 +15,7 @@ data class UITrip(
             active = true,
             items = listOf()
         )
+
+        fun UITrip.toDestination() = this.copy(status = UITripStatus.Destination)
     }
 }

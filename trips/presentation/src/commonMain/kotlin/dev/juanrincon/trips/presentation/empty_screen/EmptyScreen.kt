@@ -39,14 +39,14 @@ fun EmptyScreenRoot(
     onCategoriesClick: () -> Unit,
     onLuggageClick: () -> Unit,
     onNavigateToPackForDestination: (Int) -> Unit,
-    onNavigateToDestination: () -> Unit,
+    onNavigateToDestination: (Int) -> Unit,
     onNavigateToNextDestination: () -> Unit,
     viewModel: EmptyViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     ObserveAsEvents(viewModel.sideEffect) { event ->
         when (event) {
-            EmptyScreenEvent.Destination -> onNavigateToDestination()
+            is EmptyScreenEvent.Destination -> onNavigateToDestination(event.tripId)
             is EmptyScreenEvent.PackForDestination -> onNavigateToPackForDestination(event.tripId)
             EmptyScreenEvent.PackForNextDestination -> onNavigateToNextDestination()
         }

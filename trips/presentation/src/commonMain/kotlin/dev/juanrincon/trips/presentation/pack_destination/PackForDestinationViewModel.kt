@@ -7,6 +7,7 @@ import dev.juanrincon.mvi.MVIDelegate
 import dev.juanrincon.trips.domain.TripRepository
 import dev.juanrincon.trips.presentation.models.TripState
 import dev.juanrincon.trips.presentation.models.UITrip
+import dev.juanrincon.trips.presentation.models.UITrip.Companion.toDestination
 import dev.juanrincon.trips.presentation.models.UITripItem
 import dev.juanrincon.trips.presentation.utils.toDomainModel
 import dev.juanrincon.trips.presentation.utils.toUIModel
@@ -64,8 +65,9 @@ class PackForDestinationViewModel(
 
     private fun finishPacking(trip: UITrip) {
         viewModelScope.launch {
-            tripRepository.updateTrip(trip.toDomainModel()).onSuccess {
+            tripRepository.updateTrip(trip.toDestination().toDomainModel()).onSuccess {
                 playClosingAnimation()
+                emitSideEffect(PackForDestinationEvent.PackForDestination(trip.id))
             }
         }
     }

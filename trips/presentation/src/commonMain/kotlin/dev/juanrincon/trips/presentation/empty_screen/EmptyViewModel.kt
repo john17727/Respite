@@ -32,7 +32,7 @@ class EmptyViewModel(
                 updateState { copy(loading = false) }
                 trip?.let {
                     when (it.status) {
-                        TripStatus.Destination -> emitSideEffect(EmptyScreenEvent.Destination)
+                        TripStatus.Destination -> emitSideEffect(EmptyScreenEvent.Destination(trip.id))
                         TripStatus.PackingDestination -> emitSideEffect(
                             EmptyScreenEvent.PackForDestination(
                                 trip.id
