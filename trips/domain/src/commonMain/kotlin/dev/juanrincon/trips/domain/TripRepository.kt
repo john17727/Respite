@@ -12,9 +12,9 @@ interface TripRepository {
 
     fun getCurrentTrip(): Flow<Trip?>
 
-    fun getTripAndPotentialItems(id: Int): Flow<Trip>
+    fun getTripAndPotentialItems(id: Int): Flow<Trip?>
 
-    fun getTripAndItems(id: Int): Flow<Trip>
+    fun getTripAndItems(id: Int): Flow<Trip?>
 
     suspend fun updateTrip(trip: Trip): Result<Unit>
 

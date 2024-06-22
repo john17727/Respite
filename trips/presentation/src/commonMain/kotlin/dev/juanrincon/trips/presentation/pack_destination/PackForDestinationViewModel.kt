@@ -38,19 +38,21 @@ class PackForDestinationViewModel(
 
     private fun getTripAndItems() {
 
-        tripRepository.getTripAndPotentialItems(tripId).map { trip -> trip.toUIModel() }
+        tripRepository.getTripAndPotentialItems(tripId).map { trip -> trip?.toUIModel() }
             .onEach { trip ->
-                delay(50)
-                updateState {
-                    copy(
-                        trip = trip,
-                        loading = false,
-                        transitionAnimation = true,
-                        isNextButtonEnabled = trip.items.sumOf { item -> item.total } > 0
-                    )
+                trip?.let {
+                    delay(50)
+                    updateState {
+                        copy(
+                            trip = it,
+                            loading = false,
+                            transitionAnimation = true,
+                            isNextButtonEnabled = trip.items.sumOf { item -> item.total } > 0
+                        )
+                    }
+                    delay(100)
+                    updateState { copy(listAnimation = true) }
                 }
-                delay(100)
-                updateState { copy(listAnimation = true) }
             }.onStart { updateState { copy(loading = true) } }
             .onCompletion { updateState { copy(loading = false) } }.launchIn(viewModelScope)
     }

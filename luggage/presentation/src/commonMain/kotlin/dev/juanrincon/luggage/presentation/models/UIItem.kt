@@ -9,7 +9,7 @@ data class UIItem(
     val category: UICategory
 ) {
     companion object {
-        inline fun Item.toUIItem() = UIItem(
+        fun Item.toUIItem() = UIItem(
             this.id,
             this.name,
             this.category.toUICategory()

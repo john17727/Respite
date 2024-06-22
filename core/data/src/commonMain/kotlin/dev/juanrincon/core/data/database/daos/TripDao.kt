@@ -12,7 +12,7 @@ interface TripDao {
     fun getCurrentTrip(): Flow<Trip?>
 
     @Query("SELECT * FROM trip WHERE id = :id")
-    fun getTrip(id: Int): Flow<Trip>
+    fun getTrip(id: Int): Flow<Trip?>
 
     @Upsert
     suspend fun upsert(trip: Trip): Long

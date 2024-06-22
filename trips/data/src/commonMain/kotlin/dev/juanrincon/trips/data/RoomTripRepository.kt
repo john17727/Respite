@@ -36,14 +36,14 @@ internal class RoomTripRepository(
     override fun getCurrentTrip(): Flow<Trip?> =
         tripDao.getCurrentTrip().map { trip -> trip?.toDomain() }
 
-    override fun getTripAndPotentialItems(id: Int): Flow<Trip> =
+    override fun getTripAndPotentialItems(id: Int): Flow<Trip?> =
         tripDao.getTrip(id).combine(tripItemDao.getPotentialItemsForTrip(id)) { trip, items ->
-            trip.toDomain(items.map { it.toDomain() })
+            trip?.toDomain(items.map { it.toDomain() })
         }
 
-    override fun getTripAndItems(id: Int): Flow<Trip> =
+    override fun getTripAndItems(id: Int): Flow<Trip?> =
         tripDao.getTrip(id).combine(tripItemDao.getAllForTrip(id)) { trip, items ->
-            trip.toDomain(items.map { it.toDomain() })
+            trip?.toDomain(items.map { it.toDomain() })
         }
 
     override suspend fun updateTrip(trip: Trip): Result<Unit> = try {

@@ -42,7 +42,7 @@ kotlin {
             implementation(compose.materialIconsExtended)
 
             // ViewModel
-            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel.compose)
 
             // Dependency Injection
             api(libs.koin.core)

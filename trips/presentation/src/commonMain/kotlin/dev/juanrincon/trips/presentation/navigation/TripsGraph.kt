@@ -48,9 +48,10 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
                     navController.navigateUp()
                 },
                 onNavigateToDestination = { tripId ->
-                    navController.navigate(route = "destination/$tripId") {
-                        popUpTo("empty")
-                    }
+                    navController.navigateUp()
+//                    navController.navigate(route = "destination/$tripId") {
+//                        popUpTo("empty")
+//                    }
                 },
                 parametersHolder = parametersOf(it.arguments?.getInt("tripId") ?: 0)
             )

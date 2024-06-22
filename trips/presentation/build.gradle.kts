@@ -43,7 +43,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
 
             // ViewModel
-            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel.compose)
 
             // Dependency Injection
             api(libs.koin.core)

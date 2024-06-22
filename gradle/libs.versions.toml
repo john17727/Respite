@@ -13,12 +13,11 @@ androidx-test-junit = "1.1.5"
 compose-plugin = "1.6.10"
 junit = "4.13.2"
 kotlin = "2.0.0"
-compose = "1.6.7"
 kotlinxCoroutinesCore = "1.8.1-Beta"
 koin = "3.6.0-Beta4"
 navigationCompose = "2.7.0-alpha07"
 koinComposeMultiplatform = "1.2.0-Beta4"
-lifecycleViewModel = "2.8.1"
+lifecycleViewModelCompose = "2.8.0"
 room = "2.7.0-alpha03"
 ksp = "2.0.0-1.0.22"
 sqlite = "2.5.0-alpha03"
@@ -34,8 +33,6 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -43,7 +40,7 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeMultiplatform" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewModel" }
+lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewModelCompose" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-runtime-android = { module = "androidx.room:room-runtime-android", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
