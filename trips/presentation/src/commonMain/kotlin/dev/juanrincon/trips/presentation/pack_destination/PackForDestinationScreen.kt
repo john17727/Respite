@@ -16,9 +16,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FlightTakeoff
-import androidx.compose.material.icons.rounded.PinDrop
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -76,8 +76,8 @@ private fun PackForDestinationScreen(
             ) {
                 VerticalBanner(
                     text = state.trip.name,
-                    icon = Icons.Rounded.PinDrop,
-                    actionButtonIcon = Icons.Rounded.FlightTakeoff,
+                    icon = Icons.Rounded.FlightTakeoff,
+                    actionButtonIcon = Icons.Rounded.Check,
                     onActionButtonClick = {
                         onIntent(
                             PackForDestinationIntent.FinishPacking(

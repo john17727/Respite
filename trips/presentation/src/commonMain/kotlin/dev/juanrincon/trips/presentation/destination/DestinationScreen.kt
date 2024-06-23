@@ -17,8 +17,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Explore
-import androidx.compose.material.icons.rounded.FlightTakeoff
+import androidx.compose.material.icons.rounded.Luggage
+import androidx.compose.material.icons.rounded.PinDrop
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -74,7 +74,7 @@ private fun DestinationScreen(
             ) {
                 VerticalBanner(
                     text = state.trip.name,
-                    icon = Icons.Rounded.Explore,
+                    icon = Icons.Rounded.PinDrop,
                     actionButtonIcon = Icons.Rounded.Close,
                     onActionButtonClick = { onIntent(DestinationIntent.CancelTrip(state.trip.id)) },
                     backgroundColor = Color(0xFFA6C994),
@@ -110,7 +110,7 @@ private fun DestinationScreen(
             onClick = {},
             backgroundColor = Color(0xFFEDD379),
             contentColor = Color(0xFF684633),
-            icon = Icons.Rounded.FlightTakeoff,
+            icon = Icons.Rounded.Luggage,
             modifier = Modifier.align(Alignment.BottomEnd)
         )
     }

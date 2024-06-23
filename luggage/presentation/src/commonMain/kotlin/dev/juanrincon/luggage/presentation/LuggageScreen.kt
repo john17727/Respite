@@ -21,7 +21,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Luggage
+import androidx.compose.material.icons.rounded.Inbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -95,7 +95,7 @@ private fun LuggageScreen(
             ) {
                 VerticalBanner(
                     text = "Luggage",
-                    icon = Icons.Rounded.Luggage,
+                    icon = Icons.Rounded.Inbox,
                     actionButtonIcon = Icons.Rounded.Add,
                     onActionButtonClick = { onIntent(LuggageIntent.CreateItem) },
                     actionButtonEnabled = state.inEditMode.not() && state.inAddMode.not(),

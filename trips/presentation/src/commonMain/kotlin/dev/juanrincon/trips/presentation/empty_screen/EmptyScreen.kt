@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Luggage
+import androidx.compose.material.icons.rounded.Inbox
 import androidx.compose.material.icons.rounded.Sell
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -114,7 +114,7 @@ private fun EmptyScreenRootScreen(
                 onClick = { onIntent(EmptyScreenIntent.NavigateToLuggage) },
                 backgroundColor = Color(0xFFEDD379),
                 contentColor = Color(0xFF684633),
-                icon = Icons.Rounded.Luggage,
+                icon = Icons.Rounded.Inbox,
             )
         }
     }
