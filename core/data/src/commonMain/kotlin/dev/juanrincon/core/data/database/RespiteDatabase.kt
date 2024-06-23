@@ -15,7 +15,7 @@ import dev.juanrincon.core.data.database.entities.TripItem
 
 @Database(entities = [Category::class, Item::class, Trip::class, TripItem::class], version = 1)
 @TypeConverters(TripStatusConverters::class)
-abstract class RespiteDatabase : RoomDatabase(), DB {
+abstract class RespiteDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
 
     abstract fun itemDao(): LuggageItemDao
@@ -23,15 +23,4 @@ abstract class RespiteDatabase : RoomDatabase(), DB {
     abstract fun tripDao(): TripDao
 
     abstract fun tripItemDao(): TripItemDao
-
-    override fun clearAllTables() {
-        super.clearAllTables()
-    }
-
-}
-
-// FIXME: Added a hack to resolve below issue:
-// Class 'AppDatabase_Impl' is not abstract and does not implement abstract base class member 'clearAllTables'.
-interface DB {
-    fun clearAllTables() {}
 }

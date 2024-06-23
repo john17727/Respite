@@ -18,9 +18,9 @@ koin = "3.6.0-Beta4"
 navigationCompose = "2.7.0-alpha07"
 koinComposeMultiplatform = "1.2.0-Beta4"
 lifecycleViewModelCompose = "2.8.0"
-room = "2.7.0-alpha03"
+room = "2.7.0-alpha04"
 ksp = "2.0.0-1.0.22"
-sqlite = "2.5.0-alpha03"
+sqlite = "2.5.0-alpha04"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
