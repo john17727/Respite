@@ -4,8 +4,11 @@ data class TripItem(
     val id: Int,
     val name: String,
     val category: String,
-    val total: Int
+    val total: Int,
+    val packed: Int
 ) {
-    fun increment() = copy(total = total + 1)
-    fun decrement() = copy(total = total - 1)
+    fun incrementTotal() = copy(total = total + 1)
+    fun decrementTotal() = copy(total = total - 1)
+    fun incrementPacked() = copy(packed = packed + 1)
+    fun decrementPacked() = copy(packed = packed - 1)
 }

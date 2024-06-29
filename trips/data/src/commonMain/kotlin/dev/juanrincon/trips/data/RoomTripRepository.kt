@@ -54,13 +54,22 @@ internal class RoomTripRepository(
     }
 
     override suspend fun upsertItem(tripId: Int, newItem: TripItem): Result<Unit> = try {
-        Result.success(tripItemDao.upsert(TripItemEntity(tripId, newItem.id, newItem.total)))
+        Result.success(tripItemDao.upsert(TripItemEntity(tripId, newItem.id, newItem.total, 0)))
     } catch (t: Throwable) {
         Result.failure(t)
     }
 
     override suspend fun updateItem(tripId: Int, newItem: TripItem): Result<Unit> = try {
-        Result.success(tripItemDao.upsert(TripItemEntity(tripId, newItem.id, newItem.total)))
+        Result.success(
+            tripItemDao.upsert(
+                TripItemEntity(
+                    tripId,
+                    newItem.id,
+                    newItem.total,
+                    newItem.packed
+                )
+            )
+        )
     } catch (t: Throwable) {
         Result.failure(t)
     }

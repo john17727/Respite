@@ -20,7 +20,8 @@ fun TripItem.toUIModel() = UITripItem(
     this.id,
     this.name,
     this.category,
-    this.total
+    this.total,
+    this.packed
 )
 
 fun TripStatus.toUIModel() = when (this) {
@@ -47,5 +48,6 @@ fun UITripItem.toDomainModel() = TripItem(
     this.id,
     this.name,
     this.category,
-    this.total
+    this.total,
+    this.packed
 )

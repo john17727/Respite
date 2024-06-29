@@ -4,5 +4,6 @@ data class UITripItem(
     val id: Int,
     val name: String,
     val category: String,
-    val total: Int
+    val total: Int,
+    val packed: Int
 )

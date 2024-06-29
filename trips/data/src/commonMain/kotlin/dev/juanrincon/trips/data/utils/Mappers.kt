@@ -41,14 +41,16 @@ fun DetailTripItem.toDomain(): TripItem = TripItem(
     id = this.luggageItem.item.id,
     name = this.luggageItem.item.name,
     category = this.luggageItem.category.name,
-    total = this.tripItem.amount
+    total = this.tripItem.amount,
+    packed = this.tripItem.packed
 )
 
 fun PotentialTripItem.toDomain(): TripItem = TripItem(
     id = this.id,
     name = this.name,
     category = this.category,
-    total = this.amount
+    total = this.amount,
+    packed = 0
 )
 
 fun Trip.toEntity(): TripEntity = TripEntity(

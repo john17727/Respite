@@ -7,5 +7,6 @@ import androidx.room.Entity
 data class TripItem(
     @ColumnInfo(name = "trip_id") val tripId: Int,
     @ColumnInfo(name = "item_id") val itemId: Int,
-    val amount: Int
+    val amount: Int,
+    @ColumnInfo(defaultValue = "0") val packed: Int
 )

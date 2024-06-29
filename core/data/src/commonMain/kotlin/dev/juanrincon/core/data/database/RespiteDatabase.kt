@@ -1,5 +1,6 @@
 package dev.juanrincon.core.data.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -13,7 +14,13 @@ import dev.juanrincon.core.data.database.entities.Item
 import dev.juanrincon.core.data.database.entities.Trip
 import dev.juanrincon.core.data.database.entities.TripItem
 
-@Database(entities = [Category::class, Item::class, Trip::class, TripItem::class], version = 1)
+@Database(
+    entities = [Category::class, Item::class, Trip::class, TripItem::class],
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
+    ]
+)
 @TypeConverters(TripStatusConverters::class)
 abstract class RespiteDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao

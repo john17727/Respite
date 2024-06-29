@@ -78,7 +78,7 @@ class PackForDestinationViewModel(
     private fun incrementItemCount(tripId: Int, item: UITripItem) {
         updateState { copy(loading = true) }
         viewModelScope.launch {
-            tripRepository.upsertItem(tripId, item.toDomainModel().increment()).onSuccess {
+            tripRepository.upsertItem(tripId, item.toDomainModel().incrementTotal()).onSuccess {
                 updateState { copy(loading = false) }
             }.onFailure {
                 updateState { copy(loading = false) }
@@ -88,7 +88,7 @@ class PackForDestinationViewModel(
 
     private fun decrementItemCount(tripId: Int, item: UITripItem) {
         updateState { copy(loading = true) }
-        val newItem = item.toDomainModel().decrement()
+        val newItem = item.toDomainModel().decrementTotal()
         viewModelScope.launch {
             if (newItem.total == 0) {
                 tripRepository.deleteTripItem(tripId, newItem.id).onSuccess {
