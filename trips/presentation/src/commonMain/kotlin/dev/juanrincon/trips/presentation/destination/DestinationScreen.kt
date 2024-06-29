@@ -41,12 +41,14 @@ import org.koin.core.parameter.ParametersHolder
 @Composable
 fun DestinationScreenRoot(
     onNavigateBack: () -> Unit,
+    onNavigateToNextDestination: (Int) -> Unit,
     parametersHolder: ParametersHolder,
     viewModel: DestinationViewModel = koinViewModel(parameters = { parametersHolder })
 ) {
     ObserveAsEvents(viewModel.sideEffect) { event ->
         when (event) {
             DestinationEvent.CancelTrip -> onNavigateBack()
+            is DestinationEvent.PackForNextDestination -> onNavigateToNextDestination(event.tripId)
         }
     }
     val state by viewModel.state.collectAsState()
@@ -107,7 +109,7 @@ private fun DestinationScreen(
         }
 
         RightActionButton(
-            onClick = {},
+            onClick = { onIntent(DestinationIntent.StartPacking(state.trip)) },
             backgroundColor = Color(0xFFEDD379),
             contentColor = Color(0xFF684633),
             icon = Icons.Rounded.Luggage,

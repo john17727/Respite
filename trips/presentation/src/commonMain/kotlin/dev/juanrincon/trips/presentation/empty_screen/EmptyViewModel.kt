@@ -30,9 +30,9 @@ class EmptyViewModel(
     private fun getTripAndItems() {
         updateState { copy(loading = true) }
         viewModelScope.launch {
-            val trip = tripRepository.getCurrentTrip()
+            tripRepository.getCurrentTrip()
                 .onStart { updateState { copy(loading = false) } }
-                .firstOrNull()?.let { trip ->
+                .firstOrNull { it != null }?.let { trip ->
                     when (trip.status) {
                         TripStatus.Destination -> emitSideEffect(EmptyScreenEvent.Destination(trip.id))
                         TripStatus.PackingDestination -> emitSideEffect(
@@ -41,7 +41,11 @@ class EmptyViewModel(
                             )
                         )
 
-                        TripStatus.PackingNextDestination -> emitSideEffect(EmptyScreenEvent.PackForNextDestination)
+                        TripStatus.PackingNextDestination -> emitSideEffect(
+                            EmptyScreenEvent.PackForNextDestination(
+                                trip.id
+                            )
+                        )
                     }
                 }
         }

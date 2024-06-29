@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.mviHandler
 import dev.juanrincon.trips.domain.TripRepository
+import dev.juanrincon.trips.presentation.models.UITrip
+import dev.juanrincon.trips.presentation.models.UITrip.Companion.toNextDestination
+import dev.juanrincon.trips.presentation.utils.toDomainModel
 import dev.juanrincon.trips.presentation.utils.toUIModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -26,6 +29,7 @@ class DestinationViewModel(
 
     override fun onIntent(intent: DestinationIntent) = when (intent) {
         is DestinationIntent.CancelTrip -> cancelTrip(intent.tripId)
+        is DestinationIntent.StartPacking -> startPacking(intent.trip)
     }
 
     private fun cancelTrip(tripId: Int) {
@@ -33,6 +37,15 @@ class DestinationViewModel(
             repository.deleteTripAndItems(tripId).onSuccess {
                 playClosingAnimation()
                 emitSideEffect(DestinationEvent.CancelTrip)
+            }
+        }
+    }
+
+    private fun startPacking(trip: UITrip) {
+        viewModelScope.launch {
+            repository.updateTrip(trip.toNextDestination().toDomainModel()).onSuccess {
+                playClosingAnimation()
+                emitSideEffect(DestinationEvent.PackForNextDestination(trip.id))
             }
         }
     }

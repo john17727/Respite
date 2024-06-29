@@ -17,5 +17,6 @@ data class UITrip(
         )
 
         fun UITrip.toDestination() = this.copy(status = UITripStatus.Destination)
+        fun UITrip.toNextDestination() = this.copy(status = UITripStatus.PackingNextDestination)
     }
 }

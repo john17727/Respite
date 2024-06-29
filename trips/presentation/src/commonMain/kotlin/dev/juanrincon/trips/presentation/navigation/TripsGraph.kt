@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import dev.juanrincon.trips.presentation.destination.DestinationScreenRoot
 import dev.juanrincon.trips.presentation.empty_screen.EmptyScreenRoot
 import dev.juanrincon.trips.presentation.pack_destination.PackForDestinationScreenRoot
+import dev.juanrincon.trips.presentation.pack_next_destination.PackForeNextDestinationScreenRoot
 import org.koin.core.parameter.parametersOf
 
 fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
@@ -34,8 +35,10 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
                         popUpTo("empty")
                     }
                 },
-                onNavigateToNextDestination = {
-                    navController.navigate(route = "next_destination")
+                onNavigateToNextDestination = { tripId ->
+                    navController.navigate(route = "pack_for_next_destination/$tripId") {
+                        popUpTo("empty")
+                    }
                 }
             )
         }
@@ -61,6 +64,23 @@ fun NavGraphBuilder.tripsGraph(navController: NavHostController) {
         ) {
             val id = it.arguments?.getInt("tripId") ?: 0
             DestinationScreenRoot(
+                onNavigateBack = {
+                    navController.navigateUp()
+                },
+                onNavigateToNextDestination = { tripId ->
+                    navController.navigate(route = "pack_for_next_destination/$tripId") {
+                        popUpTo("empty")
+                    }
+                },
+                parametersHolder = parametersOf(id)
+            )
+        }
+        composable(
+            route = "pack_for_next_destination/{tripId}",
+            arguments = listOf(navArgument("tripId") { type = NavType.IntType })
+        ) {
+            val id = it.arguments?.getInt("tripId") ?: 0
+            PackForeNextDestinationScreenRoot(
                 onNavigateBack = {
                     navController.navigateUp()
                 },
