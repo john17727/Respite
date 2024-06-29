@@ -1,20 +1,27 @@
 package dev.juanrincon.trips.presentation.empty_screen
 
-import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Inbox
 import androidx.compose.material.icons.rounded.Sell
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,14 +31,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.juanrincon.core.presentation.components.CallToActionTag
-import dev.juanrincon.core.presentation.components.InputTag
 import dev.juanrincon.core.presentation.components.LeftActionButton
 import dev.juanrincon.core.presentation.components.RightActionButton
 import dev.juanrincon.core.presentation.utils.ObserveAsEvents
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import respite.trips.presentation.generated.resources.Res
+import respite.trips.presentation.generated.resources.travelers_yellow
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -70,34 +79,39 @@ private fun EmptyScreenRootScreen(
 ) {
     var showCreationTag by remember { mutableStateOf(false) }
     Column(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxSize()) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxWidth().weight(1f).padding(horizontal = 36.dp)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.weight(1f)
         ) {
-            if (!state.loading) {
-                AnimatedContent(
-                    targetState = showCreationTag,
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 400.dp, max = 600.dp),
-                ) { newTripView ->
-                    if (newTripView) {
-                        InputTag(
-                            onSaveInputClick = { tripName ->
-                                onIntent(
-                                    EmptyScreenIntent.CreateTrip(
-                                        tripName
-                                    )
-                                )
-                            },
-                            backgroundColor = Color(0xFF2E6C82),
-                        )
-                    } else {
-                        CallToActionTag(
-                            callToActionText = "Adventure Awaits!",
-                            onCallToActionClick = { showCreationTag = true },
-                            backgroundColor = Color(0xFF2E6C82),
-                        )
-                    }
-                }
+            Spacer(modifier = Modifier.fillMaxHeight(0.07f))
+            Text(
+                "ADVENTURE AWAITS!",
+                style = MaterialTheme.typography.displayLarge,
+                textAlign = TextAlign.Center,
+                color = Color(0xFF684633),
+                modifier = Modifier.padding(end = 16.dp)
+                    .background(
+                        color = Color(0xFFEDD379),
+                        shape = CutCornerShape(topEnd = 24.dp)
+                    )
+                    .padding(top = 16.dp, bottom = 16.dp, start = 16.dp)
+            )
+            Image(
+                painterResource(Res.drawable.travelers_yellow),
+                contentDescription = null,
+                modifier = Modifier.padding(horizontal = 32.dp).fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors().copy(
+                    contentColor = Color(0xFFEDD379),
+                    containerColor = Color(0xFF684633)
+                ),
+                shape = CutCornerShape(bottomStart = 8.dp),
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp)
+            ) {
+                Text("START PACKING", modifier = Modifier.padding(end = 16.dp))
             }
         }
         Row(
