@@ -9,6 +9,6 @@ data class TripItem(
 ) {
     fun incrementTotal() = copy(total = total + 1)
     fun decrementTotal() = copy(total = total - 1)
-    fun incrementPacked() = copy(packed = packed + 1)
-    fun decrementPacked() = copy(packed = packed - 1)
+    fun incrementPacked() = if (packed < total) copy(packed = packed + 1) else this
+    fun decrementPacked() = if (packed > 0) copy(packed = packed - 1) else this
 }

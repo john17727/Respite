@@ -37,7 +37,6 @@ class PackForDestinationViewModel(
     }
 
     private fun getTripAndItems() {
-
         tripRepository.getTripAndPotentialItems(tripId).map { trip -> trip?.toUIModel() }
             .onEach { trip ->
                 trip?.let {

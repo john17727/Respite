@@ -34,7 +34,7 @@ import dev.juanrincon.core.presentation.components.LeftActionButton
 import dev.juanrincon.core.presentation.components.VerticalBanner
 import dev.juanrincon.core.presentation.utils.ObserveAsEvents
 import dev.juanrincon.core.presentation.utils.Reverse
-import dev.juanrincon.trips.presentation.components.RightTripItem
+import dev.juanrincon.trips.presentation.components.InitialPackItem
 import dev.juanrincon.trips.presentation.models.TripState
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -107,7 +107,7 @@ private fun PackForDestinationScreen(
                     modifier = Modifier.weight(1f)
                 ) {
                     items(state.trip.items, key = { it.id }) { item ->
-                        RightTripItem(
+                        InitialPackItem(
                             item = item,
                             onAddClick = {
                                 onIntent(
