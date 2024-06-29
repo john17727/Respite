@@ -4,6 +4,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -19,14 +20,16 @@ fun Modifier.vertical() =
         }
     }
 
-fun Modifier.topBorder(color: Color, strokeWidth: Dp = 1.dp) = this.drawBehind {
+fun Modifier.topBorder(color: Color, strokeWidth: Dp = 1.dp, pathEffect: PathEffect? = null) =
+    this.drawBehind {
     val borderSize = strokeWidth.toPx()
     val y = 0f + (borderSize / 2)
     drawLine(
         color = color,
         start = Offset(0f, y),
         end = Offset(size.width, y),
-        strokeWidth = borderSize
+        strokeWidth = borderSize,
+        pathEffect = pathEffect
     )
 }
 
@@ -42,13 +45,15 @@ fun Modifier.startBorder(color: Color, strokeWidth: Dp = 1.dp, bottomOffset: Dp 
     )
 }
 
-fun Modifier.bottomBorder(color: Color, strokeWidth: Dp = 1.dp) = this.drawBehind {
+fun Modifier.bottomBorder(color: Color, strokeWidth: Dp = 1.dp, pathEffect: PathEffect? = null) =
+    this.drawBehind {
     val borderSize = strokeWidth.toPx()
     val y = size.height - (borderSize / 2)
     drawLine(
         color = color,
         start = Offset(0f, y),
         end = Offset(size.width, y),
-        strokeWidth = borderSize
+        strokeWidth = borderSize,
+        pathEffect = pathEffect
     )
 }

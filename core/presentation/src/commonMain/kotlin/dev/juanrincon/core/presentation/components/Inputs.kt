@@ -1,6 +1,7 @@
 package dev.juanrincon.core.presentation.components
 
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -48,7 +49,8 @@ fun RespiteTextField(
     textStyle: TextStyle = TextStyle.Default,
     textAlign: TextAlign = TextAlign.Start,
     focusRequester: FocusRequester = FocusRequester(),
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     BasicTextField(
         value = value,
@@ -57,6 +59,7 @@ fun RespiteTextField(
         textStyle = textStyle.copy(color = color, textAlign = textAlign),
         cursorBrush = SolidColor(color),
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         visualTransformation = {
             TransformedText(AnnotatedString(it.text.uppercase()), OffsetMapping.Identity)
         }

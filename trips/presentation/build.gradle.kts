@@ -41,6 +41,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             implementation(compose.components.uiToolingPreview)
+            implementation(compose.components.resources)
 
             // ViewModel
             implementation(libs.lifecycle.viewmodel.compose)
