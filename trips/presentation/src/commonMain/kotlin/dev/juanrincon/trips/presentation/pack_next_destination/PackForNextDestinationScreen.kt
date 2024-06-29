@@ -49,6 +49,7 @@ fun PackForeNextDestinationScreenRoot(
     ObserveAsEvents(viewModel.sideEffect) { event ->
         when (event) {
             PackForNextDestinationEvent.CancelPacking -> onNavigateBack()
+            PackForNextDestinationEvent.FinishTrip -> onNavigateBack()
         }
     }
     val state by viewModel.state.collectAsState()
@@ -75,7 +76,13 @@ private fun PackForeNextDestinationScreen(
                     text = state.trip.name,
                     icon = Icons.Rounded.FlightLand,
                     actionButtonIcon = Icons.Rounded.Check,
-                    onActionButtonClick = {},
+                    onActionButtonClick = {
+                        onIntent(
+                            PackForNextDestinationIntent.FinishPacking(
+                                state.trip.id
+                            )
+                        )
+                    },
                     actionButtonEnabled = state.isNextButtonEnabled,
                     backgroundColor = Color(0xFFEDD379),
                     contentColor = Color(0xFF684633),
@@ -124,7 +131,7 @@ private fun PackForeNextDestinationScreen(
             }
         }
         LeftActionButton(
-            onClick = {},
+            onClick = { onIntent(PackForNextDestinationIntent.CancelPacking(state.trip.id)) },
             backgroundColor = Color(0xFFA6C994),
             contentColor = Color(0xFF3C422F),
             icon = Icons.Rounded.Close,

@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.mviHandler
 import dev.juanrincon.trips.domain.TripRepository
-import dev.juanrincon.trips.presentation.models.UITrip
 import dev.juanrincon.trips.presentation.models.UITripItem
 import dev.juanrincon.trips.presentation.utils.toDomainModel
 import dev.juanrincon.trips.presentation.utils.toUIModel
@@ -31,7 +30,7 @@ class PackForNextDestinationViewModel(
 
     override fun onIntent(intent: PackForNextDestinationIntent) = when (intent) {
         is PackForNextDestinationIntent.CancelPacking -> cancelPacking(intent.tripId)
-        is PackForNextDestinationIntent.FinishPacking -> finishPacking(intent.trip)
+        is PackForNextDestinationIntent.FinishPacking -> finishPacking(intent.tripId)
         is PackForNextDestinationIntent.PackItem -> incrementPackedCount(intent.tripId, intent.item)
         is PackForNextDestinationIntent.UnpackItem -> decrementPackedCount(
             intent.tripId,
@@ -61,8 +60,13 @@ class PackForNextDestinationViewModel(
         }
     }
 
-    private fun finishPacking(trip: UITrip) {
-        TODO("Not yet implemented")
+    private fun finishPacking(tripId: Int) {
+        viewModelScope.launch {
+            repository.deleteTripAndItems(tripId).onSuccess {
+                playClosingAnimation()
+                emitSideEffect(PackForNextDestinationEvent.FinishTrip)
+            }
+        }
     }
 
     private fun cancelPacking(tripId: Int) {
