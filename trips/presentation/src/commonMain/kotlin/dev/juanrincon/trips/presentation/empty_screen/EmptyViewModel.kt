@@ -6,6 +6,8 @@ import dev.juanrincon.core.domain.TripStatus
 import dev.juanrincon.mvi.MVI
 import dev.juanrincon.mvi.mviHandler
 import dev.juanrincon.trips.domain.TripRepository
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class EmptyViewModel(
@@ -28,10 +30,10 @@ class EmptyViewModel(
     private fun getTripAndItems() {
         updateState { copy(loading = true) }
         viewModelScope.launch {
-            tripRepository.getCurrentTrip().collect { trip ->
-                updateState { copy(loading = false) }
-                trip?.let {
-                    when (it.status) {
+            val trip = tripRepository.getCurrentTrip()
+                .onStart { updateState { copy(loading = false) } }
+                .firstOrNull()?.let { trip ->
+                    when (trip.status) {
                         TripStatus.Destination -> emitSideEffect(EmptyScreenEvent.Destination(trip.id))
                         TripStatus.PackingDestination -> emitSideEffect(
                             EmptyScreenEvent.PackForDestination(
@@ -42,7 +44,6 @@ class EmptyViewModel(
                         TripStatus.PackingNextDestination -> emitSideEffect(EmptyScreenEvent.PackForNextDestination)
                     }
                 }
-            }
         }
     }
 
